@@ -1,0 +1,676 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2. Setup Clindet &#8212; Clindet 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Quick/install';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Configuring the workflow" href="config.html" />
+    <link rel="prev" title="1. Introduction" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/Clindet_logo.png" class="logo__image only-light" alt="Clindet 0.1.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/Clindet_logo.png" class="logo__image only-dark" alt="Clindet 0.1.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Clindet documentation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Quick Start</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="intro.html">1. Introduction</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2. Setup Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">3. Configuring the workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="use_case.html">4. Use case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflow.html">5. clindet workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../DNAseq/index.html">DNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WES/index.html">1. Whole exome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/QC.html">1.1. WES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/mutation.html">1.2. Call Mutation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/CNV.html">1.3. Call CNV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/SV.html">1.4. WES</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WGS/index.html">2. Whole genome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/QC.html">2.1. WGS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/mutation.html">2.2. Call Mutation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/CNV.html">2.3. Call CNV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/SV.html">2.4. WGS SV (structural variants calling)</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../RNAseq/index.html">RNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../RNAseq/qc.html">1. QC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../RNAseq/expression.html">2. Expression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../RNAseq/fusion.html">3. Gene  fusion</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../usecase/index.html">Use Case</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/intro.html">1. Real world example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_one.html">2. Use case I: SNV and CNV calling from Whole exome sequencing data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_two.html">3. Use case II: Fusion genes detection from multiple myeloma patient RNA-seq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_three.html">4. Use case III: Mutational signatures analysis for <em><strong>C.elegans</strong></em></a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Quick/install.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Setup Clindet</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-conda-docker-and-singularityce">2.1. install conda, Docker and SingularityCE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-clindet">2.2. Install Clindet</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-clindet-from-github">2.2.1. clone clindet from github</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-config-clindet-pre-built-singularity-image">2.3. Download and config Clindet pre-built singularity Image</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zendo">2.3.1. zendo</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-config-genome-refernce-file-eg-human-b37">2.4. Download and config Genome refernce file (eg, human b37)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.4.1. 软件安装</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-b37">2.4.2. download B37</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resource-bundle">2.5. Resource bundle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#edit-config-file">2.6. edit config file</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="setup-clindet">
+<span id="install"></span><h1><span class="section-number">2. </span>Setup Clindet<a class="headerlink" href="#setup-clindet" title="Link to this heading">#</a></h1>
+<section id="install-conda-docker-and-singularityce">
+<h2><span class="section-number">2.1. </span>install conda, Docker and SingularityCE<a class="headerlink" href="#install-conda-docker-and-singularityce" title="Link to this heading">#</a></h2>
+<p>To build the complex clindet analysis environment, you need install</p>
+</section>
+<section id="install-clindet">
+<h2><span class="section-number">2.2. </span>Install Clindet<a class="headerlink" href="#install-clindet" title="Link to this heading">#</a></h2>
+<section id="clone-clindet-from-github">
+<h3><span class="section-number">2.2.1. </span>clone clindet from github<a class="headerlink" href="#clone-clindet-from-github" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w">  </span>clindet.git
+<span class="nb">cd</span><span class="w"> </span>clindet
+</pre></div>
+</div>
+</section>
+</section>
+<section id="download-and-config-clindet-pre-built-singularity-image">
+<h2><span class="section-number">2.3. </span>Download and config Clindet pre-built singularity Image<a class="headerlink" href="#download-and-config-clindet-pre-built-singularity-image" title="Link to this heading">#</a></h2>
+<section id="zendo">
+<h3><span class="section-number">2.3.1. </span>zendo<a class="headerlink" href="#zendo" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="download-and-config-genome-refernce-file-eg-human-b37">
+<h2><span class="section-number">2.4. </span>Download and config Genome refernce file (eg, human b37)<a class="headerlink" href="#download-and-config-genome-refernce-file-eg-human-b37" title="Link to this heading">#</a></h2>
+<p>clindet 参考GATK最佳实践的方法对测序fastq文件进行预处理。使用者可以从GATK的网站下载所需的文件，具体可参照<a class="reference external" href="https://gatk.broadinstitute.org/hc/en-us/articles/360035890811-Resource-bundle">GATK Resource bundle</a>。包括fasta，GTF文件等。在clindet中，我们提供了人类基因组版本b37各文件的下载脚本用于自动下载，具体步骤如下：</p>
+<section id="id1">
+<h3><span class="section-number">2.4.1. </span>软件安装<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>conda 环境 gsutils安装与配置</strong></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>env/gsutils.yaml
+conda<span class="w"> </span>activate<span class="w"> </span>gsutils
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>conda 环境 clindet 安装与配置</strong></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>env/clindet.yaml
+conda<span class="w"> </span>activate<span class="w"> </span>clindet
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>下载并安装GATK</strong></p></li>
+</ul>
+<p>参照<a class="reference external" href="https://github.com/broadinstitute/gatk">GATK官网</a>的说明进行GATK Toolkit的安装与配置，建议将该软件安装到家目录下的softwares文件夹中</p>
+<ul class="simple">
+<li><p><strong>下载并安装picard</strong></p></li>
+</ul>
+<p>参照<a class="reference external" href="https://broadinstitute.github.io/picard/">picard官网</a>进行picard软件的安装与配置</p>
+</section>
+<section id="download-b37">
+<h3><span class="section-number">2.4.2. </span>download B37<a class="headerlink" href="#download-b37" title="Link to this heading">#</a></h3>
+<p>On folder clindet, make a folder to store genome fastq and other files for b37</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>reference/human/b37
+<span class="nb">cd</span><span class="w"> </span>reference/human/b37
+</pre></div>
+</div>
+<p>using following scripts to download files</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gsutil<span class="w"> </span>-m<span class="w"> </span>cp<span class="w"> </span>-r<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/1000G_omni2.5.b37.vcf.gz&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/1000G_omni2.5.b37.vcf.gz.tbi&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/1000G_phase1.snps.high_confidence.b37.vcf.gz&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/1000G_phase1.snps.high_confidence.b37.vcf.gz.tbi&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/1000G_reference_panel&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Axiom_Exome_Plus.genotypes.all_populations.poly.vcf.gz&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Axiom_Exome_Plus.genotypes.all_populations.poly.vcf.gz.tbi&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/ExomeContam.vcf&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.cdna.all.fa&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.cds.all.fa&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.cloud_references.json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.contam.UD&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.contam.V&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.contam.bed&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.contam.mu&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.dbsnp138.vcf&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.dbsnp138.vcf.idx&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.delly_exclusionRegions.shard0.tsv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.delly_exclusionRegions.shard1.tsv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.delly_exclusionRegions.shard10.tsv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.delly_exclusionRegions.shard11.tsv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.delly_exclusionRegions.shard2.tsv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.delly_exclusionRegions.shard3.tsv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.delly_exclusionRegions.shard4.tsv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.delly_exclusionRegions.shard5.tsv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.delly_exclusionRegions.shard6.tsv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.delly_exclusionRegions.shard7.tsv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.delly_exclusionRegions.shard8.tsv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.delly_exclusionRegions.shard9.tsv&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.dict&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.fasta&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.fasta.64.amb&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.fasta.64.ann&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.fasta.64.bwt&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.fasta.64.pac&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.fasta.64.sa&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.fasta.alt&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.fasta.amb&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.fasta.ann&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.fasta.bwt&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.fasta.fai&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.fasta.pac&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.fasta.rbwt&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.fasta.rpac&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.fasta.rsa&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gcp-public-data--broad-references/hg19/v0/Homo_sapiens_assembly19.fasta.sa&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>.
+
+gsutil<span class="w"> </span>-m<span class="w"> </span>cp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gatk-best-practices/somatic-b37/Mutect2-WGS-panel-b37.vcf&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gatk-best-practices/somatic-b37/Mutect2-WGS-panel-b37.vcf.idx&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gatk-best-practices/somatic-b37/Mutect2-exome-panel.vcf&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;gs://gatk-best-practices/somatic-b37/Mutect2-exome-panel.vcf.idx&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>.
+<span class="w">  </span>
+<span class="w">  </span>
+wget<span class="w"> </span>-c<span class="w"> </span>ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/b37/Mills_and_1000G_gold_standard.indels.b37.vcf.gz
+wget<span class="w"> </span>-c<span class="w"> </span>ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/b37/Mills_and_1000G_gold_standard.indels.b37.vcf.gz.md5
+wget<span class="w"> </span>-c<span class="w"> </span>ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/b37/1000G_phase1.indels.b37.vcf.gz
+wget<span class="w"> </span>-c<span class="w"> </span>ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/b37/1000G_phase1.indels.b37.vcf.gz.md5
+wget<span class="w"> </span>-c<span class="w"> </span>ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/b37/1000G_phase1.snps.high_confidence.b37.vcf.gz
+wget<span class="w"> </span>-c<span class="w"> </span>ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/b37/1000G_phase1.snps.high_confidence.b37.vcf.gz.md5
+wget<span class="w"> </span>-c<span class="w"> </span>ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/b37/hapmap_3.3.b37.vcf.gz
+wget<span class="w"> </span>-c<span class="w"> </span>ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/b37/hapmap_3.3.b37.vcf.gz.md5
+wget<span class="w"> </span>-c<span class="w"> </span>ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/b37/1000G_omni2.5.b37.vcf.gz
+wget<span class="w"> </span>-c<span class="w"> </span>ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/b37/1000G_omni2.5.b37.vcf.gz.md5
+wget<span class="w"> </span>-c<span class="w"> </span>ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/b37/1000G_phase3_v4_20130502.sites.vcf.gz
+wget<span class="w"> </span>-c<span class="w"> </span>ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/b37/1000G_phase3_v4_20130502.sites.vcf.gz.md5
+</pre></div>
+</div>
+</section>
+</section>
+<section id="resource-bundle">
+<h2><span class="section-number">2.5. </span>Resource bundle<a class="headerlink" href="#resource-bundle" title="Link to this heading">#</a></h2>
+</section>
+<section id="edit-config-file">
+<h2><span class="section-number">2.6. </span>edit config file<a class="headerlink" href="#edit-config-file" title="Link to this heading">#</a></h2>
+<p>config文件主要用来包括三大部分参数的配置，可以在包括</p>
+<ul class="simple">
+<li><p>Resource
+用来记录各版本参考基因组的fasta, GTF，Panel of Normal文件的绝对路径信息</p></li>
+<li><p>softwares
+用来记录分析软件的绝对路径，conda环境，参数等信息</p></li>
+<li><p>singularity
+用来记录singularity封装容器的绝对路径与运行参数</p></li>
+</ul>
+<p>以b37版本为例，在使用下载[下载脚本](#download B37)下载参考基因组后(也可以使用其他方法自行从GATK中下载)，首先需要在workflow/config文件夹中创建config.yaml文件（以该文件夹下的config_local_test.yaml作为模版)，在resource section进行如下配置：</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">b37</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">REFFA</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your_file_path/reference/b37/Homo_sapiens_assembly19.fasta&quot;</span>
+<span class="w">    </span><span class="nt">GENOME_BED</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="w">    </span><span class="nt">GTF</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="w">    </span><span class="nt">WES_PON</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your_file_path/reference/b37/Mutect2-exome-panel.vcf&quot;</span>
+<span class="w">    </span><span class="nt">WES_BED</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="w">    </span><span class="nt">WGS_PON</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your_file_path/reference/b37/Mutect2-WGS-panel-b37.vcf&quot;</span>
+<span class="w">    </span><span class="nt">DBSNP</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your_file_path/reference/b37/Homo_sapiens_assembly19.dbsnp138.vcf&quot;</span>
+<span class="w">    </span><span class="nt">DBSNP_GZ</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your_file_path/reference/b37/Homo_sapiens_assembly19.dbsnp138.vcf.gz&quot;</span>
+<span class="w">    </span><span class="nt">MUTECT2_VCF</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your_file_path/af-only-gnomad.raw.sites.b37.vcf.gz&quot;</span>
+<span class="w">    </span><span class="nt">REFFA_DICT</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your_file_path/reference/b37/Homo_sapiens_assembly19.fasta&quot;</span>
+<span class="w">    </span><span class="nt">MUTECT2_germline_vcf</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your_file_path/af-only-gnomad.raw.sites.b37.vcf.gz&quot;</span>
+</pre></div>
+</div>
+<p>需将以上字段自行配置为下载后软件的位置</p>
+<p>其中GTF可自行从<a class="reference external" href="https://www.gencodegenes.org/human/release_46lift37.html">GeneCode</a>网站下载，但需要从GTF文件中去掉’chr’ prefix。人类各版本基因组的不同可以参考<a class="reference external" href="https://www.gencodegenes.org/human/release_46lift37.html">This Post</a>.</p>
+<p>GENOME_BED,与WES_BED主要用来记录染色体与基因外显子区间的坐标文件，可为空。</p>
+<p>其余参数的具体说明可参考</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Introduction</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="config.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Configuring the workflow</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-conda-docker-and-singularityce">2.1. install conda, Docker and SingularityCE</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-clindet">2.2. Install Clindet</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-clindet-from-github">2.2.1. clone clindet from github</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-config-clindet-pre-built-singularity-image">2.3. Download and config Clindet pre-built singularity Image</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zendo">2.3.1. zendo</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-config-genome-refernce-file-eg-human-b37">2.4. Download and config Genome refernce file (eg, human b37)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">2.4.1. 软件安装</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-b37">2.4.2. download B37</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resource-bundle">2.5. Resource bundle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#edit-config-file">2.6. edit config file</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Yuliang Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Yuliang Zhang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
