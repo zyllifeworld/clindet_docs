@@ -15,7 +15,7 @@ git clone  clindet.git
 cd clindet
 ```
 ## Download and config Clindet pre-built singularity Image
-### 
+### zendo
 
 ## Download and config Genome refernce file (eg, human b37)
 
