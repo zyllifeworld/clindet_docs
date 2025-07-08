@@ -19,6 +19,7 @@ documentation for details.
    DNAseq/index
    RNAseq/index
    usecase/index
+   CITATIONS
 
 
 Indices and tables

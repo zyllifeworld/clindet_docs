@@ -15,7 +15,24 @@ git clone  clindet.git
 cd clindet
 ```
 ## Download and config Clindet pre-built singularity Image
-### zendo
+### Download from zendo
+
+1. cgpindel
+2. caveman
+3. brass
+4. freec
+5. cgpwgs
+6. ascat
+7. arriba
+8. lofreq
+9. muse
+10. gridss
+11. hmftools
+12. conpair
+
+
+### config image path in config.yaml
+
 
 ## Download and config Genome refernce file (eg, human b37)
 
@@ -168,4 +185,9 @@ GENOME_BED,与WES_BED主要用来记录染色体与基因外显子区间的坐�
 
 其余参数的具体说明可参考
 
+
+## VEP setup
+Install VEP use conda/ or use VEP
+
+conda 
 

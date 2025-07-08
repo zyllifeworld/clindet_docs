@@ -1,3 +1,4 @@
+(clindet-workflow)=
 # clindet workflow
 
 - [clindet workflow](#clindet-workflow)
@@ -31,6 +32,8 @@ variant calling workflows:
 - germline small variant calls
 - somatic structural variant calls
 
+
+(small-variants-snvsindels-somatic)=
 ## Small variants (SNVs/Indels) (Somatic)
 
 This part of the workflow filters and prioritises small somatic variant calls.
@@ -38,6 +41,8 @@ The idea of filtering is to remove most of the artefacts and germline leakage,
 but at the same time to be permissive towards known clinically important sites
 even if the variants are of low quality.
 
+
+(summary)=
 ### Summary
 
 1. **Call** candidate variants using multiple softwares.
@@ -52,6 +57,8 @@ even if the variants are of low quality.
    - **Keep** those with PCGR **Tiers 1/2**, known **hotspots**
    - **Dump** those with **low AF** (`TUMOR_AF < 0.1`)
 
+
+(details)=
 ### Details
 
 Steps are:

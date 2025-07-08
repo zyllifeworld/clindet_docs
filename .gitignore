@@ -1,3 +1,5 @@
 docs/_build/html/*.html
 docs/_build/html/
 docs/build/*
+_build/
+doc/img/clindet_pipeline.ori.png
