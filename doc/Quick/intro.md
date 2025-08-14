@@ -7,15 +7,15 @@
 [![Github](https://img.shields.io/github/stars/clindet/clindet?style=social)](https://github.com/clindet/clindet/stargazers)
 
 ## Introduction
-Clindet is an Next generation High throughout sequencing data  analysis wrokflow for clinical applications (eg. DNA-seq )
-**Clindet** is a snakemake pipeline for the comprehensive analysis of cancer genomes and transcriptomes using multiple state-of-art softwares to get consensus results. The pipeline
-supports a wide range of experimental setups:
+Clindet is a next-generation high-throughput sequencing data analysis workflow designed for clinical applications (e.g., DNA-seq, RNA-seq).  
+**Clindet** is a Snakemake pipeline for comprehensive analysis of cancer genomes and transcriptomes, integrating multiple state-of-the-art tools to generate consensus results. The pipeline supports a wide range of experimental setups, including:
 
-- FASTQ
-- WGS (whole genome sequencing), WTS (whole transcriptome sequencing), and targeted / panel sequencing 
-- Paired tumor / normal and tumor-only sample setups
-- Most GRCh37 and GRCh38 reference genome builds
-- Non-human species(eg, mouse, worm).
+- FASTQ input files  
+- Whole genome sequencing (WGS), whole transcriptome sequencing (WTS), and targeted/panel sequencing  
+- Paired tumor/normal and tumor-only sample configurations  
+- Most GRCh37 and GRCh38 reference genome builds  
+- Non-human species (e.g., mouse, worm) 
+
 
 ## Pipeline overview
 
@@ -29,7 +29,7 @@ supports a wide range of experimental setups:
 ## Steps
 - Quality Control: ([Conpair](https://github.com/nygenome/Conpair), [fastp](https://github.com/OpenGene/fastp))
 - Read alignment: ([BWA-MEM2](https://github.com/bwa-mem2/bwa-mem2) (DNA), [STAR](https://github.com/alexdobin/STAR) (RNA))
-- Read post-processing: ([GATK MarkDuplicates](https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-MarkDuplicates-Picard) (DNA,RNA) )
+- Read post-processing: ([GATK MarkDuplicates](https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-MarkDuplicates-Picard) , [GATK BaseRecalibrator](https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-MarkDuplicates-Picard) , [GATK ApplyBQSR](https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-MarkDuplicates-Picard))
 - SNV, MNV, INDEL calling: 
 ([SAGE](https://github.com/hartwigmedical/hmftools/tree/master/sage), [HaplotypeCaller](https://github.com/broadinstitute/gatk),
 [Mutect2](https://github.com/broadinstitute/gatk),
@@ -69,9 +69,6 @@ supports a wide range of experimental setups:
 - Oncoviral detection: [VIRUSbreakend](https://github.com/PapenfussLab/gridss)\*, [VirusInterpreter](https://github.com/hartwigmedical/hmftools/tree/master/virus-interpreter)\*
 - Telomere characterisation: [TEAL](https://github.com/hartwigmedical/hmftools/tree/master/teal)\*
 - Immune analysis: [LILAC](https://github.com/hartwigmedical/hmftools/tree/master/lilac), [CIDER](https://github.com/hartwigmedical/hmftools/tree/master/cider), [NEO](https://github.com/hartwigmedical/hmftools/tree/master/neo)\*
-- Mutational signature fitting: [SIGS](https://github.com/hartwigmedical/hmftools/tree/master/sigs)\*
-- HRD prediction: [CHORD](https://github.com/hartwigmedical/hmftools/tree/master/chord)\*
-- Tissue of origin prediction: [CUPPA](https://github.com/hartwigmedical/hmftools/tree/master/cuppa)\*
 
 - Summary report: [ORANGE](https://github.com/hartwigmedical/hmftools/tree/master/orange)
 
@@ -84,7 +81,7 @@ supports a wide range of experimental setups:
 
 Create a samplesheet with your inputs (WGS/WES *fastq in this example):
 
-```csv
+```{code}
 Tumor_R1_file_path,Tumor_R2_file_path,Normal_R1_file_path,Normal_R2_file_path,Sample_name,Target_file_bed,Project
 Patient1_T_R1.fq.gz,Patient1_T_R2.fq.gz,Patient1_N_R1.fq.gz,Patient1_N_R2.fq.gz,Patient1,target.bed,WES
 Patient2_T_R1.fq.gz,Patient2_T_R2.fq.gz,,,Patient2,target.bed,WES
@@ -114,10 +111,9 @@ the [National Research Center for Translational Medicine at Shanghai](https://gi
 
 We thank the following organisations and people for their extensive assistance in the development of this pipeline,
 listed in alphabetical order:
-
-- [Hartwig Medical Foundation Australia](https://www.hartwigmedicalfoundation.nl/en/partnerships/hartwig-medical-foundation-australia/)
 - [Broad Institute](https://www.broadinstitute.org/)
 - [German Cancer Research Center](https://www.dkfz.de/en/)
+- [Hartwig Medical Foundation Australia](https://www.hartwigmedicalfoundation.nl/en/partnerships/hartwig-medical-foundation-australia/)
 - [Wellcome Sanger Institute](https://www.sanger.ac.uk/)
 - [New York Genome Center](https://www.nygenome.org/)
 - JianFeng Li

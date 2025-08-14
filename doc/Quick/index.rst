@@ -7,6 +7,5 @@ Quick Start
 
    intro
    install.md
-   config.md
    use_case
-   workflow
+   workflow.md

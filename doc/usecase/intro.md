@@ -1,4 +1,8 @@
 # Real world example
-在本节中，我们将以现实世界中组学数据的分析的三个实际案例来揭示clindet在科学研究中分析高通量测序数据的强大潜力。
-clindet已经在瑞金医院的超算集群上完成了数以千计样本的WES，WGS数据分析，但人类样本的原始数据（fastq）由于隐私原因无法公开获得。因此我们选取了线虫的全基因组测序数据来展示如何分析队列水平的组学数据，并进行生物学问题的研究和探索。
+Clindet has successfully completed the analysis of thousands of WES and WGS samples on the supercomputing cluster at Ruijin Hospital, as well as multi-omics data analyses across multiple disease cohorts. In this section, we present three real-world case studies of omics data analysis to demonstrate Clindet’s powerful capabilities in analyzing high-throughput sequencing data for scientific research:
 
+1. Whole exome sequencing data analysis for mutation and copy number variation detection (Clindet WES)
+2. Transcriptome data analysis of multiple myeloma (Clindet RNA)
+Whole genome sequencing data analysis of the 
+3. COLO829 cell line (Clindet WGS)
+4. Whole genome sequencing and mutational signature analysis of Caenorhabditis elegans (custom use)
