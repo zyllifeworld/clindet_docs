@@ -1,0 +1,791 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>1.2. Call Mutation &#8212; Clindet 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.4.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'DNAseq/WES/mutation';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="1.3. Call CNV" href="CNV.html" />
+    <link rel="prev" title="1.1. WES" href="QC.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/Clindet_logo.png" class="logo__image only-light" alt="Clindet 0.1.0 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/Clindet_logo.png" class="logo__image only-dark" alt="Clindet 0.1.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../index.html">
+                    Clindet documentation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../Quick/index.html">Quick Start</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Quick/intro.html">1. Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Quick/install.html">2. Setup Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Quick/use_case.html">3. Use case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Quick/workflow.html">4. clindet workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">DNAseq analysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">1. Whole exome sequence data analysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="QC.html">1.1. WES</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">1.2. Call Mutation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="CNV.html">1.3. Call CNV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="SV.html">1.4. WES</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../WGS/index.html">2. Whole genome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../WGS/QC.html">2.1. WGS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../WGS/mutation.html">2.2. Call Mutation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../WGS/CNV.html">2.3. Call CNV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../WGS/SV.html">2.4. WGS SV (structural variants calling)</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../RNAseq/index.html">RNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../RNAseq/qc.html">1. QC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../RNAseq/expression.html">2. Expression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../RNAseq/fusion.html">3. Gene  fusion</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../usecase/index.html">Use Case</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../usecase/intro.html">1. Real world example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usecase/case_one.html">2. Use case I: SNV and CNV calling from Whole exome sequencing data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usecase/case_two.html">3. Use case II: Fusion genes detection from multiple myeloma patient RNA-seq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usecase/case_three.html">4. Use case III: Mutational signatures analysis for <em><strong>C.elegans</strong></em></a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CITATIONS.html">snakemake/clindet: Citations</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/DNAseq/WES/mutation.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Call Mutation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#call-mutation-from-different-sortwares">1.2.1. Call Mutation from Different sortwares</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gatk-haplocallers">1.2.1.1. GATK HaploCallers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mutect2">1.2.1.2. Mutect2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#muse">1.2.1.3. Muse</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#caveman">1.2.1.4. CaveMan</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#annotation-variants">1.2.2. Annotation variants</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#consensus-result-from-multiple-callers">1.2.3. consensus result from multiple callers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output-file-types">1.2.4. Output file types</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="call-mutation">
+<h1><span class="section-number">1.2. </span>Call Mutation<a class="headerlink" href="#call-mutation" title="Link to this heading">#</a></h1>
+<p>For better reproducibility, Clindet <a class="reference external" href="https://gatk.broadinstitute.org/hc/en-us/sections/360007226651-Best-Practices-Workflows">GATK best practice</a>,<a class="reference external" href="https://github.com/ICGC-TCGA-PanCancer">ICGC-TCGA-PanCancer project</a> data analysis workflow from three institutions (DKFZ, Sanger institute,Broad institute) and HMFtools from <a class="reference external" href="https://github.com/hartwigmedical/hmftools">Hartwig Medical Foundation</a>, upto 13 softwares to call somatic and germline mutations.Then,a custome R script were used to combine all results to get a consensus result.</p>
+<p>Clindet provides two mutation detection modes for tumor samples: tumor-normal paired sample mode and tumor-only mode, to accommodate the testing needs of different clinical cohorts.</p>
+<div class="pst-scrollable-table-container"><table class="table table-center" id="id1">
+<caption><span class="caption-number">表1.1 </span><span class="caption-text">Clindet WES mutation call module</span><a class="headerlink" href="#id1" title="Link to this table">#</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Softwares</p></th>
+<th class="head"><p>Tumor-Nomral paired</p></th>
+<th class="head"><p>Tumor-only</p></th>
+<th class="head"><p>Support genome version</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GATK HaploCallers</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mutect2</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-even"><td><p>DeepVariant</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-odd"><td><p>Strelka</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-even"><td><p>Sage</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>b37,hg38</p></td>
+</tr>
+<tr class="row-odd"><td><p>Vardict</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-even"><td><p>CaVEMan</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-odd"><td><p>Varscan</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-even"><td><p>Muse</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-odd"><td><p>Lofreq</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-even"><td><p>cgppindel</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-odd"><td><p>Manta</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="pst-scrollable-table-container"><table class="table table-center" id="id2">
+<caption><span class="caption-number">表1.2 </span><span class="caption-text">Table caption</span><a class="headerlink" href="#id2" title="Link to this table">#</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>foo</p></th>
+<th class="head"><p>bar</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>baz</p></td>
+<td><p>bim</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="call-mutation-from-different-sortwares">
+<h2><span class="section-number">1.2.1. </span>Call Mutation from Different sortwares<a class="headerlink" href="#call-mutation-from-different-sortwares" title="Link to this heading">#</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can set caller (support paired mode ) from Snakefile by set callers parameter(<strong>only name in bellow list is accepted</strong>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">callers</span> <span class="o">=</span>  <span class="p">[</span><span class="s1">&#39;muse&#39;</span><span class="p">,</span><span class="s1">&#39;caveman&#39;</span><span class="p">,</span><span class="s1">&#39;cgppindel&#39;</span><span class="p">,</span><span class="s1">&#39;sage&#39;</span><span class="p">,</span><span class="s1">&#39;deepvariant&#39;</span><span class="p">,</span><span class="s1">&#39;vardict&#39;</span><span class="p">,</span><span class="s1">&#39;varscan&#39;</span><span class="p">,</span><span class="s1">&#39;lofreq&#39;</span><span class="p">,</span><span class="s1">&#39;StrelkaSomaticManta&#39;</span><span class="p">,</span><span class="s1">&#39;mutect2&#39;</span><span class="p">,</span><span class="s1">&#39;HaploCallers&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>高通量测序技术的出现是过去几十年测序领域最重要的技术进步，这项技术极大地改变了生物学的研究范式，并极大地促进了人们对于疾病和健康的了解。</p>
+<p>近十几年来，由于高通量测序的成本急速下降，为研究者们构建疾病大队列进行疾病发生发展机制的研究提供了丰富数据与新的研究机会，例如ICGC/TCGA Pan-Cancer Project，同时这些技术也广泛于临床检验，将疾病的诊断与治疗方案的带到了新的水平，为疾病的精准医疗提供了基础。然而，随着数据量的激增以及数据计算与存储依然高昂的成本，分析与存储这些数据的挑战也日益突出。准确的突变检验是所有下游分析的基础，因此高通量测序技术在临床检验与科学研究中的应用依然存在以下重要的issue：
+1）数据分析的可重复性。高通量测序产生的数据往往复杂且庞大，分析过程中可能会收到各种因素的影响，如分析软件的选取、分析参数的选择等。因此确保分析的结果可重复需要建立标准化的分析流程以及标准的输出文件
+2）分析过程的自动化、模块化是提高效率的关键，随着数据的激增，开发自动化的分析管道，可以将数据预处理、分析与结果可视化等步骤整合在一起，从而提高分析的效率和准确性。此外模块化分析可以使得研究人员根据不同需求选择不同的分析模块，灵活应对不同的分析需求。
+3）单个方法的偏向性以及多个方法的整合，不同的分析软件由于算法模型不同，输出结果可能会存在偏差。因此，综合多种分析方法的结果，进行数据整合和交叉验证，可以提高结果的可靠性。这需要开发新的算法和工具，以便在不同的数据集和分析方法之间进行有效的整合。
+4）临床样本质控问题同样重要，建立严格的质控标准和流程，确保样本的质量，是进行有效分析的前提。
+虽然目前已经有大量的工具与流程用于高通量数据的分析，但这些数据分析流程并没有，如sarek与oncoanalysis。但目前仍然缺少工具可以解决以上所有问题，因此在本文中我们we present clindet, a sustainable and flexible data analysis workflow for clinical high throughout  sequencing data. 结合临床数据中常见的高通量数据，我们开发了三个sub-workflow：1）全外显子组分析流程：。2）全基因组分析流程：。3）转录组分析流程。Clindet可以完成突变检测、拷贝数变异检测、结构变异检测等任务，其中突变检测任务整合约13个软件的分析结果，拷贝数变异整合了，结构变异检测模块整合4个软件的分析结果，这些任务的整合结果均为标准输出文件（eg. VCF files , segment files)。对于临床检验的目的，我们对标准文件进行注释与，可生成病人的检查报告，对于科学研究目的，我们开发了Advanced 模块，可以对疾病队列数据进行进一步分析如驱动基因检测，recurrent copy number identition克隆演化分析等。</p>
+</div>
+<section id="gatk-haplocallers">
+<h3><span class="section-number">1.2.1.1. </span>GATK HaploCallers<a class="headerlink" href="#gatk-haplocallers" title="Link to this heading">#</a></h3>
+</section>
+<section id="mutect2">
+<h3><span class="section-number">1.2.1.2. </span>Mutect2<a class="headerlink" href="#mutect2" title="Link to this heading">#</a></h3>
+<p>Mutect2 needs a panel of normal (PoN) sample VCF file to call somatic mutations.clindet supported two mode to do this analysis:</p>
+<ol class="arabic simple">
+<li><p>Call PoN VCF from cohort paried normal sample</p></li>
+<li></li>
+</ol>
+</section>
+<section id="muse">
+<h3><span class="section-number">1.2.1.3. </span>Muse<a class="headerlink" href="#muse" title="Link to this heading">#</a></h3>
+</section>
+<section id="caveman">
+<h3><span class="section-number">1.2.1.4. </span>CaveMan<a class="headerlink" href="#caveman" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://github.com/cancerit/CaVEMan">CaVEMan</a> is a mutation caller developed by Wellcome Sanger institute.</p>
+<p>CaVEMan运行需要一些配置文件。可以从<a class="reference external" href="https://ftp.sanger.ac.uk/pub/cancer/dockstore/human/">cancerkit FTP</a>处下载。此处以b37版本基因组(染色体名字不带有chr prefix)为例，下载SNV_INDEL_ref_GRCh37d5-fragment.tar.gz文件后解压，得到的文件树如下:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/SNV_INDEL_ref
+├──<span class="w"> </span>caveman
+│<span class="w">   </span>├──<span class="w"> </span>flagging
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>centromeric_repeats.bed.gz
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>centromeric_repeats.bed.gz.tbi
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>flag.to.vcf.convert.ini
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>flag.vcf.config.ini
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>gene_regions.bed.gz
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>gene_regions.bed.gz.tbi
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>hg19_codingexon_regions.indel.bed.gz
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>hg19_codingexon_regions.indel.bed.gz.tbi
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>hg19_gene_regions.bed.gz
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>hg19_gene_regions.bed.gz.tbi
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>hi_seq_depth.bed.gz
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>hi_seq_depth.bed.gz.tbi
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>simple_repeats.bed.gz
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>simple_repeats.bed.gz.tbi
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>snps.bed.gz
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>snps.bed.gz.tbi
+│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>unmatchedNormal.bed.gz
+│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>unmatchedNormal.bed.gz.tbi
+│<span class="w">   </span>├──<span class="w"> </span>flag.vcf.config.WGS.ini
+│<span class="w">   </span>├──<span class="w"> </span>flag.vcf.config.WXS.ini
+│<span class="w">   </span>├──<span class="w"> </span>HiDepth.tsv
+│<span class="w">   </span>├──<span class="w"> </span>unmatchedNormal.bed.gz
+│<span class="w">   </span>└──<span class="w"> </span>unmatchedNormal.bed.gz.tbi
+└──<span class="w"> </span>pindel
+<span class="w">    </span>├──<span class="w"> </span>HiDepth.bed.gz
+<span class="w">    </span>├──<span class="w"> </span>HiDepth.bed.gz.tbi
+<span class="w">    </span>├──<span class="w"> </span>pindel_np.gff3.gz
+<span class="w">    </span>├──<span class="w"> </span>pindel_np.gff3.gz.tbi
+<span class="w">    </span>├──<span class="w"> </span>simpleRepeats.bed.gz
+<span class="w">    </span>├──<span class="w"> </span>simpleRepeats.bed.gz.tbi
+<span class="w">    </span>├──<span class="w"> </span>softRules.lst
+<span class="w">    </span>├──<span class="w"> </span>WGS_Rules.lst
+<span class="w">    </span>└──<span class="w"> </span>WXS_Rules.lst
+</pre></div>
+</div>
+<p>之后在config.yaml文件中的software章节配置如下参数(文件的绝对路径):</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+b37</label><div class="sd-tab-content docutils">
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">   </span><span class="nt">caveman</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">sif</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/public/ClinicalExam/lj_sih/softwares/caveman153.sif&quot;</span>
+<span class="w">      </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<span class="w">      </span><span class="nt">ignorebed</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/public/ClinicalExam/lj_sih/projects/project_pipeline/WES/hg19_ignore-region-exon.bed&quot;</span>
+<span class="w">      </span><span class="nt">b37</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">flag</span><span class="p">:</span>
+<span class="w">         </span><span class="nt">c</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your/Path/SNV_INDEL_ref/caveman/flagging/flag.vcf.config.ini&quot;</span>
+<span class="w">         </span><span class="nt">v</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your/Path/SNV_INDEL_ref/caveman/flagging/flag.to.vcf.convert.ini&quot;</span>
+<span class="w">         </span><span class="nt">u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your/Path/SNV_INDEL_ref/caveman/flagging&quot;</span>
+<span class="w">         </span><span class="nt">g</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your/Path/SNV_INDEL_ref/caveman/flagging/germline.bed.gz&quot;</span>
+<span class="w">         </span><span class="nt">b</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your/Path/SNV_INDEL_ref/caveman/flagging/caveman&quot;</span>
+<span class="w">         </span><span class="nt">ab</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your/Path/SNV_INDEL_ref/caveman/flagging&quot;</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+hg19</label><div class="sd-tab-content docutils">
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">   </span><span class="nt">caveman</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">sif</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/public/ClinicalExam/lj_sih/softwares/caveman153.sif&quot;</span>
+<span class="w">      </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<span class="w">      </span><span class="nt">ignorebed</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/public/ClinicalExam/lj_sih/projects/project_pipeline/WES/hg19_ignore-region-exon.bed&quot;</span>
+<span class="w">      </span><span class="nt">hg19</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">flag</span><span class="p">:</span>
+<span class="w">         </span><span class="nt">c</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your/Path/SNV_INDEL_ref/hg19/caveman/flagging/flag.vcf.config.ini&quot;</span>
+<span class="w">         </span><span class="nt">v</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your/Path/SNV_INDEL_ref/hg19/caveman/flagging/flag.to.vcf.convert.ini&quot;</span>
+<span class="w">         </span><span class="nt">u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your/Path/SNV_INDEL_ref/hg19/caveman/flagging&quot;</span>
+<span class="w">         </span><span class="nt">g</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your/Path/SNV_INDEL_ref/hg19/caveman/flagging/germline.bed.gz&quot;</span>
+<span class="w">         </span><span class="nt">b</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your/Path/SNV_INDEL_ref/hg19/caveman/flagging/caveman&quot;</span>
+<span class="w">         </span><span class="nt">ab</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Your/Path/SNV_INDEL_ref/hg19/caveman/flagging&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>如果你想使用包含chr版本(eg. hg19),则需要将flagging文件下的bed文件在染色体名字中添加chr prefix</p>
+<p>原始版本的CaVEMan不支持基因组中染色体名字含有’chr’前缀的</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>CaVEMan</strong> rule flowchart</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Tumor normal paired</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<pre align="center" class="mermaid align-center">
+            %%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '{{ rule_fontsize }}'; } } }%%
+    flowchart TD
+        T&#64;{ shape: circle, label: T} --&gt; rule&#64;{ shape: hex, label: &quot;FreeC&quot; }
+        NC&#64;{ shape: circle, label: NC} --&gt; rule&#64;{ shape: hex, label: &quot;FreeC&quot; }
+        CNV&#64;{ shape: hex, label: CNV result from ASCAT} --&gt; rule&#64;{ shape: hex, label: &quot;CaVEMan&quot; }
+
+        rule --&gt; ratio[*_ratios.txt]:::output
+        rule --&gt; mut[*_CNV.txt]:::output
+
+        style T fill:#eb8509,stroke:#333,stroke-width:1px;
+        style NC fill:#038c4a,stroke:#f66,stroke-width:1px,color:#fff,font-size:8pt,stroke-dasharray: 5 5
+        style CNV stroke:#f66,stroke-width:1px,font-size:8pt,stroke-dasharray: 5 5
+
+        style rule fill:#eb2409,font-size:8pt
+        
+        classDef Input fill:#038c4a,stroke:#333,stroke-width:4px;
+        classDef software fill:#eb2409,stroke:#333,stroke-width:1px,shape:hex,font-size:8pt;
+        classDef output stroke:#00f,font-size:8pt;
+    </pre></div>
+</details><details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Tumor only</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<pre align="center" class="mermaid align-center">
+            %%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '{{ rule_fontsize }}'; } } }%%
+    flowchart TD
+        T&#64;{ shape: circle, label: T} --&gt; rule&#64;{ shape: hex, label: &quot;FreeC&quot; }
+        CNV&#64;{ shape: hex, label: CNV result from ASCAT} --&gt; rule&#64;{ shape: hex, label: &quot;CaVEMan&quot; }
+
+        rule --&gt; ratio[*_ratios.txt]:::output
+        rule --&gt; mut[*_CNV.txt]:::output
+
+        style T fill:#eb8509,stroke:#333,stroke-width:1px;stroke-dasharray: 5 5
+        style CNV stroke:#f66,stroke-width:1px,font-size:8pt,stroke-dasharray: 5 5
+
+        style rule fill:#eb2409,font-size:8pt
+        
+        classDef Input fill:#038c4a,stroke:#333,stroke-width:4px;
+        classDef software fill:#eb2409,stroke:#333,stroke-width:1px,shape:hex,font-size:8pt;
+        classDef output stroke:#00f,font-size:8pt;
+    </pre></div>
+</details></div>
+<div class="admonition error">
+<p class="admonition-title">Error</p>
+<p>Here is <a class="reference external" href="https://jupyter.org">markdown link syntax</a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The warning block will be properly-parsed</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Here’s my warning</p>
+</div>
+<p>But the next block will be parsed as raw text</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>```{warning}
+Here&#39;s my raw text warning that isn&#39;t parsed...
+```
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Here’s my raw text warning that isn’t parsed…</p>
+</div>
+</div>
+</section>
+</section>
+<section id="annotation-variants">
+<h2><span class="section-number">1.2.2. </span>Annotation variants<a class="headerlink" href="#annotation-variants" title="Link to this heading">#</a></h2>
+</section>
+<section id="consensus-result-from-multiple-callers">
+<h2><span class="section-number">1.2.3. </span>consensus result from multiple callers<a class="headerlink" href="#consensus-result-from-multiple-callers" title="Link to this heading">#</a></h2>
+</section>
+<section id="output-file-types">
+<h2><span class="section-number">1.2.4. </span>Output file types<a class="headerlink" href="#output-file-types" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="QC.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1.1. </span>WES</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="CNV.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">1.3. </span>Call CNV</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#call-mutation-from-different-sortwares">1.2.1. Call Mutation from Different sortwares</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gatk-haplocallers">1.2.1.1. GATK HaploCallers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mutect2">1.2.1.2. Mutect2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#muse">1.2.1.3. Muse</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#caveman">1.2.1.4. CaveMan</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#annotation-variants">1.2.2. Annotation variants</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#consensus-result-from-multiple-callers">1.2.3. consensus result from multiple callers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output-file-types">1.2.4. Output file types</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Yuliang Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Yuliang Zhang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1831 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4. clindet workflow &#8212; Clindet 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Quick/workflow';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="DNAseq analysis" href="../DNAseq/index.html" />
+    <link rel="prev" title="3. Use case" href="use_case.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/Clindet_logo.png" class="logo__image only-light" alt="Clindet 0.1.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/Clindet_logo.png" class="logo__image only-dark" alt="Clindet 0.1.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Clindet documentation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Quick Start</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="intro.html">1. Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html">2. Setup Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="use_case.html">3. Use case</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4. clindet workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../DNAseq/index.html">DNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WES/index.html">1. Whole exome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/QC.html">1.1. WES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/mutation.html">1.2. Call Mutation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/CNV.html">1.3. Call CNV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/SV.html">1.4. WES</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WGS/index.html">2. Whole genome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/QC.html">2.1. WGS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/mutation.html">2.2. Call Mutation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/CNV.html">2.3. Call CNV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/SV.html">2.4. WGS SV (structural variants calling)</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../RNAseq/index.html">RNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../RNAseq/qc.html">1. QC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../RNAseq/expression.html">2. Expression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../RNAseq/fusion.html">3. Gene  fusion</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../usecase/index.html">Use Case</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/intro.html">1. Real world example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_one.html">2. Use case I: SNV and CNV calling from Whole exome sequencing data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_two.html">3. Use case II: Fusion genes detection from multiple myeloma patient RNA-seq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_three.html">4. Use case III: Mutational signatures analysis for <em><strong>C.elegans</strong></em></a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../CITATIONS.html">snakemake/clindet: Citations</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Quick/workflow.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>clindet workflow</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#small-variants-snvs-indels-somatic">4.1. Small variants (SNVs/Indels) (Somatic)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">4.1.1. Summary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#details">4.1.2. Details</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#snps-and-small-indels-germline">4.2. SNPs and small indels (Germline)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structural-variants">4.3. Structural variants</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-number-variants">4.4. Copy Number Variants</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-seq">4.5. RNA-seq</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiqc">4.6. MultiQC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coverage">4.7. Coverage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reports">4.8. Reports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-cancer-genes">4.9. Key cancer genes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#snakemake-rules">4.10. Snakemake Rules</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#somatic-smk">4.10.1. <code class="docutils literal notranslate"><span class="pre">somatic.smk</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pcgr-smk">4.10.2. <code class="docutils literal notranslate"><span class="pre">pcgr.smk</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#structural-smk">4.10.3. <code class="docutils literal notranslate"><span class="pre">structural.smk</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#oncoviruses-smk">4.10.4. <code class="docutils literal notranslate"><span class="pre">oncoviruses.smk</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#oviraptor-https-github-com-umccr-oviraptor">4.10.4.1. oviraptor - https://github.com/umccr/oviraptor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="clindet-workflow">
+<span id="id1"></span><h1><span class="section-number">4. </span>clindet workflow<a class="headerlink" href="#clindet-workflow" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="#clindet-workflow">clindet workflow</a></p>
+<ul>
+<li><p><a class="reference internal" href="#small-variants-snvsindels-somatic">Small variants (SNVs/Indels) (Somatic)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#summary">Summary</a></p></li>
+<li><p><a class="reference internal" href="#details">Details</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="../DNAseq/WES/QC.html#snps-and-small-indels-germline"><span class="std std-ref">SNPs and small indels (Germline)</span></a></p></li>
+<li><p><a class="reference internal" href="#structural-variants"><span class="xref myst">Structural variants</span></a></p></li>
+<li><p><a class="reference internal" href="../DNAseq/WES/QC.html#copy-number-variants"><span class="std std-ref">Copy Number Variants</span></a></p></li>
+<li><p><a class="reference internal" href="#rna-seq"><span class="xref myst">Transcriptom analysis</span></a></p></li>
+<li><p><a class="reference internal" href="#multiqc"><span class="xref myst">MultiQC</span></a></p></li>
+<li><p><a class="reference internal" href="#coverage"><span class="xref myst">Coverage</span></a></p></li>
+<li><p><a class="reference internal" href="#reports"><span class="xref myst">Reports</span></a></p></li>
+<li><p><a class="reference internal" href="#key-cancer-genes"><span class="xref myst">Key Cancer genes</span></a></p></li>
+<li><p><a class="reference internal" href="#snakemake-rules"><span class="xref myst">Snakemake Rules</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#somaticsmk"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">somatic.smk</span></code></span></a></p></li>
+<li><p><a class="reference internal" href="#pcgrsmk"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">pcgr.smk</span></code></span></a></p></li>
+<li><p><a class="reference internal" href="#structuralsmk"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">structural.smk</span></code></span></a></p></li>
+<li><p><a class="reference internal" href="#oncovirusessmk"><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">oncoviruses.smk</span></code></span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#oviraptor---httpsgithubcomumccroviraptor"><span class="xref myst">oviraptor - https://github.com/umccr/oviraptor</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>clindet post-processess outputs of cancer variant calling analysis pipelines
+from <strong>BAM</strong> from Tumor-Normal paired (Tumor-only model)
+and generates reports for researchers and curators at UMCCR.</p>
+<p>It takes as input results from the UMCCR DRAGEN Tumor/Normal and DRAGEN Germline
+variant calling workflows:</p>
+<ul class="simple">
+<li><p>BAM files from both samples</p></li>
+<li><p>somatic small variant calls</p></li>
+<li><p>germline small variant calls</p></li>
+<li><p>somatic structural variant calls</p></li>
+</ul>
+<section id="small-variants-snvs-indels-somatic">
+<span id="small-variants-snvsindels-somatic"></span><h2><span class="section-number">4.1. </span>Small variants (SNVs/Indels) (Somatic)<a class="headerlink" href="#small-variants-snvs-indels-somatic" title="Link to this heading">#</a></h2>
+<p>This part of the workflow filters and prioritises small somatic variant calls.
+The idea of filtering is to remove most of the artefacts and germline leakage,
+but at the same time to be permissive towards known clinically important sites
+even if the variants are of low quality.</p>
+<section id="summary">
+<span id="id2"></span><h3><span class="section-number">4.1.1. </span>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Call</strong> candidate variants using multiple softwares.</p></li>
+<li><p><strong>Keep</strong> variants that pass DRAGEN’s default quality control thresholds.</p></li>
+<li><p><strong>Keep</strong> variants that are in the auto/sex/mito chromosomes (1-22, X, Y, M).</p></li>
+<li><p><strong>Rescue</strong> variants that are in hotspot sites according to SAGE.</p></li>
+<li><p><strong>Annotate</strong> variants with info from databases/files.</p></li>
+<li><p>If the sample is <strong>hypermutated</strong> (i.e. has &gt; 500K variants):</p>
+<ul class="simple">
+<li><p><strong>remove</strong> non-hotspot variants with <code class="docutils literal notranslate"><span class="pre">gnomad_AF</span> <span class="pre">&gt;=</span> <span class="pre">0.01</span></code></p></li>
+<li><p><strong>remove</strong> variants not overlapping gene regions (specified in a BED file)</p></li>
+</ul>
+</li>
+<li><p><strong>Filter</strong> variants based on certain thresholds, for example:</p>
+<ul class="simple">
+<li><p><strong>Keep</strong> those with PCGR <strong>Tiers 1/2</strong>, known <strong>hotspots</strong></p></li>
+<li><p><strong>Dump</strong> those with <strong>low AF</strong> (<code class="docutils literal notranslate"><span class="pre">TUMOR_AF</span> <span class="pre">&lt;</span> <span class="pre">0.1</span></code>)</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="details">
+<span id="id3"></span><h3><span class="section-number">4.1.2. </span>Details<a class="headerlink" href="#details" title="Link to this heading">#</a></h3>
+<p>Steps are:</p>
+<ol class="arabic simple">
+<li><p>Extract passing calls (with <code class="docutils literal notranslate"><span class="pre">PASS</span></code> in FILTER)</p></li>
+<li><p>Extract calls on main chromosomes (chr1-chr22, chrX, chrY, chrM)</p></li>
+<li><p>Run
+<a class="reference external" href="https://github.com/hartwigmedical/hmftools/tree/sage-v1.0/sage">SAGE v1.0</a>
+and add the result to the VCF. SAGE is a low-frequency variant caller with a
+high precision, created by Hartwig Medical Foundation. Instead of the whole
+genome, it targets only coding regions for inframe indels, and
+<a class="reference external" href="https://raw.githubusercontent.com/umccr/workflows/master/genes/hotspots/hotspots.tsv">known hotspot sites</a>
+from the following list:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.cancergenomeinterpreter.org/home">Cancer Genome Interpreter</a></p></li>
+<li><p><a class="reference external" href="http://civic.genome.wustl.edu/">CIViC</a> - Clinical interpretations of
+variants in cancer</p></li>
+<li><p><a class="reference external" href="https://oncokb.org/">OncoKB</a> - Precision Oncology Knowledge Base</p></li>
+</ul>
+</li>
+<li><p>Annotate the VCF against the reference sources:</p>
+<ul class="simple">
+<li><p>High-confidence regions from the Genome in a Bottle benchmark;</p></li>
+<li><p><a class="reference external" href="https://gnomad.broadinstitute.org">GnomAD</a> whole genome “common” variants
+(max population frequency &gt; 1%);</p></li>
+<li><p>Low complexity regions (LCR):</p>
+<ul>
+<li><p>Homopolymers, STRs, VNTRs and other repetitive sequences,
+<a class="reference external" href="https://github.com/ga4gh/benchmarking-tools/blob/master/resources/stratification-bed-files/LowComplexity/TRDB_processing.sh">compiled from TRDB</a>,</p></li>
+<li><p>Regions compiled by Heng Li from 3 separate masks: low-complexity regions
+by mDUST and from UCSC repeatMasker plus flanking regions, structural
+mask (HWE+depth mask from 1000g plus flanking regions), and 75bp
+mappability mask.</p></li>
+</ul>
+</li>
+<li><p>Low and high-GC regions (regions &lt; 30% or &gt; 65% GC content),
+<a class="reference external" href="https://github.com/ga4gh/benchmarking-tools/tree/master/resources/stratification-bed-files/GCcontent">compiled by GA4GH</a></p></li>
+<li><p>Bad promoter regions
+(<a class="reference external" href="https://github.com/ga4gh/benchmarking-tools/tree/master/resources/stratification-bed-files/FunctionalTechnicallyDifficultRegions">compiled by GA4GH</a>:
+“Anecdotal results suggested that many transcription start sites or first
+exons in the human genome tend to have poor coverage. By a systematic
+analysis of these regions we defined the 1,000 with the lowest relative
+coverage based on low coverage by an Illumina data set, which we term the
+‘bad promoters’ list. The bad promoters are, like many exons, GC-rich,
+averaging 79% GC composition”);</p></li>
+<li><p><a class="reference external" href="https://github.com/Boyle-Lab/Blacklist">ENCODE blacklist</a>;</p></li>
+<li><p>Segmental duplication regions (UCSC);</p></li>
+<li><p>UMCCR
+<a class="reference external" href="https://github.com/umccr/vcf_stuff/blob/master/vcf_stuff/panel_of_normals/story/panel_of_normals.md">panel of normals</a>,
+build from tumor-only mutect2 calls from ~200 normal samples.</p></li>
+</ul>
+</li>
+<li><p>If after removing non-hotspot GnomAD variants there are still &gt; 500k somatic
+variants left flag the sample as highly mutated (or FFPE) and limit all calls
+to to cancer genes only (to avoid downstream R performance problems).</p></li>
+<li><p>Standardise the VCF fields: add new <code class="docutils literal notranslate"><span class="pre">INFO</span></code> fields <code class="docutils literal notranslate"><span class="pre">TUMOR_AF</span></code>, <code class="docutils literal notranslate"><span class="pre">NORMAL_AF</span></code>,
+<code class="docutils literal notranslate"><span class="pre">TUMOR_DP</span></code>, <code class="docutils literal notranslate"><span class="pre">NORMAL_DP</span></code>, <code class="docutils literal notranslate"><span class="pre">TUMOR_VD</span></code>, <code class="docutils literal notranslate"><span class="pre">NORMAL_VD</span></code> (for use with PCGR), and
+<code class="docutils literal notranslate"><span class="pre">AD</span> <span class="pre">FORMAT</span></code> field (for use with PURPLE).</p></li>
+<li><p>Run <a class="reference external" href="https://github.com/sigven/pcgr">PCGR</a> to annotate VCF against the
+external sources, and classify by tiers based on annotations and functional
+impact. At the end, this step adds <code class="docutils literal notranslate"><span class="pre">INFO</span></code> fields into the VCF: <code class="docutils literal notranslate"><span class="pre">TIER</span></code>,
+<code class="docutils literal notranslate"><span class="pre">SYMBOL</span></code>, <code class="docutils literal notranslate"><span class="pre">CONSEQUENCE</span></code>, <code class="docutils literal notranslate"><span class="pre">MUTATION_HOTSPOT</span></code>, <code class="docutils literal notranslate"><span class="pre">INTOGEN_DRIVER_MUT</span></code>,
+<code class="docutils literal notranslate"><span class="pre">TCGA_PANCANCER_COUNT</span></code>, <code class="docutils literal notranslate"><span class="pre">CLINVAR_CLNSIG</span></code>, <code class="docutils literal notranslate"><span class="pre">ICGC_PCAWG_HITS</span></code>, <code class="docutils literal notranslate"><span class="pre">COSMIC_CNT</span></code>.
+The list of external sources used at this step is:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://www.ensembl.org/info/docs/tools/vep/index.html">VEP</a> to infer the
+functional impact</p></li>
+<li><p>TCGA and ICGC recurrent variants</p></li>
+<li><p><a class="reference external" href="https://targetvalidation.org/">Open Targets Platform</a></p></li>
+<li><p><a class="reference external" href="http://www.ncbi.nlm.nih.gov/clinvar/">ClinVar</a> - Database of variants with
+clinical significance</p></li>
+<li><p><a class="reference external" href="https://zenodo.org/record/2662509#.XM0xMdMzaL4">CancerMine</a> -
+Literature-derived database of tumor suppressor genes/proto-oncogenes</p></li>
+<li><p><a class="reference external" href="http://docm.genome.wustl.edu">DoCM</a> - Database of curated mutations</p></li>
+<li><p><a class="reference external" href="http://www.cancergenomeinterpreter.org/biomarkers">CBMDB</a> - Cancer
+Biomarkers database</p></li>
+<li><p><a class="reference external" href="http://www.disgenet.org">DisGeNET</a> - Database of gene-tumor type
+associations</p></li>
+<li><p><a class="reference external" href="http://cancerhotspots.org">Cancer Hotspots</a> - Resource for statistically
+significant mutations in cancer</p></li>
+<li><p><a class="reference external" href="https://sites.google.com/site/jpopgen/dbNSFP">dBNSFP</a> - Database of
+non-synonymous functional predictions</p></li>
+<li><p><a class="reference external" href="http://www.uniprot.org">UniProt/SwissProt KnowledgeBase</a> - Resource on
+protein sequence and functional information</p></li>
+<li><p><a class="reference external" href="http://pfam.xfam.org">Pfam</a> - Database of protein families and domains</p></li>
+<li><p><a class="reference external" href="http://dgidb.genome.wustl.edu">DGIdb</a> - Database of targeted cancer drugs</p></li>
+<li><p><a class="reference external" href="https://www.ebi.ac.uk/chembl/">ChEMBL</a> - Manually curated database of
+bioactive molecules</p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://github.com/umccr/vcf_stuff/blob/master/scripts/filter_somatic_vcf">Filter variants</a>
+to remove putative germline variants and artefacts, but make sure to keep
+known hotspots/actionable variants:</p>
+<ul class="simple">
+<li><p>Keep variants called by SAGE in known hotspots (CGI, CiViC, OncoKB)
+regardless of other evidence;</p></li>
+<li><p>Keep variants PCGR TIER 1 and 2 (strong and potential clinical
+significance, according to
+<a class="reference external" href="https://www.ncbi.nlm.nih.gov/pubmed/27993330">ACMG</a> standard guidelines)
+regardless of other evidence;</p></li>
+<li><p>Keep all driver mutations (<a class="reference external" href="https://www.intogen.org/">Intogen</a>);
+<a class="reference external" href="http://cancerhotspots.org/%5D">mutation hotspots</a>;
+<a class="reference external" href="https://www.ncbi.nlm.nih.gov/clinvar/">ClinVar</a> pathogenic or uncertain
+(to include the mixed evidence); COSMIC count &gt;=10; TCGA pancancer
+count &gt;=5; ICGC PCAWG count &gt;= 3 (all annotated by PCGR), regardless of
+other evidence;</p></li>
+<li><p>For all other variants, apply the following LCR, PoN, depth and AF filters.
+Remove variants for which one or more of the following conditions apply:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">AF&lt;10%</span></code>,</p></li>
+<li><p>Common variant in GnomAD (max <code class="docutils literal notranslate"><span class="pre">population</span> <span class="pre">AF&gt;=1%</span></code>), add into the germline
+set (see below);</p></li>
+<li><p>Present in &gt;=5 samples of the Panel of Normal set;</p></li>
+<li><p>InDel in a “bad promoter” regions (GA4GH: “Anecdotal results suggested
+that many transcription start sites or first exons in the human genome
+tend to have poor coverage. By a systematic analysis of these regions we
+defined the 1,000 with the lowest relative coverage based on low coverage
+by an Illumina data set, which we term the ‘bad promoters’ list. The bad
+promoters are, like many exons, GC-rich, averaging 79% GC composition);</p></li>
+<li><p>Overlapping the
+<a class="reference external" href="https://github.com/Boyle-Lab/Blacklist">ENCODE blacklist</a>,</p></li>
+<li><p>Variant depth <code class="docutils literal notranslate"><span class="pre">VD&lt;4</span></code>;</p></li>
+<li><p>Variant depth <code class="docutils literal notranslate"><span class="pre">VD&lt;6</span></code>, and the variant overlaps a low complexity region
+(see step 4 above);</p></li>
+<li><p>VarDict strand-biased variants (single strand support for ALT, while REF
+has both; or REF and ALT have opposite supporting strands), unless
+supported by all other callers.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Report passing variants using <a class="reference external" href="https://github.com/sigven/pcgr">PCGR</a>,
+classified by the ACMG tier system.</p></li>
+</ol>
+</section>
+</section>
+<section id="snps-and-small-indels-germline">
+<h2><span class="section-number">4.2. </span>SNPs and small indels (Germline)<a class="headerlink" href="#snps-and-small-indels-germline" title="Link to this heading">#</a></h2>
+<p>The idea is to simply bring germline variants in cancer predisposition genes:</p>
+<ol class="arabic simple">
+<li><p>Take passing “ensemble” germline VCF from
+<a class="reference external" href="https://github.com/umccr/workflows/tree/master/bcbio">bcbio</a>. “Ensemble” has
+variants supported by at least 2 of 3 callers (we use strelka2, vardict, and
+GATK Haplotype Caller).</p></li>
+<li><p>Add back variants from somatic calling filtered as common GnomAD.</p></li>
+<li><p>Subset variants to a list of ~200 cancer predisposition genes, which is build
+by <a class="reference external" href="https://github.com/sigven/cpsr">CPSR</a> from 3 curated sources:
+<a class="reference external" href="https://www.ncbi.nlm.nih.gov/pubmed/29625052">TCGA</a> pan-cancer study,
+<a class="reference external" href="https://cancer.sanger.ac.uk/census">COSMIC CGC</a>, and
+<a class="reference external" href="http://cancergenomics.no/">Norwegian Cancer Genomics Consortium</a>.</p></li>
+<li><p>Report variants using <a class="reference external" href="https://github.com/sigven/cpsr">CPSR</a>, which
+classifies variants in the context of cancer predisposition by overlapping
+with <a class="reference external" href="https://www.ncbi.nlm.nih.gov/clinvar/">ClinVar</a> pathogenic and VUS
+variants and GnomAD rare variants. It also ranks variants according
+pathogenicity score by ACMG and cancer-specific criteria. When a variant is
+annotated as having multiple functional depending on a context of a gene and
+a trascript, a higher impact events are prioritised, and if all things equal,
+<a class="reference external" href="http://appris.bioinfo.cnio.es/#/">APPRIS principal transcripts</a> are
+preferred. In any case, one event per variant is reported. Events are
+reported in 4 tiers according to their significance:</p>
+<ul class="simple">
+<li><p>ClinVar variants: pre-classified variants according to a five-level tier
+scheme (Pathogenic to Benign):</p></li>
+<li><p>Non-ClinVar variants: classified by CPSR according to a five-level tier
+scheme (Pathogenic to Benign)</p></li>
+<li><p>Secondary findings (optional) - pathogenic ClinVar variants in the ACMG
+recommended list for reporting of incidental findings,</p></li>
+<li><p>GWAS hits (optional) - variants overlapping with previously identified hits
+in genome-wide association studies (GWAS) of cancer phenotypes (i.e. low to
+moderate risk conferring alleles), using NHGRI-EBI Catalog of published
+genome-wide association studies as the underlying source. The unclassified
+non-ClinVar variants are assigned a pathogenicity level based on the
+aggregation of scores according to previously established ACMG criteria.
+The ACMG criteria includes cancer-specific criteria, as outlined and
+specified in several previous studies.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="structural-variants">
+<h2><span class="section-number">4.3. </span>Structural variants<a class="headerlink" href="#structural-variants" title="Link to this heading">#</a></h2>
+<p>The idea is to report gene fusions, exon deletions, high impact and LoF events
+in tumor suppressors, and prioritise events in cancer genes.</p>
+<ol class="arabic simple">
+<li><p>Start with the somatic SV VCF from DRAGEN (called internally by a private
+<a class="reference external" href="https://github.com/illumina/manta">Manta</a> version). Keep only PASS variants.</p></li>
+<li><p>Annotate variants:</p>
+<ul class="simple">
+<li><p>with <a class="reference external" href="https://github.com/pcingola/SnpEff">SnpEff</a>.</p></li>
+<li><p>with <a class="reference external" href="https://github.com/Ensembl/ensembl-vep">VEP</a></p></li>
+<li><p>Use the Ensembl gene model and
+<a class="reference external" href="http://www.sequenceontology.org">Sequence ontology</a> terminology.</p></li>
+<li><p>Subset annotations to
+<a class="reference external" href="http://appris.bioinfo.cnio.es/#/">APPRIS principal transcripts</a>, keeping
+one main isoform per gene.</p></li>
+</ul>
+</li>
+<li><p>Prioritise variants with
+<a class="github reference external" href="https://github.com/umccr/vcf_stuff/blob/master/scripts/prioritize_sv">umccr/vcf_stuff</a>. on a
+4 tier system - 1 (high) - 2 (moderate) - 3 (low) - 4 (no interest):</p>
+<ul class="simple">
+<li><p>exon loss</p>
+<ul>
+<li><p>on cancer gene list (1)</p></li>
+<li><p>other (2)</p></li>
+</ul>
+</li>
+<li><p>gene fusion</p>
+<ul>
+<li><p>paired (hits two genes)</p>
+<ul>
+<li><p>on list of known pairs (1) (curated by
+<a class="reference external" href="https://resources.hartwigmedicalfoundation.nl">HMF</a>)</p></li>
+<li><p>one gene is a known promiscuous fusion gene (1) (curated by
+<a class="reference external" href="https://resources.hartwigmedicalfoundation.nl">HMF</a>)</p></li>
+<li><p>on list of
+<a class="reference external" href="https://github.com/ndaniel/fusioncatcher/blob/master/bin/generate_known.py">FusionCatcher</a>
+known pairs (2)</p></li>
+<li><p>other:</p>
+<ul>
+<li><p>one or two genes on cancer gene list (2)</p></li>
+<li><p>neither gene on cancer gene list (3)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>unpaired (hits one gene)</p>
+<ul>
+<li><p>on cancer gene list (2)</p></li>
+<li><p>others (3)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>upstream or downstream (a specific type of fusion, e.g. one gene is got
+into control of another gene’s promoter and get over-expressed (oncogene)
+or underexpressed (tsgene))</p>
+<ul>
+<li><p>on cancer gene list genes (2)</p></li>
+</ul>
+</li>
+<li><p>LoF or HIGH impact in a tumor suppressor</p>
+<ul>
+<li><p>on cancer gene list (2)</p></li>
+<li><p>other TS gene (3)</p></li>
+</ul>
+</li>
+<li><p>other (4)</p></li>
+</ul>
+</li>
+<li><p>If the number of events is over 50K (e.g. FFPE), progressively remove TIER
+4/3/2 SVs (in that order).</p></li>
+<li><p>Refine SVs using Hartwig’s
+<a class="reference external" href="https://github.com/hartwigmedical/hmftools/tree/bpi-v1.5/break-point-inspector">break-point-inspector</a>,
+which locally re-assembles SV loci to get more accurate breakpoint positions
+and AF estimates.</p></li>
+<li><p>Filter low-quality calls:</p>
+<ul class="simple">
+<li><p>keep PASS FILTER</p></li>
+<li><p>dump TIER 3/4 where <code class="docutils literal notranslate"><span class="pre">SR</span> <span class="pre">&lt;</span> <span class="pre">5</span> <span class="pre">&amp;</span> <span class="pre">PR</span> <span class="pre">&lt;</span> <span class="pre">5</span></code></p></li>
+<li><p>dump TIER 3/4 where <code class="docutils literal notranslate"><span class="pre">SR</span> <span class="pre">&lt;</span> <span class="pre">10</span> <span class="pre">&amp;</span> <span class="pre">PR</span> <span class="pre">&lt;</span> <span class="pre">10</span> <span class="pre">&amp;</span> <span class="pre">(AF0</span> <span class="pre">&lt;</span> <span class="pre">0.1</span> <span class="pre">|</span> <span class="pre">AF1</span> <span class="pre">&lt;</span> <span class="pre">0.1)</span></code></p></li>
+</ul>
+</li>
+<li><p>Use filtered variants as a guidance for PURPLE CNV calling (see below).
+PURPLE will adjust and recover breakpoints at copy number transitions, and
+adjust AF based on copy number, purity and ploidy.</p></li>
+<li><p>Run <a class="github reference external" href="https://github.com/umccr/vcf_stuff/blob/master/scripts/prioritize_sv">umccr/vcf_stuff</a> on
+the PURPLE output SVs.</p></li>
+<li><p>Report tiered variants in the UMCCR cancer report.</p></li>
+</ol>
+</section>
+<section id="copy-number-variants">
+<h2><span class="section-number">4.4. </span>Copy Number Variants<a class="headerlink" href="#copy-number-variants" title="Link to this heading">#</a></h2>
+<p>The idea is to report significant CNV changes in key cancer genes and
+disruptions in tumor suppressors. And also calculate sample purity and ploidy
+profile.</p>
+<p>We almost entirely rely on Hartwig’s
+<a class="reference external" href="https://github.com/hartwigmedical/hmftools/tree/master/purity-ploidy-estimator">PURPLE</a>
+workflow in this step. The PURPLE pipeline outlines as follows:</p>
+<ul class="simple">
+<li><p>Calculate B-allele frequencies (BAF) using AMBER subworkflow,</p></li>
+<li><p>Calculate read depth ratios using COBALT subworkflow,</p></li>
+<li><p>Perform segmentation (uses structural variant breakpoints for better
+guidance),</p></li>
+<li><p>Estimate the purity and copy number profile (uses somatic variants for better
+fitting),</p></li>
+<li><p>Plot a circos plot that visualises the CN/ploidy profile, as well as somatic
+variants, SVs, and BAFs,</p></li>
+<li><p>Rescue structural variants in copy number transitions and filter single
+breakends,</p></li>
+<li><p>Estimate overall tumor samples purity range,</p></li>
+<li><p>Determine gender,</p></li>
+<li><p>Report QC status of the sample, that will fail if the structural variants do
+not correspond to CN transitions, and gender is inconsistently called from
+BAFs and from the coverage.</p></li>
+</ul>
+<p>From the PURPLE output, we report in the cancer report:</p>
+<ul class="simple">
+<li><p>Circos plot</p></li>
+<li><p>Minimal and maximal copy numbers in key cancer genes, that indicate
+amplifications/deletions as well as CN transitions that should match SVs</p></li>
+<li><p>QC status</p></li>
+<li><p>We also use Purity to adjust coverage reporting thresholds.</p></li>
+<li><p>Genome-wide CNV segments with breakpoint information. Includes segment CN,
+minor/major allele ploidy, type of SV support at start/end of segment, CN
+determination method, BAF/BAF count, GC%, Cobalt window coverage</p></li>
+</ul>
+</section>
+<section id="rna-seq">
+<h2><span class="section-number">4.5. </span>RNA-seq<a class="headerlink" href="#rna-seq" title="Link to this heading">#</a></h2>
+</section>
+<section id="multiqc">
+<h2><span class="section-number">4.6. </span>MultiQC<a class="headerlink" href="#multiqc" title="Link to this heading">#</a></h2>
+<p>MultiQC aggregates QC from different tools. We report the following:</p>
+<ul class="simple">
+<li><p>Sample contamination level (for both tumor and normal) and T/N concordance (by
+<a class="reference external" href="https://github.com/nygenome/Conpair">Conpair</a>),</p></li>
+<li><p>Ancestry and sex (by <a class="reference external" href="https://github.com/brentp/peddy">Peddy</a>),</p></li>
+<li><p>Mapping QC: the number of mapped reads, paired reads, secondary or duplicated
+alignments, average coverage (using samtools stats and mosdepth in bcbio),</p></li>
+<li><p>Viral content and integration sites
+(<a class="reference external" href="https://github.com/umccr/oncoviruses">oncoviruses</a>),</p></li>
+<li><p>PURPLE stats: QC, sex, purity/ploidy, TMB and MSI statuses</p></li>
+<li><p>Number of pre- and post-filtered SNPs and indels (by clindet) which indicates
+germline leakage,</p></li>
+<li><p>Coverage profile by goleft,</p></li>
+<li><p>Variants QC for filtered germline and somatic variants (by bcftools),</p></li>
+<li><p>Reads QC (by FastQC).</p></li>
+</ul>
+<p>We also include reference “good” samples in the background for comparison.</p>
+</section>
+<section id="coverage">
+<h2><span class="section-number">4.7. </span>Coverage<a class="headerlink" href="#coverage" title="Link to this heading">#</a></h2>
+<p>The idea is to see if we can miss variants due to abnormal coverage (e.g.
+because of copy numbers or abnormal GC).</p>
+<ul class="simple">
+<li><p>Run <a class="reference external" href="https://github.com/brentp/goleft/tree/master/indexcov"><code class="docutils literal notranslate"><span class="pre">goleft</span> <span class="pre">indexcov</span></code></a>
+to plot fast global coverage overview from a BAM or CRAM index.</p></li>
+<li><p>Run <a class="reference external" href="https://github.com/brentp/mosdepth"><code class="docutils literal notranslate"><span class="pre">mosdepth</span></code></a> to calculate quantized
+coverage in exons of cancer genes if interest, using 4 groups for
+quantization: NO_COVERAGE, LOW_COVERAGE, CALLABLE, HIGH_COVERAGE. For tumor,
+the thresholds are adjusted by average purity (as reported by PURPLE). The low
+coverage threshold is 12x divided by purity (the minimal coverage to call a
+pure heterozugous variant), the high coverage threshold is 100 divided by
+purity (suspiciously high coverage, might indicate an LCR, a repeat, or a CN).</p></li>
+<li><p>Run <a class="reference external" href="https://github.com/sigven/cacao">CACAO</a> using the same thresholds to
+calculate coverage in loci of interest. For germline variants, use
+<a class="reference external" href="https://www.ncbi.nlm.nih.gov/clinvar">ClinVar</a> predisposition variants. For
+somatic variants, use <a class="reference external" href="https://civicdb.org/">CiViC</a> actionable variants and
+<a class="reference external" href="https://www.cancerhotspots.org/">cancerhotspots.org</a> somatic hotspots. This
+step generates two HTML reports (one for somatic, one for germline variants).</p></li>
+</ul>
+</section>
+<section id="reports">
+<h2><span class="section-number">4.8. </span>Reports<a class="headerlink" href="#reports" title="Link to this heading">#</a></h2>
+<p>clindet produces 6 reports:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/sigven/pcgr">PCGR</a> containing small somatic variants (SNPs
+and indels) classified according to
+<a class="reference external" href="https://www.ncbi.nlm.nih.gov/pubmed/27993330">ACMG</a> guidelines, and MSI
+status of the sample.</p></li>
+<li><p><a class="reference external" href="https://github.com/sigven/cpsr">CPSR</a> containing small germline variants
+(SNPs and indels) in cancer predisposition genes, ranked by ACMG guidelines
+and cancer-specific criteria.</p></li>
+<li><p><a class="reference external" href="https://github.com/sigven/cacao">CACAO</a> for tumor sample, reporting coverage
+for clinically actionable and pathogenic loci in cancer</p></li>
+<li><p>CACAO for normal sample, reporting coverage in likely pathogenic variants
+cancer predisposition protein-coding genes</p></li>
+<li><p><a class="reference external" href="https://multiqc.info">MultiQC</a> report with QC stats and plots</p></li>
+<li><p>UMCCR cancer report containing:</p>
+<ul>
+<li><p>Somatic mutation profile (global and in cancer genes),</p></li>
+<li><p>Mutational signatures (by the MutationalPatterns R package),</p></li>
+<li><p>Structural variants,</p></li>
+<li><p>Copy number variants,</p></li>
+<li><p>PURPLE QC status,</p></li>
+<li><p>Circos plot,</p></li>
+<li><p>Oncoviral content and integration sites.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="key-cancer-genes">
+<h2><span class="section-number">4.9. </span>Key cancer genes<a class="headerlink" href="#key-cancer-genes" title="Link to this heading">#</a></h2>
+<p>For reporting and variant prioritization, we prepared a
+<a class="reference external" href="https://github.com/vladsaveliev/NGS_Utils/blob/master/ngs_utils/reference_data/key_genes/make_umccr_cancer_genes.Rmd">UMCCR cancer key genes set</a>.
+It has been built off several sources:</p>
+<ul class="simple">
+<li><p>Cancermine with at least 2 publication with at least 3 citations,</p></li>
+<li><p>NCG known cancer genes,</p></li>
+<li><p>Tier 1 COSMIC Cancer Gene Census (CGC),</p></li>
+<li><p>CACAO hotspot genes (curated from ClinVar, CiViC, cancerhotspots),</p></li>
+<li><p>At least 2 matches in the following 5 sources and 8 clinical panels:</p>
+<ul>
+<li><p>Cancer predisposition genes (CPSR list)</p></li>
+<li><p>COSMIC Cancer Gene Census (tier 2)</p></li>
+<li><p>AZ300</p></li>
+<li><p>Familial Cancer</p></li>
+<li><p>OncoKB annotated</p></li>
+<li><p>MSKC-IMPACT</p></li>
+<li><p>MSKC-Heme</p></li>
+<li><p>PMCC-CCP</p></li>
+<li><p>Illumina-TS500</p></li>
+<li><p>TEMPUS</p></li>
+<li><p>Foundation One</p></li>
+<li><p>Foundation Heme</p></li>
+<li><p>Vogelstein</p></li>
+</ul>
+</li>
+</ul>
+<p>The result is a list of 1248 genes.</p>
+</section>
+<section id="snakemake-rules">
+<h2><span class="section-number">4.10. </span>Snakemake Rules<a class="headerlink" href="#snakemake-rules" title="Link to this heading">#</a></h2>
+<section id="somatic-smk">
+<h3><span class="section-number">4.10.1. </span><code class="docutils literal notranslate"><span class="pre">somatic.smk</span></code><a class="headerlink" href="#somatic-smk" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">run_sage</span></code></p>
+<ul class="simple">
+<li><p>Runs <code class="docutils literal notranslate"><span class="pre">sage-2.2.jar</span></code> (jar included). Don’t actually think this gets run by
+default, probably was used in a project-specific context.</p></li>
+<li><p>input: BAMs (T/N), <code class="docutils literal notranslate"><span class="pre">hotspots_vcf</span></code>, <code class="docutils literal notranslate"><span class="pre">coding_bed</span></code>, <code class="docutils literal notranslate"><span class="pre">high_conf_bed</span></code></p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/{batch}/small_variants/sage2/{batch}.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">somatic_vcf_pass_sort</span></code></p>
+<ul class="simple">
+<li><p>Filters to only PASS and sorts</p></li>
+<li><p>input: <code class="docutils literal notranslate"><span class="pre">batch_by_name[wc.batch].somatic_vcf</span></code> <strong>or</strong> above output VCF</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/{batch}/small_variants/pass_sort/{batch}-somatic.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">somatic_vcf_select_noalt</span></code></p>
+<ul class="simple">
+<li><p>Filters to variants within noalt regions (chr1-chr22, chrX, chrY, chrM)</p></li>
+<li><p>input: above output VCF, <code class="docutils literal notranslate"><span class="pre">noalts_bed</span></code></p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/{batch}/small_variants/noalt/{batch}-somatic.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">somatic_vcf_sage1</span></code></p>
+<ul class="simple">
+<li><p>Runs <code class="docutils literal notranslate"><span class="pre">sage</span> <span class="pre">v1.0</span></code></p>
+<ul>
+<li><p>sage script:
+<a class="github reference external" href="https://github.com/umccr/vcf_stuff/blob/master/scripts/sage">umccr/vcf_stuff</a></p></li>
+<li><p>sage Snakemake subworkflow:
+<a class="github reference external" href="https://github.com/umccr/vcf_stuff/blob/master/vcf_stuff/filtering/sage.smk">umccr/vcf_stuff</a></p></li>
+<li><p>jar:
+<a class="github reference external" href="https://github.com/umccr/vcf_stuff/blob/master/vcf_stuff/filtering/sage-1.0.jar">umccr/vcf_stuff</a></p></li>
+</ul>
+</li>
+<li><p>input: above output (noalt) VCF, BAMs (T/N)</p></li>
+<li><p>output:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">work/{batch}/small_variants/sage1/{batch}-somatic.vcf.gz</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{batch}/small_variants/sage1/{batch}-sage.vcf.gz</span></code></p></li>
+<li><p>Snakemake subworkflow:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_sage</span></code></p>
+<ul>
+<li><p>sage v1.0 with T/N BAMs, hotspots, coding regions,</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/call/{SAMPLE}-sage.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sage_rename_anno</span></code></p>
+<ul>
+<li><p>sed <code class="docutils literal notranslate"><span class="pre">HOTSPOT</span> <span class="pre">-&gt;</span> <span class="pre">SAGE_HOTSPOT</span></code></p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/rename_anno/{SAMPLE}-sage.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sage_reorder_samples</span></code></p>
+<ul>
+<li><p>reorder samples, tumor first</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/sage_reorder_samples/{SAMPLE}-sage.vcf.gz</span></code> (<strong>final
+Sage VCF</strong>)</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sage_pass</span></code></p>
+<ul>
+<li><p>keep PASS</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/sage_pass/{SAMPLE}-sage.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sage_pass_novel</span></code></p>
+<ul>
+<li><p>intersect Sage PASS VCF with noalt VCF, keep only those ‘novel’
+variants found in Sage</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/sage_pass_novel/{SAMPLE}-sage.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">add_novel_sage_calls</span></code></p>
+<ul>
+<li><p>concatenate above ‘novel’ with noalt VCF</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/add_novel_sage_calls/{SAMPLE}.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sort_saged</span></code></p>
+<ul>
+<li><p>sort above</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/sort_saged/{SAMPLE}.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">annotate_from_sage</span></code></p>
+<ul>
+<li><p>input: above output VCF ‘vcf’ and final Sage VCF (‘sage’)</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/annotate_from_sage/{SAMPLE}.vcf.gz</span></code></p></li>
+<li><p>iterate through ‘sage’ variants and create a <code class="docutils literal notranslate"><span class="pre">sage_calls</span></code> dict with
+chr/pos/ref/alt keys and the cyvcf2 record as values, then for ‘vcf’
+variants that are PASSed, annotate ‘SAGE_HOTSPOT’ and use a ‘PASS’
+FILTER, else use the ‘SAGE_lowconf’ FILTER tag. Then set the
+<code class="docutils literal notranslate"><span class="pre">FORMAT/DP</span></code> and <code class="docutils literal notranslate"><span class="pre">FORMAT/AD</span></code> based on the ‘sage’ call. Something like
+that.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">copy_result</span></code></p>
+<ul>
+<li><p>copy above output VCF to
+<code class="docutils literal notranslate"><span class="pre">work/{batch}/small_variants/sage1/{batch}-somatic.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sage</span></code></p>
+<ul>
+<li><p>copy <code class="docutils literal notranslate"><span class="pre">work/call/{SAMPLE}-sage.vcf.gz</span></code> to
+<code class="docutils literal notranslate"><span class="pre">{batch}/small_variants/sage1/{batch}-sage.vcf.gz</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">somatic_vcf_annotate</span></code></p>
+<ul class="simple">
+<li><p>input: above (work) output file <strong>if</strong>
+<code class="docutils literal notranslate"><span class="pre">batch_by_name[wc.batch].somatic_vcf</span></code>, <strong>else</strong> the <code class="docutils literal notranslate"><span class="pre">noalt</span></code></p></li>
+<li><p>output:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">work/{batch}/small_variants/annotate/{batch}-somatic.vcf.gz</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">work/{batch}/small_variants/somatic_anno/subset_highly_mutated_stats.yaml</span></code></p></li>
+</ul>
+</li>
+<li><p>Runs <code class="docutils literal notranslate"><span class="pre">anno_somatic_vcf</span></code> from <code class="docutils literal notranslate"><span class="pre">vcf_stuff</span></code></p>
+<ul>
+<li><p><a class="github reference external" href="https://github.com/umccr/vcf_stuff/blob/master/scripts/anno_somatic_vcf">umccr/vcf_stuff</a></p></li>
+<li><p><a class="github reference external" href="https://github.com/umccr/vcf_stuff/blob/master/vcf_stuff/filtering/annotate_somatic_vcf.smk">umccr/vcf_stuff</a></p></li>
+<li><p>Snakemake subworkflow:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">prep_hmf_hotspots</span></code></p>
+<ul>
+<li><p>Filters HMF hotspots file from 17,875 in total down to 10,209 HMF
+variants</p></li>
+<li><p>input: <code class="docutils literal notranslate"><span class="pre">hotspots</span></code> reference file</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">somatic_anno/hmf_hotspot.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prep_anno_toml</span></code></p>
+<ul>
+<li><p>Prepares TOML file for use with vcfanno</p></li>
+<li><p>input: lots of reference files</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">somatic_anno/tricky_vcfanno.toml</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">somatic_vcf_regions_anno</span></code></p>
+<ul>
+<li><p>Runs vcfanno</p></li>
+<li><p>input: TOML from above and the original (<code class="docutils literal notranslate"><span class="pre">sage1</span></code>) input VCF</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">somatic_anno/vcfanno/{SAMPLE}-somatic.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maybe_subset_highly_mutated</span></code></p>
+<ul>
+<li><p>input: above output vcfanno’d VCF</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">somatic_anno/subset/{SAMPLE}-somatic.vcf.gz</span></code>, <code class="docutils literal notranslate"><span class="pre">stats.yaml</span></code></p></li>
+<li><p>Count total vars</p>
+<ul>
+<li><p>If that’s <code class="docutils literal notranslate"><span class="pre">&lt;=</span> <span class="pre">500K</span></code>, all good, just copy that to the next step</p></li>
+<li><p>If that’s <code class="docutils literal notranslate"><span class="pre">&gt;</span> <span class="pre">500K</span></code>:</p>
+<ul>
+<li><p>grab the <code class="docutils literal notranslate"><span class="pre">INFO/gnomad_AF</span></code> field</p>
+<ul>
+<li><p>if that exists, is <code class="docutils literal notranslate"><span class="pre">&gt;=</span> <span class="pre">0.01</span></code>, and is not a HMF/SAGE HOTSPOT,
+discard it</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Write the count stats into the yaml output</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">somatic_vcf_clean_info</span></code></p>
+<ul>
+<li><p>input: above output subset VCF</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">somatic_anno/clean_info/{SAMPLE}-somatic.vcf.gz</span></code></p></li>
+<li><p>process:</p>
+<ul>
+<li><p>Add a <code class="docutils literal notranslate"><span class="pre">TRICKY</span></code> INFO field in the VCF metadata (<code class="docutils literal notranslate"><span class="pre">proc_hdr</span></code> func)</p></li>
+<li><p>Remove <code class="docutils literal notranslate"><span class="pre">TRICKY_*</span></code> and <code class="docutils literal notranslate"><span class="pre">ANN</span></code> fields from VCF metadata
+(<code class="docutils literal notranslate"><span class="pre">postproc_hdr</span></code> func)</p></li>
+<li><p>Remove <code class="docutils literal notranslate"><span class="pre">ANN</span></code> and <code class="docutils literal notranslate"><span class="pre">TRICKY_*</span></code> INFO fields from variants, but join the
+<code class="docutils literal notranslate"><span class="pre">TRICKY_*</span></code> fields into a single pipe separated field under
+<code class="docutils literal notranslate"><span class="pre">INFO/TRICKY</span></code>.</p></li>
+<li><p>This basically reduces the VCF size substantially.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">somatic_vcf_prep</span></code></p>
+<ul>
+<li><p>input: above output cleaned VCF</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">somatic_anno/prep/{SAMPLE}-somatic.vcf.gz</span></code></p></li>
+<li><p>annotate <code class="docutils literal notranslate"><span class="pre">TUMOR/NORMAL_</span></code>-<code class="docutils literal notranslate"><span class="pre">AF/DP/VD</span></code> fields for PCGR</p>
+<ul>
+<li><p><a class="github reference external" href="https://github.com/umccr/vcf_stuff/blob/master/scripts/pcgr_prep">umccr/vcf_stuff</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sage_pon</span></code></p>
+<ul>
+<li><p>input: above output VCF, <code class="docutils literal notranslate"><span class="pre">hmf_pon</span></code> VCF with
+<code class="docutils literal notranslate"><span class="pre">PON_COUNT</span></code>/<code class="docutils literal notranslate"><span class="pre">PON_MAX</span></code>/<code class="docutils literal notranslate"><span class="pre">PON_TOTAL</span></code> columns for annotation</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">somatic_anno/sage_pon/{SAMPLE}-somatic.vcf.gz</span></code></p></li>
+<li><p>annotates VCF with <code class="docutils literal notranslate"><span class="pre">SageGermlinePon.hg38.98x.vcf.gz</span></code> HMF PoN counts</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">somatic_vcf_pon_anno</span></code></p>
+<ul>
+<li><p>input: above output VCF, and <code class="docutils literal notranslate"><span class="pre">panel_of_normals_dir</span></code> (with
+<code class="docutils literal notranslate"><span class="pre">pon.snps.vcf.gz</span></code> and <code class="docutils literal notranslate"><span class="pre">pon.indels.vcf.gz</span></code>)</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">somatic_anno/pon/{SAMPLE}-somatic.vcf.gz</span></code></p></li>
+<li><p>annotates with <code class="docutils literal notranslate"><span class="pre">INFO/PoN_CNT</span></code>, optionally
+<code class="docutils literal notranslate"><span class="pre">INFO/PoN_CNT&gt;=filter_hits</span> <span class="pre">with</span> <span class="pre">FILTER=PoN</span></code></p>
+<ul>
+<li><p><a class="github reference external" href="https://github.com/umccr/vcf_stuff/blob/master/scripts/pon_anno">umccr/vcf_stuff</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">somatic_vcf_pcgr_round1</span></code></p>
+<ul>
+<li><p>input: above output VCF, and PCGR reference data (<code class="docutils literal notranslate"><span class="pre">pcgr_data</span></code>)</p></li>
+<li><p>output:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">somatic_anno/pcgr_run/{SAMPLE}-somatic.pcgr_ready.vep.vcf.gz</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">somatic_anno/pcgr_run/{SAMPLE}-somatic.pcgr.snvs_indels.tiers.tsv</span></code></p></li>
+</ul>
+</li>
+<li><p>Runs PCGR (first time) via
+<a class="github reference external" href="https://github.com/umccr/clindet/blob/master/scripts/pcgr_wrap">umccr/clindet</a></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">somatic_vcf_pcgr_anno</span></code></p>
+<ul>
+<li><p>input:</p>
+<ul>
+<li><p>above output VCF + tiers files</p></li>
+<li><p>annotated VCF from <code class="docutils literal notranslate"><span class="pre">somatic_vcf_pon_anno</span></code> step</p></li>
+</ul>
+</li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">somatic_anno/pcgr_ann/{SAMPLE}-somatic.vcf.gz</span></code></p></li>
+<li><p>annotate with <code class="docutils literal notranslate"><span class="pre">PCGR_</span></code> -
+<code class="docutils literal notranslate"><span class="pre">SYMBOL</span></code>,<code class="docutils literal notranslate"><span class="pre">TIER</span></code>,<code class="docutils literal notranslate"><span class="pre">CONSEQUENCE</span></code>,<code class="docutils literal notranslate"><span class="pre">MUTATION_HOTSPOT</span></code>,<code class="docutils literal notranslate"><span class="pre">PUTATIVE_DRIVER_MUTATION</span></code>,<code class="docutils literal notranslate"><span class="pre">TCGA_PANCANCER_COUNT</span></code>,<code class="docutils literal notranslate"><span class="pre">CLINVAR_CLNSIG</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">COSMIC_CNT</span></code>, <code class="docutils literal notranslate"><span class="pre">ICGC_PCAWG_HITS</span></code>, <code class="docutils literal notranslate"><span class="pre">CSQ</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">annotate</span></code></p>
+<ul>
+<li><p>input: above output VCF</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/{batch}/small_variants/annotate/{batch}-somatic.vcf.gz</span></code></p></li>
+<li><p>simply copies input to output</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">somatic_vcf_filter</span></code></p>
+<ul class="simple">
+<li><p>Runs <code class="docutils literal notranslate"><span class="pre">filter_somatic_vcf</span></code> from <code class="docutils literal notranslate"><span class="pre">vcf_stuff</span></code></p>
+<ul>
+<li><p><a class="github reference external" href="https://github.com/umccr/vcf_stuff/blob/master/scripts/filter_somatic_vcf">umccr/vcf_stuff</a></p></li>
+</ul>
+</li>
+<li><p>input: above final output VCF
+(<code class="docutils literal notranslate"><span class="pre">work/{batch}/small_variants/annotate/{batch}-somatic.vcf.gz</span></code>)</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">{batch}/small_variants/{batch}-somatic.vcf.gz</span></code></p></li>
+<li><p>steps:</p>
+<ul>
+<li><p>Keep where <code class="docutils literal notranslate"><span class="pre">INFO/PCGR_TIER</span> <span class="pre">in</span> <span class="pre">[1,</span> <span class="pre">2]</span></code></p></li>
+<li><p>Keep where <code class="docutils literal notranslate"><span class="pre">INFO/SAGE_HOTSPOT</span> <span class="pre">==</span> <span class="pre">'known'</span></code></p></li>
+<li><p>Keep where <code class="docutils literal notranslate"><span class="pre">INFO/TIER</span> <span class="pre">==</span> <span class="pre">'HOTSPOT'</span></code></p></li>
+<li><p>Dump where <code class="docutils literal notranslate"><span class="pre">INFO/TUMOR_VD</span> <span class="pre">&lt;</span> <span class="pre">4</span></code> (too few reads support variant)</p></li>
+<li><p>Dump where <code class="docutils literal notranslate"><span class="pre">INFO/PoN_CNT</span> <span class="pre">&gt;=</span> <span class="pre">5</span></code> (in PoN, likely germline or artefact)</p>
+<ul>
+<li><p>Report as Germline if is otherwise PASSed and <code class="docutils literal notranslate"><span class="pre">INFO/TUMOR_AF</span> <span class="pre">&gt;=</span> <span class="pre">0.2</span></code></p>
+<ul>
+<li><p>See the <code class="docutils literal notranslate"><span class="pre">germline_leakage</span></code> rule in <code class="docutils literal notranslate"><span class="pre">germline.smk</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Keep potential hotspots:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">HMF_HOTSPOT</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PCGR_INTOGEN_DRIVER_MUT</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PCGR_MUTATION_HOTSPOT</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PCGR_CLINVAR_CLNSIG</span></code> is ‘pathogenic’ or ‘uncertain’</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">COSMIC_CNT</span> <span class="pre">&gt;=</span> <span class="pre">10</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PCGR_TCGA_PANCANCER_COUNT</span> <span class="pre">&gt;=</span> <span class="pre">5</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ICGC_PCAWG_HITS</span> <span class="pre">&gt;=</span> <span class="pre">5</span></code></p></li>
+</ul>
+</li>
+<li><p>Dump where <code class="docutils literal notranslate"><span class="pre">INFO/TUMOR_AF</span> <span class="pre">&lt;</span> <span class="pre">0.1</span></code></p></li>
+<li><p>Dump where has <code class="docutils literal notranslate"><span class="pre">INFO/ENCODE</span></code> flag (hits ENCODE blocklist)</p></li>
+<li><p>Dump indels in homopolymers (<code class="docutils literal notranslate"><span class="pre">INFO/MSILEN</span></code> and <code class="docutils literal notranslate"><span class="pre">INFO/MSI</span></code> plus formula)</p></li>
+<li><p>Dump where <code class="docutils literal notranslate"><span class="pre">INFO/TUMOR_VD</span> <span class="pre">&lt;</span> <span class="pre">6</span></code> and:</p>
+<ul>
+<li><p>variant in low complexity region (LCR)</p></li>
+<li><p>no <code class="docutils literal notranslate"><span class="pre">INFO/HMF_GIAB_CONF</span></code> flag</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">INFO/HMF_MAPPABILITY</span> <span class="pre">&lt;</span> <span class="pre">0.9</span></code></p></li>
+</ul>
+</li>
+<li><p>Dump indels in bad promoters</p></li>
+<li><p>Dump strand biased variants based on Vardict</p></li>
+<li><p>(DRAGEN) Dump where <code class="docutils literal notranslate"><span class="pre">INFO/TLOD</span> <span class="pre">&lt;</span> <span class="pre">15</span></code></p></li>
+<li><p>Dump where <code class="docutils literal notranslate"><span class="pre">INFO/gnomAD_AF</span> <span class="pre">&gt;=</span> <span class="pre">0.01</span></code></p>
+<ul>
+<li><p>Report as Germline if is otherwise PASSed</p>
+<ul>
+<li><p>See the <code class="docutils literal notranslate"><span class="pre">germline_leakage</span></code> rule in <code class="docutils literal notranslate"><span class="pre">germline.smk</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">somatic_vcf_filter_pass</span></code></p>
+<ul class="simple">
+<li><p>Keep only PASS from above filtered VCF</p></li>
+<li><p>input: above output VCF</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">{batch}/small_variants/{batch}-somatic-PASS.vcf.gz</span></code></p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">{batch}/small_variants/{batch}-somatic-PASS.vcf.gz</span></code> VCF is also passed
+as input to:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pierian</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vcf2maf.pl</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bcftools</span> <span class="pre">stats</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PCGR</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="pcgr-smk">
+<h3><span class="section-number">4.10.2. </span><code class="docutils literal notranslate"><span class="pre">pcgr.smk</span></code><a class="headerlink" href="#pcgr-smk" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">run_pcgr</span></code></p>
+<ul class="simple">
+<li><p>run PCGR with purity and ploidy as inferred by PURPLE</p>
+<ul>
+<li><p>uses the <code class="docutils literal notranslate"><span class="pre">scripts/pcgr</span></code> wrapper</p></li>
+<li><p>raw PCGR outputs get renamed to remove the <code class="docutils literal notranslate"><span class="pre">_acmg.hg38</span></code> suffix</p></li>
+</ul>
+</li>
+<li><p>input:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">{batch}/small_variants/{batch}-somatic-PASS.vcf.gz</span></code></p></li>
+<li><p>PCGR reference data (<code class="docutils literal notranslate"><span class="pre">pcgr_data</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">work/{batch}/purple/{batch}.purple.purity.tsv</span></code></p></li>
+</ul>
+</li>
+<li><p>output:</p>
+<ul>
+<li><p>HTML: <code class="docutils literal notranslate"><span class="pre">work/{batch}/pcgr/{batch}-somatic.pcgr.html</span></code></p></li>
+<li><p>VCF: <code class="docutils literal notranslate"><span class="pre">work/{batch}/pcgr/{batch}-somatic.pcgr.pass.vcf.gz</span></code></p></li>
+<li><p>TSV: <code class="docutils literal notranslate"><span class="pre">work/{batch}/pcgr/{batch}-somatic.pcgr.snvs_indels.tiers.tsv</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pcgr_copy_report</span></code></p>
+<ul class="simple">
+<li><p>copy HTML and TSV (not VCF) into final <code class="docutils literal notranslate"><span class="pre">clindetd/{batch}/</span></code> directory</p></li>
+<li><p>input: above HTML and TSV outputs</p></li>
+<li><p>output:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">{batch}/{batch}-somatic.pcgr.html</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{batch}/small_variants/{batch}-somatic.pcgr.snvs_indels.tiers.tsv</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>PCGR notes</p></li>
+</ol>
+<ul class="simple">
+<li><p>Step 0: Validate input data and options</p>
+<ul>
+<li><p>Runs <code class="docutils literal notranslate"><span class="pre">scripts/pcgr_validate_input.py</span></code></p></li>
+<li><p>input: raw VCF input to PCGR</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">pcgr_ready.vcf.gz</span></code> decomposed with no FORMAT or sample columns</p></li>
+</ul>
+</li>
+<li><p>Step 1: VEP annotation</p>
+<ul>
+<li><p>Runs <code class="docutils literal notranslate"><span class="pre">vep</span></code> with lots of options</p></li>
+<li><p>input: <code class="docutils literal notranslate"><span class="pre">pcgr_ready.vcf.gz</span></code></p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">pcgr_ready.vep.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p>Step 2: vcfanno precision oncology</p>
+<ul>
+<li><p>Runs <code class="docutils literal notranslate"><span class="pre">pcgr_vcfanno.py</span></code></p></li>
+<li><p>input: <code class="docutils literal notranslate"><span class="pre">pcgr_ready.vep.vcf.gz</span></code></p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">pcgr_ready.vep.vcfanno.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p>Step 3: Cancer gene annotations with pcgr-summarise</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">pcgr_summarise.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vcf2tsv.py</span></code></p></li>
+</ul>
+</li>
+<li><p>Step 4: Generation of outputs/reports</p>
+<ul>
+<li><p>Uses <code class="docutils literal notranslate"><span class="pre">pcgrr</span></code> functions via the <code class="docutils literal notranslate"><span class="pre">pcgrr.R</span></code> CLI</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="structural-smk">
+<h3><span class="section-number">4.10.3. </span><code class="docutils literal notranslate"><span class="pre">structural.smk</span></code><a class="headerlink" href="#structural-smk" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sv_keep_pass</span></code></p>
+<ul class="simple">
+<li><p>Reset INFO (<code class="docutils literal notranslate"><span class="pre">SIMPLE_ANN</span></code>, <code class="docutils literal notranslate"><span class="pre">SV_HIGHEST_TIER</span></code>) and FILTER (<code class="docutils literal notranslate"><span class="pre">Intergenic</span></code>,
+<code class="docutils literal notranslate"><span class="pre">MissingAnn</span></code>, <code class="docutils literal notranslate"><span class="pre">REJECT</span></code>) fields. Keep only <strong>PASS</strong> variants.</p></li>
+<li><p>input: final Manta VCF from DRAGEN tumor/normal workflow</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/{batch}/structural/keep_pass/{batch}-manta.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sv_snpeff_maybe</span></code></p>
+<ul class="simple">
+<li><p>Run snpEff <strong>if</strong> there is <strong>not</strong> an <code class="docutils literal notranslate"><span class="pre">INFO/ANN</span></code> annotation.</p>
+<ul>
+<li><p>use <code class="docutils literal notranslate"><span class="pre">-hgvs</span></code>, <code class="docutils literal notranslate"><span class="pre">-cancer</span></code>, <code class="docutils literal notranslate"><span class="pre">-csvStats</span></code>, <code class="docutils literal notranslate"><span class="pre">-s</span></code>, <code class="docutils literal notranslate"><span class="pre">-dataDir</span></code> options</p></li>
+<li><p><strong>else</strong>, just copy input to output</p></li>
+</ul>
+</li>
+<li><p>input:</p>
+<ul>
+<li><p>above output VCF</p></li>
+<li><p>snpEff database</p></li>
+</ul>
+</li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/{batch}/structural/snpeff/{batch}-sv-snpeff.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sv_vep</span></code></p>
+<ul class="simple">
+<li><p>Run VEP on final Manta VCF</p></li>
+<li><p>input:</p>
+<ul>
+<li><p>final Manta VCF from DRAGEN tumor/normal workflow</p></li>
+<li><p>PCGR data directory (for the VEP reference data)</p>
+<ul>
+<li><p>FASTA file:
+<code class="docutils literal notranslate"><span class="pre">grch38/.vep/homo_sapiens/105_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/{batch}/structural/vep/{batch}-sv-vep.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fix_snpeff</span></code></p>
+<ul class="simple">
+<li><p>Replace the wrongly capitalised ALT fields with lowercase to avoid
+downstream bugs</p>
+<ul>
+<li><p>TODO: turn the multiple <code class="docutils literal notranslate"><span class="pre">sed</span></code> commands into a single one with <code class="docutils literal notranslate"><span class="pre">-e</span></code>.</p></li>
+</ul>
+</li>
+<li><p>input: snpEff output VCF</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/{batch}/structural/snpeff/{batch}-sv-snpeff-fix.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sv_prioritize</span></code></p>
+<ul class="simple">
+<li><p>Run <a class="github reference external" href="https://github.com/umccr/vcf_stuff/blob/master/scripts/prioritize_sv">umccr/vcf_stuff</a></p></li>
+<li><p>input: above fixed snpEff VCF</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/{batch}/structural/prioritize/{batch}-sv-eff-prio.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sv_subsample_if_too_many</span></code></p>
+<ul class="simple">
+<li><p>If &gt;= 50,000 SVs, progressively remove TIER 4/3/2 SVs (in that order).</p>
+<ul>
+<li><p><strong>TODO</strong>: compress output VCF</p></li>
+</ul>
+</li>
+<li><p>input: above sv prioritised VCF</p></li>
+<li><p>output:
+<code class="docutils literal notranslate"><span class="pre">work/{batch}/structural/sv_subsample_if_too_many/{batch}-manta.vcf</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sv_bpi_maybe</span></code></p>
+<ul class="simple">
+<li><p>Run BPI on above output VCF</p></li>
+<li><p>input: above output VCF, T/N BAMs</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/{batch}/structural/maybe_bpi/{batch}-manta.vcf</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filter_sv_vcf</span></code></p>
+<ul class="simple">
+<li><p>Filters in sequence:</p>
+<ul>
+<li><p>keep PASS FILTER</p></li>
+<li><p>dump TIER 3/4 where <code class="docutils literal notranslate"><span class="pre">SR</span> <span class="pre">&lt;</span> <span class="pre">5</span> <span class="pre">&amp;</span> <span class="pre">PR</span> <span class="pre">&lt;</span> <span class="pre">5</span></code></p></li>
+<li><p>dump TIER 3/4 where <code class="docutils literal notranslate"><span class="pre">SR</span> <span class="pre">&lt;</span> <span class="pre">10</span> <span class="pre">&amp;</span> <span class="pre">PR</span> <span class="pre">&lt;</span> <span class="pre">10</span> <span class="pre">&amp;</span> <span class="pre">(AF0</span> <span class="pre">&lt;</span> <span class="pre">0.1</span> <span class="pre">|</span> <span class="pre">AF1</span> <span class="pre">&lt;</span> <span class="pre">0.1)</span></code></p></li>
+<li><p><strong>TODO</strong>: reorg this</p></li>
+</ul>
+</li>
+<li><p>input: above BPI output VCF</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/{batch}/structural/filt/{batch}-manta.vcf.gz</span></code></p>
+<ul>
+<li><p>This is fed to PURPLE.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reprioritize_rescued_svs</span></code></p>
+<ul class="simple">
+<li><p>Run <a class="github reference external" href="https://github.com/umccr/vcf_stuff/blob/master/scripts/prioritize_sv">umccr/vcf_stuff</a>
+after PURPLE. Also remove <code class="docutils literal notranslate"><span class="pre">INFO/ANN</span></code> annotation.</p></li>
+<li><p>input:</p>
+<ul>
+<li><p>purple SVs: <code class="docutils literal notranslate"><span class="pre">work/{batch}/purple/{batch}.purple.sv.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">work/{batch}/structural/sv_after_purple/{batch}-manta.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">copy_sv_vcf_ffpe_mode</span></code></p>
+<ul class="simple">
+<li><p>Copy either the filtered or the purple prioritised to the final output</p></li>
+<li><p>input: filtered or purple prioritised VCF</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">{batch}/structural/{batch}-manta.vcf.gz</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prep_sv_tsv</span></code></p>
+<ul class="simple">
+<li><p>input: above final VCF</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">{batch}/structural/{batch}-manta.tsv</span></code></p></li>
+<li><p>Parse info from the VCF and export to TSV</p>
+<ul>
+<li><p>give non-tiered variants an <code class="docutils literal notranslate"><span class="pre">INFO/SV_TOP_TIER</span></code> of <code class="docutils literal notranslate"><span class="pre">4</span></code>.</p></li>
+<li><p>set <code class="docutils literal notranslate"><span class="pre">simple_ann</span> <span class="pre">=</span> <span class="pre">INFO/SIMPLE_ANN</span></code>, and <code class="docutils literal notranslate"><span class="pre">PURPLE_status</span> <span class="pre">=</span> <span class="pre">''</span></code></p>
+<ul>
+<li><p>for purple inferred variants:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">simple_ann</span> <span class="pre">=</span> <span class="pre">{INFO/SVTYPE}||||From_CNV|{tier}</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PURPLE_status</span> <span class="pre">=</span> <span class="pre">'INFERRED'</span></code></p></li>
+</ul>
+</li>
+<li><p>for purple recovered variants:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">PURPLE_status</span> <span class="pre">=</span> <span class="pre">'RECOVERED'</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>there are 23 columns:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">caller</span> <span class="pre">=</span> <span class="pre">'manta'</span></code>, <code class="docutils literal notranslate"><span class="pre">sample</span> <span class="pre">=</span> <span class="pre">tumor</span> <span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">chrom</span> <span class="pre">=</span> <span class="pre">CHROM</span></code>,
+<code class="docutils literal notranslate"><span class="pre">start</span> <span class="pre">=</span> <span class="pre">POS</span></code>, <code class="docutils literal notranslate"><span class="pre">end</span> <span class="pre">=</span> <span class="pre">INFO/END</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">svtype</span> <span class="pre">=</span> <span class="pre">INFO/SVTYPE</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">split_read_support,</span> <span class="pre">paired_support_PE/PR</span> <span class="pre">=</span> <span class="pre">FORMAT/SR-PE-PR</span> <span class="pre">for</span> <span class="pre">tumor</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AF_BPI</span> <span class="pre">=</span> <span class="pre">INFO/BPI_AF</span></code>, <code class="docutils literal notranslate"><span class="pre">somaticscore</span> <span class="pre">=</span> <span class="pre">INFO/SOMATICSCORE</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tier</span> <span class="pre">=</span> <span class="pre">INFO/SV_TOP_TIER</span></code> (or <code class="docutils literal notranslate"><span class="pre">4</span></code> if missing)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">annotation</span> <span class="pre">=</span> <span class="pre">INFO/SIMPLE_ANN</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PURPLE_</span></code>: <code class="docutils literal notranslate"><span class="pre">AF</span></code>, <code class="docutils literal notranslate"><span class="pre">CN</span></code>, <code class="docutils literal notranslate"><span class="pre">CN_CHANGE</span></code>, <code class="docutils literal notranslate"><span class="pre">PLOIDY</span></code>, <code class="docutils literal notranslate"><span class="pre">STATUS</span></code> (<code class="docutils literal notranslate"><span class="pre">INFERRED</span></code> or
+<code class="docutils literal notranslate"><span class="pre">RECOVERED</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">START/END_BPI</span> <span class="pre">=</span> <span class="pre">BPI_START/END</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ID</span> <span class="pre">=</span> <span class="pre">ID</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MATEID</span> <span class="pre">=</span> <span class="pre">INFO/MATEID</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ALT</span> <span class="pre">=</span> <span class="pre">ALT[0]</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="oncoviruses-smk">
+<h3><span class="section-number">4.10.4. </span><code class="docutils literal notranslate"><span class="pre">oncoviruses.smk</span></code><a class="headerlink" href="#oncoviruses-smk" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">viral_content</span></code></p>
+<ul class="simple">
+<li><p>input:</p>
+<ul>
+<li><p>tumor BAM</p></li>
+<li><p>refdata</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p>output1: <code class="docutils literal notranslate"><span class="pre">prioritized_oncoviruses.tsv</span></code></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">## Viral sequences (from https://gdc.cancer.gov/about-data/data-harmonization-and-generation/gdc-reference-files) found in unmapped reads</span>
+<span class="c1">## Sample: MDX230148</span>
+<span class="c1">## Minimal completeness: 50.0% at 1x or 1000bp at 5x</span>
+<span class="c1">#virus  size    depth   1x      5x      25x     significance</span>
+<span class="n">HPV45</span>   <span class="mi">7858</span>    <span class="mf">67.1</span>    <span class="mf">0.768</span>   <span class="mf">0.767</span>   <span class="mf">0.767</span>   <span class="n">significant</span>
+<span class="n">HCV</span><span class="o">-</span><span class="mi">2</span>   <span class="mi">9711</span>    <span class="mf">33.0</span>    <span class="mf">0.012</span>   <span class="mf">0.011</span>   <span class="mf">0.010</span>   <span class="o">.</span>
+<span class="n">HPV71</span>   <span class="mi">8037</span>    <span class="mf">20.8</span>    <span class="mf">0.011</span>   <span class="mf">0.011</span>   <span class="mf">0.009</span>   <span class="o">.</span>
+<span class="n">HCV</span><span class="o">-</span><span class="mi">1</span>   <span class="mi">9646</span>    <span class="mf">6.3</span>     <span class="mf">0.011</span>   <span class="mf">0.010</span>   <span class="mf">0.010</span>   <span class="o">.</span>
+<span class="n">HPV19</span>   <span class="mi">7685</span>    <span class="mf">1.9</span>     <span class="mf">0.010</span>   <span class="mf">0.009</span>   <span class="mf">0.009</span>   <span class="o">.</span>
+<span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>output2: <code class="docutils literal notranslate"><span class="pre">present_viruses.txt</span></code></p>
+<ul>
+<li><p>grab the <code class="docutils literal notranslate"><span class="pre">significant</span></code> viruses from above</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">HPV45</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>command:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">oviraptor</span> \
+  <span class="p">{</span><span class="n">tumor_bam</span><span class="p">}</span> \
+  <span class="o">-</span><span class="n">o</span> <span class="p">{</span><span class="n">work_dir</span><span class="p">}</span> \
+  <span class="o">-</span><span class="n">s</span> <span class="p">{</span><span class="n">tumor_name</span><span class="p">}</span> \
+  <span class="o">--</span><span class="n">genomes</span><span class="o">-</span><span class="nb">dir</span> <span class="p">{</span><span class="n">refdata</span><span class="p">}</span> \
+  <span class="o">--</span><span class="n">only</span><span class="o">-</span><span class="n">detect</span> <span class="c1"># just detect without finding integration sites, do that in next step</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p><code class="docutils literal notranslate"><span class="pre">viral_integration_sites</span></code></p>
+<ul class="simple">
+<li><p>input:</p>
+<ul>
+<li><p>tumor BAM</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">present_viruses.txt</span></code> output from above</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p>output1:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">{batch}/oncoviruses/oncoviral_breakpoints.vcf</span></code></p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chr7</span>    <span class="mi">19105901</span>        <span class="mi">3_1</span>     <span class="n">N</span>       <span class="n">N</span><span class="p">[</span><span class="n">HPV45</span><span class="p">:</span><span class="mi">3062</span><span class="p">[</span>   <span class="o">.</span>       <span class="n">PASS</span>    <span class="n">SVTYPE</span><span class="o">=</span><span class="n">BND</span><span class="p">;</span><span class="n">STRANDS</span><span class="o">=+-</span><span class="p">:</span><span class="mi">44</span><span class="p">;</span><span class="n">EVENT</span><span class="o">=</span><span class="mi">3</span><span class="p">;</span><span class="n">MATEID</span><span class="o">=</span><span class="mi">3_2</span><span class="p">;</span><span class="n">CIPOS</span><span class="o">=-</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">;</span><span class="n">CIEND</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span><span class="mi">9</span><span class="p">;</span><span class="n">CIPOS95</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">;</span><span class="n">CIEND95</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">;</span><span class="n">SU</span><span class="o">=</span><span class="mi">44</span><span class="p">;</span><span class="n">PE</span><span class="o">=</span><span class="mi">34</span><span class="p">;</span><span class="n">SR</span><span class="o">=</span><span class="mi">10</span><span class="p">;</span><span class="n">DisruptedGenes</span><span class="o">=</span><span class="n">TWIST1</span><span class="p">;</span><span class="n">GenesWithin100kb</span><span class="o">=</span><span class="n">AC003986</span><span class="mf">.2</span><span class="p">,</span><span class="n">AC003986</span><span class="mf">.3</span><span class="p">,</span><span class="n">TWIST1</span><span class="p">,</span><span class="n">AC003986</span><span class="mf">.1</span>  <span class="n">GT</span><span class="p">:</span><span class="n">SU</span><span class="p">:</span><span class="n">PE</span><span class="p">:</span><span class="n">SR</span>     <span class="o">./.</span><span class="p">:</span><span class="mi">44</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">chr7</span>    <span class="mi">19105936</span>        <span class="mi">4_1</span>     <span class="n">N</span>       <span class="p">]</span><span class="n">HPV45</span><span class="p">:</span><span class="mi">1236</span><span class="p">]</span><span class="n">N</span>   <span class="o">.</span>       <span class="n">PASS</span>    <span class="n">SVTYPE</span><span class="o">=</span><span class="n">BND</span><span class="p">;</span><span class="n">STRANDS</span><span class="o">=-+</span><span class="p">:</span><span class="mi">91</span><span class="p">;</span><span class="n">EVENT</span><span class="o">=</span><span class="mi">4</span><span class="p">;</span><span class="n">MATEID</span><span class="o">=</span><span class="mi">4_2</span><span class="p">;</span><span class="n">CIPOS</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">;</span><span class="n">CIEND</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span><span class="mi">3</span><span class="p">;</span><span class="n">CIPOS95</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">;</span><span class="n">CIEND95</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">;</span><span class="n">IMPRECISE</span><span class="p">;</span><span class="n">SU</span><span class="o">=</span><span class="mi">91</span><span class="p">;</span><span class="n">PE</span><span class="o">=</span><span class="mi">64</span><span class="p">;</span><span class="n">SR</span><span class="o">=</span><span class="mi">27</span><span class="p">;</span><span class="n">DisruptedGenes</span><span class="o">=</span><span class="n">TWIST1</span><span class="p">;</span><span class="n">GenesWithin100kb</span><span class="o">=</span><span class="n">AC003986</span><span class="mf">.2</span><span class="p">,</span><span class="n">AC003986</span><span class="mf">.3</span><span class="p">,</span><span class="n">TWIST1</span><span class="p">,</span><span class="n">AC003986</span><span class="mf">.1</span> <span class="n">GT</span><span class="p">:</span><span class="n">SU</span><span class="p">:</span><span class="n">PE</span><span class="p">:</span><span class="n">SR</span>     <span class="o">./.</span><span class="p">:</span><span class="mi">91</span><span class="p">:</span><span class="mi">64</span><span class="p">:</span><span class="mi">27</span>
+<span class="n">chr13</span>   <span class="mi">98758355</span>        <span class="mi">5_1</span>     <span class="n">N</span>       <span class="n">N</span><span class="p">]</span><span class="n">HPV45</span><span class="p">:</span><span class="mi">5033</span><span class="p">]</span>   <span class="o">.</span>       <span class="n">PASS</span>    <span class="n">SVTYPE</span><span class="o">=</span><span class="n">BND</span><span class="p">;</span><span class="n">STRANDS</span><span class="o">=++</span><span class="p">:</span><span class="mi">5</span><span class="p">;</span><span class="n">EVENT</span><span class="o">=</span><span class="mi">5</span><span class="p">;</span><span class="n">MATEID</span><span class="o">=</span><span class="mi">5_2</span><span class="p">;</span><span class="n">CIPOS</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span><span class="mi">9</span><span class="p">;</span><span class="n">CIEND</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span><span class="mi">9</span><span class="p">;</span><span class="n">CIPOS95</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">;</span><span class="n">CIEND95</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">;</span><span class="n">SU</span><span class="o">=</span><span class="mi">5</span><span class="p">;</span><span class="n">PE</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">SR</span><span class="o">=</span><span class="mi">5</span><span class="p">;</span><span class="n">GenesWithin100kb</span><span class="o">=</span><span class="n">SLC15A1</span><span class="p">,</span><span class="n">DOCK9</span><span class="o">-</span><span class="n">AS1</span>    <span class="n">GT</span><span class="p">:</span><span class="n">SU</span><span class="p">:</span><span class="n">PE</span><span class="p">:</span><span class="n">SR</span>     <span class="o">./.</span><span class="p">:</span><span class="mi">5</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span>
+<span class="n">HPV45</span>   <span class="mi">1237</span>    <span class="mi">4_2</span>     <span class="n">N</span>       <span class="n">N</span><span class="p">[</span><span class="n">chr7</span><span class="p">:</span><span class="mi">19105935</span><span class="p">[</span>        <span class="o">.</span>       <span class="n">PASS</span>    <span class="n">SVTYPE</span><span class="o">=</span><span class="n">BND</span><span class="p">;</span><span class="n">STRANDS</span><span class="o">=+-</span><span class="p">:</span><span class="mi">91</span><span class="p">;</span><span class="n">SECONDARY</span><span class="p">;</span><span class="n">EVENT</span><span class="o">=</span><span class="mi">4</span><span class="p">;</span><span class="n">MATEID</span><span class="o">=</span><span class="mi">4_1</span><span class="p">;</span><span class="n">CIPOS</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span><span class="mi">3</span><span class="p">;</span><span class="n">CIEND</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">;</span><span class="n">CIPOS95</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">;</span><span class="n">CIEND95</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">;</span><span class="n">IMPRECISE</span><span class="p">;</span><span class="n">SU</span><span class="o">=</span><span class="mi">91</span><span class="p">;</span><span class="n">PE</span><span class="o">=</span><span class="mi">64</span><span class="p">;</span><span class="n">SR</span><span class="o">=</span><span class="mi">27</span><span class="p">;</span><span class="n">DisruptedGenes</span><span class="o">=</span><span class="n">TWIST1</span><span class="p">;</span><span class="n">GenesWithin100kb</span><span class="o">=</span><span class="n">AC003986</span><span class="mf">.2</span><span class="p">,</span><span class="n">AC003986</span><span class="mf">.3</span><span class="p">,</span><span class="n">TWIST1</span><span class="p">,</span><span class="n">AC003986</span><span class="mf">.1</span>       <span class="n">GT</span><span class="p">:</span><span class="n">SU</span><span class="p">:</span><span class="n">PE</span><span class="p">:</span><span class="n">SR</span>     <span class="o">./.</span><span class="p">:</span><span class="mi">91</span><span class="p">:</span><span class="mi">64</span><span class="p">:</span><span class="mi">27</span>
+<span class="n">HPV45</span>   <span class="mi">3063</span>    <span class="mi">3_2</span>     <span class="n">N</span>       <span class="p">]</span><span class="n">chr7</span><span class="p">:</span><span class="mi">19105900</span><span class="p">]</span><span class="n">N</span>        <span class="o">.</span>       <span class="n">PASS</span>    <span class="n">SVTYPE</span><span class="o">=</span><span class="n">BND</span><span class="p">;</span><span class="n">STRANDS</span><span class="o">=-+</span><span class="p">:</span><span class="mi">44</span><span class="p">;</span><span class="n">SECONDARY</span><span class="p">;</span><span class="n">EVENT</span><span class="o">=</span><span class="mi">3</span><span class="p">;</span><span class="n">MATEID</span><span class="o">=</span><span class="mi">3_1</span><span class="p">;</span><span class="n">CIPOS</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span><span class="mi">9</span><span class="p">;</span><span class="n">CIEND</span><span class="o">=-</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">;</span><span class="n">CIPOS95</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">;</span><span class="n">CIEND95</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">;</span><span class="n">SU</span><span class="o">=</span><span class="mi">44</span><span class="p">;</span><span class="n">PE</span><span class="o">=</span><span class="mi">34</span><span class="p">;</span><span class="n">SR</span><span class="o">=</span><span class="mi">10</span><span class="p">;</span><span class="n">DisruptedGenes</span><span class="o">=</span><span class="n">TWIST1</span><span class="p">;</span><span class="n">GenesWithin100kb</span><span class="o">=</span><span class="n">AC003986</span><span class="mf">.2</span><span class="p">,</span><span class="n">AC003986</span><span class="mf">.3</span><span class="p">,</span><span class="n">TWIST1</span><span class="p">,</span><span class="n">AC003986</span><span class="mf">.1</span>        <span class="n">GT</span><span class="p">:</span><span class="n">SU</span><span class="p">:</span><span class="n">PE</span><span class="p">:</span><span class="n">SR</span>     <span class="o">./.</span><span class="p">:</span><span class="mi">44</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">10</span>
+<span class="n">HPV45</span>   <span class="mi">5034</span>    <span class="mi">5_2</span>     <span class="n">N</span>       <span class="n">N</span><span class="p">]</span><span class="n">chr13</span><span class="p">:</span><span class="mi">98758354</span><span class="p">]</span>       <span class="o">.</span>       <span class="n">PASS</span>    <span class="n">SVTYPE</span><span class="o">=</span><span class="n">BND</span><span class="p">;</span><span class="n">STRANDS</span><span class="o">=++</span><span class="p">:</span><span class="mi">5</span><span class="p">;</span><span class="n">SECONDARY</span><span class="p">;</span><span class="n">EVENT</span><span class="o">=</span><span class="mi">5</span><span class="p">;</span><span class="n">MATEID</span><span class="o">=</span><span class="mi">5_1</span><span class="p">;</span><span class="n">CIPOS</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span><span class="mi">9</span><span class="p">;</span><span class="n">CIEND</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span><span class="mi">9</span><span class="p">;</span><span class="n">CIPOS95</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">;</span><span class="n">CIEND95</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">;</span><span class="n">SU</span><span class="o">=</span><span class="mi">5</span><span class="p">;</span><span class="n">PE</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">SR</span><span class="o">=</span><span class="mi">5</span><span class="p">;</span><span class="n">GenesWithin100kb</span><span class="o">=</span><span class="n">SLC15A1</span><span class="p">,</span><span class="n">DOCK9</span><span class="o">-</span><span class="n">AS1</span>  <span class="n">GT</span><span class="p">:</span><span class="n">SU</span><span class="p">:</span><span class="n">PE</span><span class="p">:</span><span class="n">SR</span>     <span class="o">./.</span><span class="p">:</span><span class="mi">5</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>command:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+oviraptor \
+  {tumor_bam} \
+  -o {work_dir} \
+  -s {tumor_name} \
+  --genomes-dir {genomes_dir} \
+  -v $(cat present_viruses.txt)
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p><code class="docutils literal notranslate"><span class="pre">oncoviruses_breakpoints_tsv</span></code></p>
+<ul class="simple">
+<li><p>input:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">{batch}/oncoviruses/oncoviral_breakpoints.vcf</span></code> output from above</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">work/{batch}/oncoviruses/present_viruses.txt</span></code> output from above-above</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p>command:</p>
+<ul>
+<li><p>Parse VCF from above, grab FORMAT PE/SR fields and add to <code class="docutils literal notranslate"><span class="pre">PAIR_COUNT</span></code></p></li>
+</ul>
+</li>
+<li><p>output1:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">work/{batch}/oncoviruses/oncoviral_breakpoints.tsv</span></code></p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># A tibble: 6 × 10</span>
+  <span class="n">sample</span>    <span class="n">contig</span>    <span class="n">start</span> <span class="n">end</span>   <span class="n">svtype</span> <span class="n">PAIR_COUNT</span> <span class="n">DisruptedGenes</span> <span class="n">UpstreamGenes</span>                      <span class="n">ID</span>    <span class="n">MATEID</span>
+  <span class="o">&lt;</span><span class="nb">chr</span><span class="o">&gt;</span>     <span class="o">&lt;</span><span class="nb">chr</span><span class="o">&gt;</span>     <span class="o">&lt;</span><span class="n">dbl</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">lgl</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nb">chr</span><span class="o">&gt;</span>       <span class="o">&lt;</span><span class="n">dbl</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nb">chr</span><span class="o">&gt;</span>          <span class="o">&lt;</span><span class="nb">chr</span><span class="o">&gt;</span>                              <span class="o">&lt;</span><span class="nb">chr</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nb">chr</span><span class="o">&gt;</span>
+<span class="mi">1</span> <span class="n">MDX230148</span> <span class="n">chr7</span>   <span class="mi">19105901</span> <span class="n">NA</span>    <span class="n">BND</span>            <span class="mi">44</span> <span class="n">TWIST1</span>         <span class="n">AC003986</span><span class="mf">.2</span><span class="p">,</span> <span class="n">AC003986</span><span class="mf">.3</span><span class="p">,</span> <span class="n">AC003986</span><span class="mf">.1</span> <span class="mi">3_1</span>   <span class="mi">3_2</span>
+<span class="mi">2</span> <span class="n">MDX230148</span> <span class="n">chr7</span>   <span class="mi">19105936</span> <span class="n">NA</span>    <span class="n">BND</span>            <span class="mi">91</span> <span class="n">TWIST1</span>         <span class="n">AC003986</span><span class="mf">.2</span><span class="p">,</span> <span class="n">AC003986</span><span class="mf">.3</span><span class="p">,</span> <span class="n">AC003986</span><span class="mf">.1</span> <span class="mi">4_1</span>   <span class="mi">4_2</span>
+<span class="mi">3</span> <span class="n">MDX230148</span> <span class="n">chr13</span>  <span class="mi">98758355</span> <span class="n">NA</span>    <span class="n">BND</span>             <span class="mi">5</span> <span class="n">NA</span>             <span class="n">SLC15A1</span><span class="p">,</span> <span class="n">DOCK9</span><span class="o">-</span><span class="n">AS1</span>                 <span class="mi">5_1</span>   <span class="mi">5_2</span>
+<span class="mi">4</span> <span class="n">MDX230148</span> <span class="n">HPV45</span>      <span class="mi">1237</span> <span class="n">NA</span>    <span class="n">BND</span>            <span class="mi">91</span> <span class="n">NA</span>             <span class="o">.</span>                                  <span class="mi">4_2</span>   <span class="mi">4_1</span>
+<span class="mi">5</span> <span class="n">MDX230148</span> <span class="n">HPV45</span>      <span class="mi">3063</span> <span class="n">NA</span>    <span class="n">BND</span>            <span class="mi">44</span> <span class="n">NA</span>             <span class="o">.</span>                                  <span class="mi">3_2</span>   <span class="mi">3_1</span>
+<span class="mi">6</span> <span class="n">MDX230148</span> <span class="n">HPV45</span>      <span class="mi">5034</span> <span class="n">NA</span>    <span class="n">BND</span>             <span class="mi">5</span> <span class="n">NA</span>             <span class="o">.</span>                                  <span class="mi">5_2</span>   <span class="mi">5_1</span>
+</pre></div>
+</div>
+<section id="oviraptor-https-github-com-umccr-oviraptor">
+<h4><span class="section-number">4.10.4.1. </span>oviraptor - <a class="github reference external" href="https://github.com/umccr/oviraptor">umccr/oviraptor</a><a class="headerlink" href="#oviraptor-https-github-com-umccr-oviraptor" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">extract_unmapped_and_mate_unmapped_reads</span></code></p>
+<ul class="simple">
+<li><p>input: tumor BAM</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">step1_host_unmapped_or_mate_unmapped.namesorted.bam</span></code></p></li>
+<li><p>command:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">sambamba</span> <span class="pre">view</span> <span class="pre">-F</span> <span class="pre">'unmapped</span> <span class="pre">or</span> <span class="pre">mate_is_unmapped'</span> <span class="pre">...</span> <span class="pre">|</span> <span class="pre">samtools</span> <span class="pre">sort</span> <span class="pre">-n</span> <span class="pre">...</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unmapped_and_mate_unmapped_reads_to_fastq</span></code></p>
+<ul class="simple">
+<li><p>input: output BAM from above rule</p></li>
+<li><p>output:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">step2_host_unmapped_or_mate_unmapped.R1.fq</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">step2_host_unmapped_or_mate_unmapped.R2.fq</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">step2_host_unmapped_or_mate_unmapped.single.fq</span></code></p></li>
+</ul>
+</li>
+<li><p>command: <code class="docutils literal notranslate"><span class="pre">samtools</span> <span class="pre">fastq</span> <span class="pre">input_bam</span> <span class="pre">...</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bwa_unmapped_and_mate_unmapped_reads_to_gdc</span></code></p>
+<ul class="simple">
+<li><p>input:</p>
+<ul>
+<li><p>paired FASTQs from above</p></li>
+<li><p>gds viral FASTA (this is where EBV gets lost; see
+<a class="github reference external" href="https://github.com/umccr/clindet/issues/143">umccr/clindet#143</a>)</p></li>
+</ul>
+</li>
+<li><p>output:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">detect_viral_reference/host_unmapped_or_mate_unmapped_to_gdc.bam</span></code></p></li>
+</ul>
+</li>
+<li><p>command:</p></li>
+</ul>
+</li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">minimap2</span> \
+  <span class="o">-</span><span class="n">ax</span> <span class="n">sr</span> \
+  <span class="o">-</span><span class="n">Y</span> \
+  <span class="o">-</span><span class="n">t</span><span class="p">{</span><span class="n">threads</span><span class="p">}</span> \
+  <span class="o">-</span><span class="n">R</span> <span class="s1">&#39;</span><span class="si">{params.rg}</span><span class="s1">&#39;</span> \
+  <span class="p">{</span><span class="nb">input</span><span class="o">.</span><span class="n">gdc_fa</span><span class="p">}</span> <span class="p">{</span><span class="nb">input</span><span class="o">.</span><span class="n">fq1</span><span class="p">}</span> <span class="p">{</span><span class="nb">input</span><span class="o">.</span><span class="n">fq2</span><span class="p">}</span> \
+    <span class="o">|</span> <span class="n">samtools</span> <span class="n">sort</span> <span class="o">-@</span><span class="p">{</span><span class="n">threads</span><span class="p">}</span> <span class="o">-</span><span class="n">Obam</span> <span class="o">-</span><span class="n">o</span> <span class="p">{</span><span class="n">output</span><span class="o">.</span><span class="n">gdc_bam</span><span class="p">}</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p><code class="docutils literal notranslate"><span class="pre">index_virus_bam</span></code></p>
+<ul class="simple">
+<li><p>Just <code class="docutils literal notranslate"><span class="pre">samtools</span> <span class="pre">index</span></code> above output BAM</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mosdepth</span></code></p>
+<ul class="simple">
+<li><p>Runs mosdepth using the GDS viral FASTA index</p></li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p>output1: <code class="docutils literal notranslate"><span class="pre">thresholds.bed.gz</span></code></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#chrom	start	end	region	1X	5X	25X</span>
+<span class="n">CMV</span>	<span class="mi">0</span>	<span class="mi">235646</span>	<span class="n">unknown</span>	<span class="mi">27</span>	<span class="mi">0</span>	<span class="mi">0</span>
+<span class="n">HBV</span>	<span class="mi">0</span>	<span class="mi">3215</span>	<span class="n">unknown</span>	<span class="mi">0</span>	<span class="mi">0</span>	<span class="mi">0</span>
+<span class="n">HCV</span><span class="o">-</span><span class="mi">1</span>	<span class="mi">0</span>	<span class="mi">9646</span>	<span class="n">unknown</span>	<span class="mi">104</span>	<span class="mi">98</span>	<span class="mi">94</span>
+<span class="n">HCV</span><span class="o">-</span><span class="mi">2</span>	<span class="mi">0</span>	<span class="mi">9711</span>	<span class="n">unknown</span>	<span class="mi">116</span>	<span class="mi">104</span>	<span class="mi">98</span>
+<span class="n">HIV</span><span class="o">-</span><span class="mi">1</span>	<span class="mi">0</span>	<span class="mi">9181</span>	<span class="n">unknown</span>	<span class="mi">0</span>	<span class="mi">0</span>	<span class="mi">0</span>
+<span class="n">HIV</span><span class="o">-</span><span class="mi">2</span>	<span class="mi">0</span>	<span class="mi">10359</span>	<span class="n">unknown</span>	<span class="mi">0</span>	<span class="mi">0</span>	<span class="mi">0</span>
+<span class="n">KSHV</span>	<span class="mi">0</span>	<span class="mi">137969</span>	<span class="n">unknown</span>	<span class="mi">28</span>	<span class="mi">27</span>	<span class="mi">0</span>
+<span class="n">HTLV</span><span class="o">-</span><span class="mi">1</span>	<span class="mi">0</span>	<span class="mi">8507</span>	<span class="n">unknown</span>	<span class="mi">0</span>	<span class="mi">0</span>	<span class="mi">0</span>
+<span class="n">MCV</span>	<span class="mi">0</span>	<span class="mi">5387</span>	<span class="n">unknown</span>	<span class="mi">0</span>	<span class="mi">0</span>	<span class="mi">0</span>
+<span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>output2: <code class="docutils literal notranslate"><span class="pre">regions.bed.gz</span></code></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CMV</span>	<span class="mi">0</span>	<span class="mi">235646</span>	<span class="mf">0.00</span>
+<span class="n">HBV</span>	<span class="mi">0</span>	<span class="mi">3215</span>	<span class="mf">0.00</span>
+<span class="n">HCV</span><span class="o">-</span><span class="mi">1</span>	<span class="mi">0</span>	<span class="mi">9646</span>	<span class="mf">6.28</span>
+<span class="n">HCV</span><span class="o">-</span><span class="mi">2</span>	<span class="mi">0</span>	<span class="mi">9711</span>	<span class="mf">33.05</span>
+<span class="n">HIV</span><span class="o">-</span><span class="mi">1</span>	<span class="mi">0</span>	<span class="mi">9181</span>	<span class="mf">0.00</span>
+<span class="n">HIV</span><span class="o">-</span><span class="mi">2</span>	<span class="mi">0</span>	<span class="mi">10359</span>	<span class="mf">0.00</span>
+<span class="n">KSHV</span>	<span class="mi">0</span>	<span class="mi">137969</span>	<span class="mf">0.00</span>
+<span class="n">HTLV</span><span class="o">-</span><span class="mi">1</span>	<span class="mi">0</span>	<span class="mi">8507</span>	<span class="mf">0.00</span>
+<span class="n">MCV</span>	<span class="mi">0</span>	<span class="mi">5387</span>	<span class="mf">0.00</span>
+<span class="n">SV40</span>	<span class="mi">0</span>	<span class="mi">5243</span>	<span class="mf">0.00</span>
+<span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="6">
+<li><p><code class="docutils literal notranslate"><span class="pre">prioritize_viruses</span></code></p></li>
+</ol>
+<ul class="simple">
+<li><p>input: above mosdepth output files</p></li>
+<li><p>output: <code class="docutils literal notranslate"><span class="pre">prioritized_oncoviruses.tsv</span></code></p></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="use_case.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Use case</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../DNAseq/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">DNAseq analysis</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#small-variants-snvs-indels-somatic">4.1. Small variants (SNVs/Indels) (Somatic)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">4.1.1. Summary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#details">4.1.2. Details</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#snps-and-small-indels-germline">4.2. SNPs and small indels (Germline)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structural-variants">4.3. Structural variants</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-number-variants">4.4. Copy Number Variants</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-seq">4.5. RNA-seq</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiqc">4.6. MultiQC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coverage">4.7. Coverage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reports">4.8. Reports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-cancer-genes">4.9. Key cancer genes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#snakemake-rules">4.10. Snakemake Rules</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#somatic-smk">4.10.1. <code class="docutils literal notranslate"><span class="pre">somatic.smk</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pcgr-smk">4.10.2. <code class="docutils literal notranslate"><span class="pre">pcgr.smk</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#structural-smk">4.10.3. <code class="docutils literal notranslate"><span class="pre">structural.smk</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#oncoviruses-smk">4.10.4. <code class="docutils literal notranslate"><span class="pre">oncoviruses.smk</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#oviraptor-https-github-com-umccr-oviraptor">4.10.4.1. oviraptor - https://github.com/umccr/oviraptor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Yuliang Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Yuliang Zhang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,675 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4. Use case III: Mutational signatures analysis for C.elegans &#8212; Clindet 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'usecase/case_three';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="snakemake/clindet: Citations" href="../CITATIONS.html" />
+    <link rel="prev" title="3. Use case II: Fusion genes detection from multiple myeloma patient RNA-seq" href="case_two.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/Clindet_logo.png" class="logo__image only-light" alt="Clindet 0.1.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/Clindet_logo.png" class="logo__image only-dark" alt="Clindet 0.1.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Clindet documentation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Quick/index.html">Quick Start</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/intro.html">1. Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/install.html">2. Setup Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/use_case.html">3. Use case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/workflow.html">4. clindet workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../DNAseq/index.html">DNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WES/index.html">1. Whole exome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/QC.html">1.1. WES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/mutation.html">1.2. Call Mutation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/CNV.html">1.3. Call CNV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/SV.html">1.4. WES</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WGS/index.html">2. Whole genome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/QC.html">2.1. WGS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/mutation.html">2.2. Call Mutation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/CNV.html">2.3. Call CNV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/SV.html">2.4. WGS SV (structural variants calling)</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../RNAseq/index.html">RNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../RNAseq/qc.html">1. QC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../RNAseq/expression.html">2. Expression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../RNAseq/fusion.html">3. Gene  fusion</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Use Case</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="intro.html">1. Real world example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case_one.html">2. Use case I: SNV and CNV calling from Whole exome sequencing data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case_two.html">3. Use case II: Fusion genes detection from multiple myeloma patient RNA-seq</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4. Use case III: Mutational signatures analysis for <em><strong>C.elegans</strong></em></a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../CITATIONS.html">snakemake/clindet: Citations</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/usecase/case_three.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Use case III: Mutational signatures analysis for C.elegans</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background">4.1. Background</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data">4.2. Download data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-confing-c-elegans-genome-file">4.3. Download and confing  C.elegans genome file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-snakemake-file">4.4. write Snakemake file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-clindet">4.5. Run clindet</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">4.6. Results</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">4.6.1. 突变检测</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">4.6.2. </a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="use-case-iii-mutational-signatures-analysis-for-c-elegans">
+<h1><span class="section-number">4. </span>Use case III: Mutational signatures analysis for <em><strong>C.elegans</strong></em><a class="headerlink" href="#use-case-iii-mutational-signatures-analysis-for-c-elegans" title="Link to this heading">#</a></h1>
+<section id="background">
+<h2><span class="section-number">4.1. </span>Background<a class="headerlink" href="#background" title="Link to this heading">#</a></h2>
+<p>In this example, we will re-analysis whole genome sequencing data from <a class="reference external" href="https://www.nature.com/articles/s41467-020-15912-7"><em><strong>Volkova et,al.</strong></em></a>.</p>
+<p>In the original paper, 54 gentypes C.elegans were treated by 12 genotoxins with 2-3 different doses, generated 2717 total mutagenesis experiments and whole genome sequencing data.</p>
+<a class="bg-primary reference internal image-reference" href="../_images/design.png"><img alt="original paper experiment design" class="bg-primary align-center" src="../_images/design.png" style="width: 500px;" />
+</a>
+<p>here, we select ten samples which:</p>
+<ol class="arabic simple">
+<li><p><em><strong>xpc-1</strong></em> gene knockout with UV treat.</p></li>
+</ol>
+<p><em><strong>xpc-1</strong></em> gene predicted to enable damaged DNA binding activity and single-stranded DNA binding activity. Involved in response to UV. Predicted to be located in nucleus. Predicted to be part of XPC complex and nucleotide-excision repair factor 2 complex. Predicted to be active in cytoplasm. Is expressed in germline precursor cell; intestine; and nervous system. Used to study xeroderma pigmentosum. Human ortholog(s) of this gene implicated in pancreatic cancer; serous cystadenocarcinoma; xeroderma pigmentosum; and xeroderma pigmentosum group C. Orthologous to human XPC (XPC complex subunit, DNA damage recognition and repair factor).</p>
+<ol class="arabic simple" start="2">
+<li><p><em><strong>mlh-1</strong></em> gene knockout.</p></li>
+</ol>
+<p><em><strong>mlh-1</strong></em> gene predicted to enable ATP hydrolysis activity. Predicted to be involved in mismatch repair. Predicted to be located in nucleus. Predicted to be part of MutLalpha complex. Human ortholog(s) of this gene implicated in several diseases, including Lynch syndrome (multiple); carcinoma (multiple); and cervix uteri carcinoma in situ. Is an ortholog of human MLH1 (mutL homolog 1).
+Curator: Ranjana Kishore; Valerio Arnaboldi</p>
+<ol class="arabic simple" start="3">
+<li><p><em><strong>mrt-2</strong></em> gene knockout.</p></li>
+</ol>
+<p><em><strong>mrt-2</strong></em> gene predicted to enable damaged DNA binding activity. Involved in DNA metabolic process and intracellular signal transduction. Predicted to be located in nucleus. Predicted to be part of checkpoint clamp complex. Orthologous to human RAD1 (RAD1 checkpoint DNA exonuclease).</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id3">
+<caption><span class="caption-number">表4.1 </span><span class="caption-text">re-analysis samples info.</span><a class="headerlink" href="#id3" title="Link to this table">#</a></caption>
+<tbody>
+<tr class="row-odd"><td><p>Sample</p></td>
+<td><p>Genotype</p></td>
+<td><p>Generation</p></td>
+<td><p>Replicate</p></td>
+<td><p>Mutagen</p></td>
+</tr>
+<tr class="row-even"><td><p>CD0009b</p></td>
+<td><p>mrt-2</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>CD0009f</p></td>
+<td><p>mrt-2</p></td>
+<td><p>20</p></td>
+<td><p>3</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>CD0001b</p></td>
+<td><p>N2</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>CD0134a</p></td>
+<td><p>mlh-1</p></td>
+<td><p>20</p></td>
+<td><p>2</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>CD0134c</p></td>
+<td><p>mlh-1</p></td>
+<td><p>20</p></td>
+<td><p>3</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>CD0134d</p></td>
+<td><p>mlh-1</p></td>
+<td><p>20</p></td>
+<td><p>4</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>CD0392a</p></td>
+<td><p>xpc-1</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>CD0842b</p></td>
+<td><p>xpc-1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>UV</p></td>
+</tr>
+<tr class="row-even"><td><p>CD0842c</p></td>
+<td><p>xpc-1</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>UV</p></td>
+</tr>
+<tr class="row-odd"><td><p>CD0842d</p></td>
+<td><p>xpc-1</p></td>
+<td><p>1</p></td>
+<td><p>3</p></td>
+<td><p>UV</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="download-data">
+<h2><span class="section-number">4.2. </span>Download data<a class="headerlink" href="#download-data" title="Link to this heading">#</a></h2>
+</section>
+<section id="download-and-confing-c-elegans-genome-file">
+<h2><span class="section-number">4.3. </span>Download and confing  C.elegans genome file<a class="headerlink" href="#download-and-confing-c-elegans-genome-file" title="Link to this heading">#</a></h2>
+</section>
+<section id="write-snakemake-file">
+<h2><span class="section-number">4.4. </span>write Snakemake file<a class="headerlink" href="#write-snakemake-file" title="Link to this heading">#</a></h2>
+<p>For this project, we need change the  sample sheet info.</p>
+<div class="dropdown admonition tip">
+<p class="admonition-title">Tip</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">samples_info</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;Sample_name&#39;</span><span class="p">)</span> <span class="c1"># set sample sheet path</span>
+
+<span class="n">unpaired_samples</span> <span class="o">=</span> <span class="n">samples_info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">samples_info</span><span class="p">[</span><span class="s1">&#39;Normal_R1_file_path&#39;</span><span class="p">])]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">paired_samples</span> <span class="o">=</span> <span class="n">samples_info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">samples_info</span><span class="p">[</span><span class="s1">&#39;Normal_R1_file_path&#39;</span><span class="p">])]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="n">configfile</span><span class="p">:</span> <span class="s2">&quot;&quot;</span> <span class="c1"># set config file path</span>
+
+<span class="n">project</span> <span class="o">=</span> <span class="n">samples_info</span><span class="p">[</span><span class="s2">&quot;Project&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">genome_version</span> <span class="o">=</span> <span class="s1">&#39;WBcel235&#39;</span> <span class="c1"># set genome version </span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;logs/slurm&quot;</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s2">&quot;logs/slurm&quot;</span><span class="p">)</span>
+
+<span class="n">pre_pon_db</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;analysis/pindel_normal/log&#39;</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s1">&#39;analysis/pindel_normal/log&#39;</span><span class="p">)</span>
+
+<span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NC&#39;</span><span class="p">,</span><span class="s1">&#39;T&#39;</span><span class="p">]</span>
+
+<span class="n">germ_caller_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;caveman&#39;</span><span class="p">]</span>
+<span class="n">caller_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;strelkasomaticmanta&#39;</span><span class="p">,</span><span class="s1">&#39;caveman&#39;</span><span class="p">,</span><span class="s1">&#39;muse&#39;</span><span class="p">,</span><span class="s1">&#39;cgppindel_filter&#39;</span><span class="p">]</span>
+
+<span class="n">recall_pon</span> <span class="o">=</span>  <span class="kc">False</span>
+<span class="n">recall_pon_pindel</span> <span class="o">=</span>  <span class="kc">False</span>
+
+<span class="n">recal</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">rule</span> <span class="nb">all</span><span class="p">:</span>
+    <span class="nb">input</span><span class="p">:</span>
+        <span class="c1">## paired sample</span>
+        <span class="n">expand</span><span class="p">([</span>
+            <span class="s2">&quot;</span><span class="si">{project}</span><span class="s2">/</span><span class="si">{genome_version}</span><span class="s2">/results/dedup/paired/</span><span class="si">{sample}</span><span class="s2">-</span><span class="si">{group}</span><span class="s2">.sorted.bam&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;</span><span class="si">{project}</span><span class="s2">/</span><span class="si">{genome_version}</span><span class="s2">/results/sv/paired/DELLY/</span><span class="si">{sample}</span><span class="s2">/SV_delly_</span><span class="si">{sample}</span><span class="s2">_filter.vcf&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;</span><span class="si">{project}</span><span class="s2">/</span><span class="si">{genome_version}</span><span class="s2">/results/vcf/paired/</span><span class="si">{sample}</span><span class="s2">/strelkasomaticmanta.vcf&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;</span><span class="si">{project}</span><span class="s2">/</span><span class="si">{genome_version}</span><span class="s2">/results/vcf/paired/</span><span class="si">{sample}</span><span class="s2">/muse.vcf&quot;</span><span class="p">,</span>
+            <span class="s1">&#39;</span><span class="si">{project}</span><span class="s1">/</span><span class="si">{genome_version}</span><span class="s1">/logs/paired/caveman_</span><span class="si">{sample}</span><span class="s1">.log&#39;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="n">project</span> <span class="o">=</span> <span class="n">project</span><span class="p">,</span>
+        <span class="n">genome_version</span> <span class="o">=</span> <span class="n">genome_version</span><span class="p">,</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="n">paired_samples</span><span class="p">,</span>
+	    <span class="n">group</span> <span class="o">=</span> <span class="n">groups</span><span class="p">,</span>
+        <span class="n">caller</span> <span class="o">=</span> <span class="n">caller_list</span><span class="p">)</span>
+
+<span class="n">include</span><span class="p">:</span> <span class="s2">&quot;workflow/WGS/Snakefile&quot;</span>  <span class="c1"># the relative path of clindet workflow WGS subfolder snakefile  </span>
+
+</pre></div>
+</div>
+</div>
+</section>
+<section id="run-clindet">
+<h2><span class="section-number">4.5. </span>Run clindet<a class="headerlink" href="#run-clindet" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nohup<span class="w"> </span>snakemake<span class="w"> </span>--profile<span class="w"> </span>workflow/config_slurm<span class="w"> </span><span class="se">\</span>
+-j<span class="w"> </span><span class="m">30</span><span class="w"> </span>--printshellcmds<span class="w"> </span>-s<span class="w"> </span>snake_wgs_worm.smk<span class="w"> </span><span class="se">\</span>
+--use-singularity<span class="w"> </span><span class="se">\</span>
+--singularity-args<span class="w"> </span><span class="s2">&quot;--bind /public/home/:/public/home/,/public/ClinicalExam:/public/ClinicalExam&quot;</span><span class="w"> </span><span class="se">\</span>
+--latency-wait<span class="w"> </span><span class="m">300</span><span class="w"> </span>--use-conda<span class="w"> </span>--conda-frontend<span class="w"> </span>conda<span class="w">  </span>-k<span class="w"> </span>&gt;<span class="w"> </span>worm.out<span class="w"> </span><span class="p">&amp;</span>
+</pre></div>
+</div>
+</section>
+<section id="results">
+<h2><span class="section-number">4.6. </span>Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h3><span class="section-number">4.6.1. </span>突变检测<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+</section>
+<section id="id2">
+<h3><span class="section-number">4.6.2. </span><a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p>在本例中我们选取了两种加</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="case_two.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Use case II: Fusion genes detection from multiple myeloma patient RNA-seq</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../CITATIONS.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">snakemake/clindet: Citations</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background">4.1. Background</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data">4.2. Download data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-confing-c-elegans-genome-file">4.3. Download and confing  C.elegans genome file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-snakemake-file">4.4. write Snakemake file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-clindet">4.5. Run clindet</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">4.6. Results</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">4.6.1. 突变检测</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">4.6.2. </a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Yuliang Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Yuliang Zhang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

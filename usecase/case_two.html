@@ -1,0 +1,646 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3. Use case II: Fusion genes detection from multiple myeloma patient RNA-seq &#8212; Clindet 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'usecase/case_two';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4. Use case III: Mutational signatures analysis for C.elegans" href="case_three.html" />
+    <link rel="prev" title="2. Use case I: SNV and CNV calling from Whole exome sequencing data" href="case_one.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/Clindet_logo.png" class="logo__image only-light" alt="Clindet 0.1.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/Clindet_logo.png" class="logo__image only-dark" alt="Clindet 0.1.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Clindet documentation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Quick/index.html">Quick Start</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/intro.html">1. Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/install.html">2. Setup Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/use_case.html">3. Use case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/workflow.html">4. clindet workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../DNAseq/index.html">DNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WES/index.html">1. Whole exome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/QC.html">1.1. WES</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/mutation.html">1.2. Call Mutation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/CNV.html">1.3. Call CNV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/SV.html">1.4. WES</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WGS/index.html">2. Whole genome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/QC.html">2.1. WGS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/mutation.html">2.2. Call Mutation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/CNV.html">2.3. Call CNV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/SV.html">2.4. WGS SV (structural variants calling)</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../RNAseq/index.html">RNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../RNAseq/qc.html">1. QC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../RNAseq/expression.html">2. Expression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../RNAseq/fusion.html">3. Gene  fusion</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Use Case</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="intro.html">1. Real world example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case_one.html">2. Use case I: SNV and CNV calling from Whole exome sequencing data</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3. Use case II: Fusion genes detection from multiple myeloma patient RNA-seq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case_three.html">4. Use case III: Mutational signatures analysis for <em><strong>C.elegans</strong></em></a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../CITATIONS.html">snakemake/clindet: Citations</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/usecase/case_two.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Use case II: Fusion genes detection from multiple myeloma patient RNA-seq</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background">3.1. Background</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-a-project-folder">3.2. Setup a project folder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data-and">3.3. Download data and</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-an-snakemake-file-from-template">3.4. Write an Snakemake file from template</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-snakemake-file">3.5. write Snakemake file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-clindet">3.6. Run clindet</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-on-local-node">3.6.1. Run on local node</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#submit-to-hpc-use-slurm">3.6.2. Submit to HPC use slurm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output">3.6.3. Output</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">3.7. Results</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="use-case-ii-fusion-genes-detection-from-multiple-myeloma-patient-rna-seq">
+<h1><span class="section-number">3. </span>Use case II: Fusion genes detection from multiple myeloma patient RNA-seq<a class="headerlink" href="#use-case-ii-fusion-genes-detection-from-multiple-myeloma-patient-rna-seq" title="Link to this heading">#</a></h1>
+<section id="background">
+<h2><span class="section-number">3.1. </span>Background<a class="headerlink" href="#background" title="Link to this heading">#</a></h2>
+<p>​​Clinical Applications of RNA-Seq in Diagnostic Testing​​</p>
+<p>RNA sequencing (RNA-Seq) is a high-throughput transcriptome profiling technology that enables comprehensive analysis of gene expression, splicing variants, fusion events, and novel transcripts. In clinical diagnostics, it serves as a powerful tool for:</p>
+<p>∙
+​​Cancer Subtyping​​: Identifying tumor-specific gene expression signatures, fusion genes (e.g., BCR-ABL1), and aberrant splicing events to guide targeted therapies.</p>
+<p>∙
+​​Rare Disease Diagnosis​​: Detecting dysregulated pathways and aberrant expression in Mendelian disorders where DNA-based tests are inconclusive.</p>
+<p>∙
+​​Infectious Disease Characterization​​: Profiling host-pathogen interactions and pathogen expression in complex infections.</p>
+<p>∙
+​​Biomarker Discovery​​: Validating expression-based biomarkers for disease monitoring and treatment response.</p>
+</section>
+<section id="setup-a-project-folder">
+<h2><span class="section-number">3.2. </span>Setup a project folder<a class="headerlink" href="#setup-a-project-folder" title="Link to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Before starting the analysis, please ensure that you have set up the analysis environment using the build_conda_env.sh script.</p>
+</div>
+<p>Create a folder named project/CGGA_WES in your home directory and activate the Clindet conda environment.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/projects/MM_RNA
+<span class="nb">cd</span><span class="w"> </span>~/projects/MM_RNA
+conda<span class="w"> </span>activate<span class="w"> </span>clindet
+</pre></div>
+</div>
+</section>
+<section id="download-data-and">
+<h2><span class="section-number">3.3. </span>Download data and<a class="headerlink" href="#download-data-and" title="Link to this heading">#</a></h2>
+<p>Download Multiple myeloma and COLO829 cellline RNA-seq data from the SRA database using wget and prepare the sample information file, make sure fastq-dump are in in $PATH (if don’t install it first)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/projects/MM_RNA
+mkdir<span class="w"> </span>-p<span class="w"> </span>data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>data
+<span class="c1">## Methods one multiple myeloma RNA-seq data</span>
+wget<span class="w"> </span>-q<span class="w"> </span>-c<span class="w"> </span>-O<span class="w"> </span>A26.11<span class="w"> </span>https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR12099713/SRR12099713
+wget<span class="w"> </span>-q<span class="w"> </span>-c<span class="w"> </span>-O<span class="w"> </span>A27.19<span class="w"> </span>https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR12099714/SRR12099714
+wget<span class="w"> </span>-q<span class="w"> </span>-c<span class="w"> </span>-O<span class="w"> </span>A28.15<span class="w"> </span>https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR12099715/SRR12099715
+
+fastq-dump<span class="w"> </span>--gzip<span class="w"> </span>-O<span class="w"> </span>/public/ClinicalExam/lj_sih/projects/project_clindet/data/GSE153380<span class="w"> </span>--split-3<span class="w"> </span>./A26.11
+fastq-dump<span class="w"> </span>--gzip<span class="w"> </span>-O<span class="w"> </span>/public/ClinicalExam/lj_sih/projects/project_clindet/data/GSE153380<span class="w"> </span>--split-3<span class="w"> </span>./A27.19
+fastq-dump<span class="w"> </span>--gzip<span class="w"> </span>-O<span class="w"> </span>/public/ClinicalExam/lj_sih/projects/project_clindet/data/GSE153380<span class="w"> </span>--split-3<span class="w"> </span>./A28.15
+</pre></div>
+</div>
+<p>Next, create a CSV file named pipe_rna.csv in the ~/projects/MM_RNA directory with the following content:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Tumor_R1_file_path</span><span class="p">,</span><span class="n">Tumor_R2_file_path</span><span class="p">,</span><span class="n">Normal_R1_file_path</span><span class="p">,</span><span class="n">Normal_R2_file_path</span><span class="p">,</span><span class="n">Sample_name</span><span class="p">,</span><span class="n">Target_file_bed</span><span class="p">,</span><span class="n">Project</span>
+<span class="o">~/</span><span class="n">projects</span><span class="o">/</span><span class="n">MM_RNA</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">A26</span><span class="mf">.11_1</span><span class="o">.</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="o">~/</span><span class="n">projects</span><span class="o">/</span><span class="n">MM_RNA</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">A26</span><span class="mf">.11_2</span><span class="o">.</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="n">MF1</span>
+<span class="o">~/</span><span class="n">projects</span><span class="o">/</span><span class="n">MM_RNA</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">A27</span><span class="mf">.19_1</span><span class="o">.</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="o">~/</span><span class="n">projects</span><span class="o">/</span><span class="n">MM_RNA</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">A27</span><span class="mf">.19_2</span><span class="o">.</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="n">MS3</span>
+<span class="o">~/</span><span class="n">projects</span><span class="o">/</span><span class="n">MM_RNA</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">A28</span><span class="mf">.15_1</span><span class="o">.</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="o">~/</span><span class="n">projects</span><span class="o">/</span><span class="n">MM_RNA</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">A28</span><span class="mf">.15_2</span><span class="o">.</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="n">CD1</span>
+</pre></div>
+</div>
+</section>
+<section id="write-an-snakemake-file-from-template">
+<h2><span class="section-number">3.4. </span>Write an Snakemake file from template<a class="headerlink" href="#write-an-snakemake-file-from-template" title="Link to this heading">#</a></h2>
+<p>For this project, modify the sample sheet and create a new Snakemake file named <strong>snake_rna.smk</strong> (see below). Set the following parameters in the Snakemake file:</p>
+<ol class="arabic simple">
+<li><p><strong>configfile (str)</strong>: config file for softwares and resource parameters.</p></li>
+<li><p><strong>stage (list)</strong>: analysis steps. avaiable options:<code class="docutils literal notranslate"><span class="pre">['RSEM','arriba','TRUST4','samlom','kallisto']</span></code></p></li>
+</ol>
+</section>
+<section id="write-snakemake-file">
+<h2><span class="section-number">3.5. </span>write Snakemake file<a class="headerlink" href="#write-snakemake-file" title="Link to this heading">#</a></h2>
+<p>For this project, we need change the  sample sheet info.</p>
+<div class="dropdown admonition tip">
+<p class="admonition-title">Tip</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">samples_info</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./pipe_rna.csv&#39;</span><span class="p">,</span><span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;Sample_name&#39;</span><span class="p">)</span>
+<span class="n">unpaired_samples</span> <span class="o">=</span> <span class="n">samples_info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">samples_info</span><span class="p">[</span><span class="s1">&#39;R2_file_path&#39;</span><span class="p">])]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">paired_samples</span> <span class="o">=</span> <span class="n">samples_info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">samples_info</span><span class="p">[</span><span class="s1">&#39;R1_file_path&#39;</span><span class="p">])]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="n">configfile</span><span class="p">:</span> <span class="s2">&quot;/public/ClinicalExam/lj_sih/projects/project_clindet/build_log/config.yaml&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;logs/slurm&quot;</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s2">&quot;logs/slurm&quot;</span><span class="p">)</span>
+
+<span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NC&#39;</span><span class="p">,</span><span class="s1">&#39;T&#39;</span><span class="p">]</span>
+<span class="n">stages</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RSEM&#39;</span><span class="p">,</span><span class="s1">&#39;arriba&#39;</span><span class="p">,</span><span class="s1">&#39;TRUST4&#39;</span><span class="p">,</span><span class="s1">&#39;samlom&#39;</span><span class="p">,</span><span class="s1">&#39;kallisto&#39;</span><span class="p">]</span>
+<span class="n">caller_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sentieon_anno_rnaedit&#39;</span><span class="p">,</span><span class="s1">&#39;Mutect2_filter&#39;</span><span class="p">]</span>
+<span class="n">project</span> <span class="o">=</span> <span class="s1">&#39;RNA&#39;</span>
+<span class="n">genome_version</span> <span class="o">=</span> <span class="s1">&#39;b37&#39;</span>
+
+<span class="n">rna_res_list</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1">##### for isoform expression ######</span>
+    <span class="s2">&quot;</span><span class="si">{project}</span><span class="s2">/</span><span class="si">{genome_version}</span><span class="s2">/results/summary/RSEM/</span><span class="si">{sample}</span><span class="s2">/</span><span class="si">{sample}</span><span class="s2">.genes.results&quot;</span> <span class="k">if</span> <span class="s1">&#39;RSEM&#39;</span>          <span class="ow">in</span> <span class="n">stages</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="c1">##### ka</span>
+    <span class="s2">&quot;</span><span class="si">{project}</span><span class="s2">/</span><span class="si">{genome_version}</span><span class="s2">/results/summary/kallisto/</span><span class="si">{sample}</span><span class="s2">/abundance.tsv&quot;</span> <span class="k">if</span> <span class="s1">&#39;kallisto&#39;</span>          <span class="ow">in</span> <span class="n">stages</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="c1">##### for fusion gene detection #####</span>
+    <span class="s2">&quot;</span><span class="si">{project}</span><span class="s2">/</span><span class="si">{genome_version}</span><span class="s2">/results/fusion/</span><span class="si">{sample}</span><span class="s2">_arriba_fusion.tsv&quot;</span> <span class="k">if</span> <span class="s1">&#39;arriba&#39;</span>          <span class="ow">in</span> <span class="n">stages</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="c1">##### for TRUST4 immu analysis #####</span>
+    <span class="s2">&quot;</span><span class="si">{project}</span><span class="s2">/</span><span class="si">{genome_version}</span><span class="s2">/results/IG/TRUST4/</span><span class="si">{sample}</span><span class="s2">_report.tsv&quot;</span> <span class="k">if</span> <span class="s1">&#39;TRUST4&#39;</span>          <span class="ow">in</span> <span class="n">stages</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="c1">#### Case report #####</span>
+<span class="p">]</span>
+<span class="n">rna_res_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">rna_res_list</span><span class="p">))</span>
+<span class="n">rule</span> <span class="nb">all</span><span class="p">:</span>
+    <span class="nb">input</span><span class="p">:</span>
+        <span class="c1">## paired sample</span>
+        <span class="n">expand</span><span class="p">(</span><span class="n">rna_res_list</span><span class="p">,</span>
+        <span class="c1"># sample = paired_samples,</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CD1&#39;</span><span class="p">,</span><span class="s1">&#39;COLO829&#39;</span><span class="p">],</span>
+        <span class="n">project</span> <span class="o">=</span> <span class="n">project</span><span class="p">,</span>
+        <span class="n">genome_version</span> <span class="o">=</span> <span class="n">genome_version</span>
+        <span class="p">),</span>
+        
+<span class="c1">##### Modules #####</span>
+<span class="n">include</span><span class="p">:</span> <span class="s2">&quot;workflow/RNA/Snakefile&quot;</span>
+
+</pre></div>
+</div>
+</div>
+</section>
+<section id="run-clindet">
+<h2><span class="section-number">3.6. </span>Run clindet<a class="headerlink" href="#run-clindet" title="Link to this heading">#</a></h2>
+<p>There is two way you can run clindet</p>
+<ol class="arabic simple">
+<li><p>run on a local server</p></li>
+<li><p>submit to HPC through slurm</p></li>
+</ol>
+<section id="run-on-local-node">
+<h3><span class="section-number">3.6.1. </span>Run on local node<a class="headerlink" href="#run-on-local-node" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nohup<span class="w"> </span>snakemake<span class="w"> </span>-j<span class="w"> </span><span class="m">30</span><span class="w"> </span>--printshellcmds<span class="w"> </span>-s<span class="w"> </span>snake_rna.smk<span class="w"> </span><span class="se">\</span>
+--use-singularity<span class="w"> </span>--singularity-args<span class="w"> </span><span class="s2">&quot;--bind /your/home/path:/your/home/path&quot;</span><span class="w"> </span><span class="se">\</span>
+--latency-wait<span class="w"> </span><span class="m">300</span><span class="w"> </span>--use-conda<span class="w"> </span>&gt;&gt;<span class="w"> </span>rna.log
+</pre></div>
+</div>
+</section>
+<section id="submit-to-hpc-use-slurm">
+<h3><span class="section-number">3.6.2. </span>Submit to HPC use slurm<a class="headerlink" href="#submit-to-hpc-use-slurm" title="Link to this heading">#</a></h3>
+<p>we provide a slurm config.yaml under clindet/workflow/config_slurm folder.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nohup<span class="w"> </span>snakemake<span class="w"> </span>--profile<span class="w"> </span>workflow/config_slurm<span class="w"> </span><span class="se">\</span>
+-j<span class="w"> </span><span class="m">30</span><span class="w"> </span>--printshellcmds<span class="w"> </span>-s<span class="w"> </span>snake_rna.smk<span class="w"> </span>--use-singularity<span class="w"> </span><span class="se">\</span>
+--singularity-args<span class="w"> </span><span class="s2">&quot;--bind /your/home/path:/your/home/path&quot;</span><span class="w"> </span><span class="se">\</span>
+--latency-wait<span class="w"> </span><span class="m">300</span><span class="w"> </span>--use-conda<span class="w"> </span>&gt;&gt;<span class="w"> </span>rna.log
+</pre></div>
+</div>
+</section>
+<section id="output">
+<h3><span class="section-number">3.6.3. </span>Output<a class="headerlink" href="#output" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="results">
+<h2><span class="section-number">3.7. </span>Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h2>
+<a class="bg-primary reference internal image-reference" href="../_images/Fusion_gene.jpeg"><img alt="fishy" class="bg-primary align-left" src="../_images/Fusion_gene.jpeg" style="width: 300px;" />
+</a>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="case_one.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>Use case I: SNV and CNV calling from Whole exome sequencing data</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="case_three.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Use case III: Mutational signatures analysis for <em><strong>C.elegans</strong></em></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background">3.1. Background</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-a-project-folder">3.2. Setup a project folder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data-and">3.3. Download data and</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-an-snakemake-file-from-template">3.4. Write an Snakemake file from template</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-snakemake-file">3.5. write Snakemake file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-clindet">3.6. Run clindet</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-on-local-node">3.6.1. Run on local node</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#submit-to-hpc-use-slurm">3.6.2. Submit to HPC use slurm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output">3.6.3. Output</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">3.7. Results</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Yuliang Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Yuliang Zhang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
