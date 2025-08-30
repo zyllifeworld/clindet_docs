@@ -49,8 +49,8 @@ Next, create a CSV file named pipe_wes.csv in the ~/projects/CGGA_WES directory 
 
 ```
 Tumor_R1_file_path,Tumor_R2_file_path,Normal_R1_file_path,Normal_R2_file_path,Sample_name,Target_file_bed,Project
-T_CGGA_D14_r1.fq.gz,T_CGGA_D14_r2.fq.gz,B_CGGA_D14_r1.fq.gz,B_CGGA_D14_r1.fq.gz,CGGA_D14,target.bed,CGGA_WES
-T_CGGA_653_r1.fq.gz,T_CGGA_653_r2.fq.gz,B_CGGA_653_r1.fq.gz,B_CGGA_653_r1.fq.gz,CGGA_653,target.bed,CGGA_WES
+~/projects/CGGA_WES/data/T_CGGA_D14_r1.fq.gz,~/projects/CGGA_WES/data/T_CGGA_D14_r2.fq.gz,~/projects/CGGA_WES/data/B_CGGA_D14_r1.fq.gz,~/projects/CGGA_WES/data/B_CGGA_D14_r1.fq.gz,CGGA_D14,target.bed,CGGA_WES
+~/projects/CGGA_WES/data/T_CGGA_653_r1.fq.gz,~/projects/CGGA_WES/data/T_CGGA_653_r2.fq.gz,~/projects/CGGA_WES/data/B_CGGA_653_r1.fq.gz,~/projects/CGGA_WES/data/B_CGGA_653_r1.fq.gz,CGGA_653,target.bed,CGGA_WES
 ```
 
 ## Write an Snakemake file from template 
@@ -170,3 +170,9 @@ nohup snakemake --profile workflow/config_slurm \
 --singularity-args "--bind /public/home/:/public/home/,/public/ClinicalExam:/public/ClinicalExam" \
 --latency-wait 300 --use-conda >> wes.log
 ```
+
+### Output
+
+### case report
+There is a example case report of CGGA_P438
+<a href="../_static/CGGA_P438_cancer_report.html">example report HTML</a>
