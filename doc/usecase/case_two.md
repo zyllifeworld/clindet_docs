@@ -1,20 +1,22 @@
-# Use case II: Fusion genes detection from multiple myeloma patient RNA-seq
+# Use case II: Fusion genes detection from **multiple myeloma patient** RNA-seq
 ## Background
 ​​Clinical Applications of RNA-Seq in Diagnostic Testing​​
 
 RNA sequencing (RNA-Seq) is a high-throughput transcriptome profiling technology that enables comprehensive analysis of gene expression, splicing variants, fusion events, and novel transcripts. In clinical diagnostics, it serves as a powerful tool for:
 
-∙
-​​Cancer Subtyping​​: Identifying tumor-specific gene expression signatures, fusion genes (e.g., BCR-ABL1), and aberrant splicing events to guide targeted therapies.
+1. ​​Cancer Subtyping​​: Identifying tumor-specific gene expression signatures, fusion genes (e.g., BCR-ABL1), and aberrant splicing events to guide targeted therapies.
+2. Rare Disease Diagnosis​​: Detecting dysregulated pathways and aberrant expression in Mendelian disorders where DNA-based tests are inconclusive.
+3. ​Infectious Disease Characterization​​: Profiling host-pathogen interactions and pathogen expression in complex infections.
+1. Biomarker Discovery​​: Validating expression-based biomarkers for disease monitoring and treatment response.
 
-∙
-​​Rare Disease Diagnosis​​: Detecting dysregulated pathways and aberrant expression in Mendelian disorders where DNA-based tests are inconclusive.
+Gene fusions, or chromosomal translocations, are among the most common classes of mutations observed in cancer. These events can contribute to oncogenesis either by generating chimeric transcripts—such as BCR::ABL and RUNX1::RUNX1T1—or by inducing the overexpression of oncogenes, such as IGH::CCND1. The RNA-seq analysis module in Clindet integrates key functionalities including transcript quantification, gene fusion detection, immune repertoire profiling, and RNA variant calling. In this study, we employed the Clindet RNA-seq module to perform gene expression quantification and structural variant analysis by reanalyzing transcriptomic data from 31 flow-sorted bone marrow plasma cell samples published by [Jaime et al](https://www.nature.com/articles/s41467-021-25704-2). As a case study, we focused on three multiple myeloma patients (CD1, MS3, and MF1), all of whom were reported to carry chromosomal rearrangements involving the IGH enhancer and partner genes.
 
-∙
-​​Infectious Disease Characterization​​: Profiling host-pathogen interactions and pathogen expression in complex infections.
-
-∙
-​​Biomarker Discovery​​: Validating expression-based biomarkers for disease monitoring and treatment response.
+```{image} ./jaime.png
+:alt: BCR MM
+:class: bg-primary
+:width: 600px
+:align: center
+```
 
 
 ## Setup a project folder
@@ -22,16 +24,16 @@ RNA sequencing (RNA-Seq) is a high-throughput transcriptome profiling technology
 Before starting the analysis, please ensure that you have set up the analysis environment using the build_conda_env.sh script.
 ````
 
-Create a folder named project/CGGA_WES in your home directory and activate the Clindet conda environment.
+Create a folder named project/MM_RNA in your home directory and activate the Clindet conda environment.
 
 ```{code} bash
 mkdir -p ~/projects/MM_RNA
 cd ~/projects/MM_RNA
 conda activate clindet
 ```
-## Download data and 
+## Download data and setup a samplesheet.csv
 
-Download Multiple myeloma and COLO829 cellline RNA-seq data from the SRA database using wget and prepare the sample information file, make sure fastq-dump are in in $PATH (if don't install it first)
+Download Multiple myeloma RNA-seq data from the SRA database using wget and prepare the sample information file, make sure fastq-dump are in in $PATH (if don't install it first)
 
 ```{code} bash
 cd ~/projects/MM_RNA
@@ -137,13 +139,46 @@ nohup snakemake --profile workflow/config_slurm \
 --latency-wait 300 --use-conda >> rna.log
 ```
 
-### Output
-
 ## Results
+After successful execution, you will see the following directory structure. The fusion folder contains the fusion gene detection results, and the summary folder contains the gene expression quantification results.
 
-```{image} ../img/usecase/usecase_two/Fusion_gene.jpeg
-:alt: fishy
+```bash
+~/projects/MM_RNA/b37/results
+├── fusion
+├── mapped
+│   └── STAR
+└── summary
+    ├── RSEM
+    └── salmon
+```
+### arriba fusion genes
+Within the gene fusion detection analysis, structural variants were identified in patients CD1 (IGH::CCND1) and MS3 (IGH::NSD2). In contrast, no detectable fusion transcript was found in patient MF1. However, all three patients exhibited aberrantly high expression levels of the corresponding partner genes. We hypothesize that the structural variation breakpoint in the IGH locus of patient MF1 may reside upstream of the MAF gene, possibly in a non-coding regulatory region, allowing enhancer-driven overexpression without producing a fusion transcript.
+***IGH*** fusion genes circos plot (see below):
+
+```{image} ../img/usecase/usecase_two/arriba_fusion.png
+:alt: fusion circos 
+:class: bg-primary
+:width: 900px
+:align: left
+```
+
+### Aberrant expression of partner genes 
+Additionally, if you wish to study gene expression levels, you can download the data for all samples from the original publication and perform quantification. Subsequently, use the Outliner package to analyze genes with aberrant expression within the patient cohort. In this example, we will not include this analysis, but interested readers are encouraged to download the data and explore it on their own, The figure below shows the expected analysis results.
+
+```{image} ../img/usecase/usecase_two/expression.png
+:alt: fusion expression 
+:class: bg-primary
+:width: 900px
+:align: left
+```
+
+### immune repertoire analysis
+Furthermore, immune repertoire profiling of the three samples revealed that more than 95% of the immunoglobulin sequences originated from a single clone. This finding is consistent with the prevailing hypothesis that multiple myeloma arises from a clonal expansion of a single progenitor B cell.
+
+
+```{image} ./BCR.png
+:alt: BCR MM
 :class: bg-primary
 :width: 300px
-:align: left
+:align: center
 ```

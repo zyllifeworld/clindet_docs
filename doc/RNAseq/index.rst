@@ -5,8 +5,7 @@ RNAseq analysis
    :numbered:
    :maxdepth: 2
 
-   qc
-   expression
-   fusion
+   workflow
+
 
 

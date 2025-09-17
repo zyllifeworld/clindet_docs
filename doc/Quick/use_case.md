@@ -1,2 +1,2 @@
 # Use case
-See use case section: <project:../usecase/index.rst> for how to start an analysis task.
+See <project:../usecase/index.rst> section for how to start an analysis task.

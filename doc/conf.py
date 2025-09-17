@@ -38,7 +38,7 @@ numfig = True
 
 numfig_secnum_depth = 1
 
-numfig_format={'figure': '图%s', 'code-block': '程序清单%s', 'table': '表%s'}
+numfig_format={'section': 'Section %s ','figure': 'Figure%s', 'code-block': '程序清单%s', 'table': 'Table%s'}
 
 autosectionlabel_prefix_document = True
 source_suffix = {

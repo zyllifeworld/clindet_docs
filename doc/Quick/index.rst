@@ -8,4 +8,3 @@ Quick Start
    intro
    install.md
    use_case
-   workflow.md

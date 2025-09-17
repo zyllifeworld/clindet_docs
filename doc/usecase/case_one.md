@@ -1,4 +1,4 @@
-# Use case I: SNV and CNV calling from Whole exome sequencing data
+# Use case I: SNV and CNV calling from **Whole exome sequencing** data
 
 ## Background
 Whole Exome Sequencing (WES) is a powerful tool in clinical diagnostics, enabling the comprehensive analysis of protein-coding regions (~1-2% of the genome) to identify disease-causing variants. Key applications include:
@@ -14,6 +14,13 @@ The Clindet WES analysis pipeline supports the analysis of Whole Exome Sequencin
 
 In this example, we will use Clindet to analyze several whole exome sequencing samples from the publicly available Chinese Glioma Genome Atlas (CGGA) dataset. The sequencing data will be aligned to the b37 version of the human reference genome, followed by detection of somatic mutations and copy number variations.
 
+
+```{image} ./glioma.png
+:alt: glioma
+:class: bg-primary
+:width: 600px
+:align: center
+```
 ## Setup a project folder
 ````{note}
 Before starting the analysis, please ensure that you have set up the analysis environment using the build_conda_env.sh script.

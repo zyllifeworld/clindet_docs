@@ -62,51 +62,41 @@ Clindet is a next-generation high-throughput sequencing data analysis workflow d
 - SV and driver event interpretation: [LINX](https://github.com/hartwigmedical/hmftools/tree/master/linx)
 - RNA transcript analysis: 
 [RSEM](https://github.com/deweylab/RSEM)
-
 - RNA fusion gene detection: 
 [Arriba](https://github.com/suhrig/arriba)
-
-- Oncoviral detection: [VIRUSbreakend](https://github.com/PapenfussLab/gridss)\*, [VirusInterpreter](https://github.com/hartwigmedical/hmftools/tree/master/virus-interpreter)\*
+- Summary report: [ORANGE](https://github.com/hartwigmedical/hmftools/tree/master/orange),[Rmarkdown](https://rmarkdown.rstudio.com/)
+<!-- - Oncoviral detection: [VIRUSbreakend](https://github.com/PapenfussLab/gridss)\*, [VirusInterpreter](https://github.com/hartwigmedical/hmftools/tree/master/virus-interpreter)\*
 - Telomere characterisation: [TEAL](https://github.com/hartwigmedical/hmftools/tree/master/teal)\*
-- Immune analysis: [LILAC](https://github.com/hartwigmedical/hmftools/tree/master/lilac), [CIDER](https://github.com/hartwigmedical/hmftools/tree/master/cider), [NEO](https://github.com/hartwigmedical/hmftools/tree/master/neo)\*
+- Immune analysis: [LILAC](https://github.com/hartwigmedical/hmftools/tree/master/lilac), [CIDER](https://github.com/hartwigmedical/hmftools/tree/master/cider), [NEO](https://github.com/hartwigmedical/hmftools/tree/master/neo)\* -->
 
-- Summary report: [ORANGE](https://github.com/hartwigmedical/hmftools/tree/master/orange)
+## Compare to other tools
 
+```{image} ./compare.png
+:alt: ClinDet compared to other tools or workflow
+:class: bg-primary
+:width: 800px
+:align: center
+```
 ## Usage
 
 ````{note}
 > If you are new to snakemake, please refer to [this page](https://snakemake.readthedocs.io/en/stable/) on how to set-up snakemake. Make sure to test your setup before running the workflow on actual data.
 ````
 
-
-Create a samplesheet with your inputs (WGS/WES *fastq in this example):
-
-```{code}
-Tumor_R1_file_path,Tumor_R2_file_path,Normal_R1_file_path,Normal_R2_file_path,Sample_name,Target_file_bed,Project
-Patient1_T_R1.fq.gz,Patient1_T_R2.fq.gz,Patient1_N_R1.fq.gz,Patient1_N_R2.fq.gz,Patient1,target.bed,WES
-Patient2_T_R1.fq.gz,Patient2_T_R2.fq.gz,,,Patient2,target.bed,WES
-```
-
-
 ````{note}
 > It is recommended to create a Snakemake file for each project. Specific examples can be found in the Clindet directory, including **snake_wes_template.smk**, **snake_wgs_template.smk**, **and snake_rna_template.smk**. Project-specific parameters can be modified within these files.
 ````
+**Detail See** <project:./install.md>
 
-Launch `Clindet`:
 
-```bash
-nohup snakemake --profile workflow/config_slurm -j 40 --printshellcmds \
---use-singularity -s snake_wes.smk \
---latency-wait 300 --use-conda --conda-frontend conda  -k >> Log.out &
-```
-
-````{warning}
-> If you do not need to submit and run tasks on the Slurm platform, there is no need to specify the ** --profile ** parameter.
-````
+## Book structure
+Part 1 (Quick overview) brief introduction of ClinDet.
+Part 2 (Workflows Details) Usage details of Clindet.
+Part 3 (usecase) show some real world applications of ClinDet. 
 
 ## Credits
 
-The `Clindet` pipeline was written and is maintained by Yuliang Zhang ([@Yuliang Zhang](https://github.com/zyllifeworld)) , XXX from
+The `Clindet` pipeline was written and is maintained by Yuliang Zhang ([@Yuliang Zhang](https://github.com/zyllifeworld)) , Junyi Zhang and Jianfeng Li from
 the [National Research Center for Translational Medicine at Shanghai](https://github.com/clindet).
 
 We thank the following organisations and people for their extensive assistance in the development of this pipeline,
@@ -117,3 +107,7 @@ listed in alphabetical order:
 - [Wellcome Sanger Institute](https://www.sanger.ac.uk/)
 - [New York Genome Center](https://www.nygenome.org/)
 - JianFeng Li
+
+## Want to help?
+
+ If you find any bugs or want to have a new feature, please file an [issue](https://github.com/zyllifeworld/clindet/issues/new). Feel free to contact me.

@@ -2,7 +2,7 @@ DNAseq analysis
 =================================
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 2
    :numbered:
 
    WES/index

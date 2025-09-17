@@ -13,7 +13,8 @@ To build the complex Clindet analysis environment, you need to install Conda, Do
 git clone https://github.com/zyllifeworld/clindet.git
 cd clindet
 ```
-### Run build_conda_env.sh to 
+### Run build_conda_env.sh 
+
 Clindet provides a bash script to set up the computational environment required for running the software, as well as to download configuration files needed for various tools that use the human b37 reference genome (e.g., VCF, BED files). Run the script build_conda_env.sh to complete this setup.
 
 ### Modify the config.yaml file

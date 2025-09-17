@@ -1,52 +1,46 @@
-# Use case III: Mutational signatures analysis for ***C.elegans*** 
+# Use case III: Whole genome sequencing of **COLO829 cell line**
 
 ## Background
-In this example, we will re-analysis whole genome sequencing data from [***Volkova et,al.***](https://www.nature.com/articles/s41467-020-15912-7).
+Whole-genome sequencing (WGS) is increasingly being adopted in clinical oncology, providing a comprehensive view of the tumor genetic landscape. Compared to whole-exome sequencing (WES), this approach enables the detection of a broader range of disease-associated genetic alterations, including mutations in non-coding regions and structural variants (SVs). Such comprehensive profiling can facilitate deeper insights into cancer evolution and inform the development of personalized therapeutic strategies. However, WGS generates extensive datasets, necessitating robust bioinformatics pipelines for their analysis. To demonstrate how high-quality, validated somatic variants can be identified from WGS data, we employed Clindet to analyze a metastatic melanoma cell line (COLO829) and its matched normal lymphoblastoid cell line (COLO829BL), for which a "truth set" of copy number variants (CNVs) and structural variants (SVs) had been established. 
 
-In the original paper, 54 gentypes C.elegans were treated by 12 genotoxins with 2-3 different doses, generated 2717 total mutagenesis experiments and whole genome sequencing data. 
-
-
-```{image} ../img/usecase/usecase_three/design.png
-:alt: original paper experiment design
+**COLO829 cell**
+```{image} ./colo829_cell.png
+:alt: COLO829
 :class: bg-primary
-:width: 500px
+:width: 400px
 :align: center
 ```
 
+## Setup a project folder
+````{note}
+Before starting the analysis, please ensure that you have set up the analysis environment using the build_conda_env.sh script.
+````
 
-here, we select ten samples which: 
-1. ***xpc-1*** gene knockout with UV treat. 
+Create a folder named project/WGS in your home directory and activate the Clindet conda environment.
 
-***xpc-1*** gene predicted to enable damaged DNA binding activity and single-stranded DNA binding activity. Involved in response to UV. Predicted to be located in nucleus. Predicted to be part of XPC complex and nucleotide-excision repair factor 2 complex. Predicted to be active in cytoplasm. Is expressed in germline precursor cell; intestine; and nervous system. Used to study xeroderma pigmentosum. Human ortholog(s) of this gene implicated in pancreatic cancer; serous cystadenocarcinoma; xeroderma pigmentosum; and xeroderma pigmentosum group C. Orthologous to human XPC (XPC complex subunit, DNA damage recognition and repair factor).
-
-2. ***mlh-1*** gene knockout. 
-
-***mlh-1*** gene predicted to enable ATP hydrolysis activity. Predicted to be involved in mismatch repair. Predicted to be located in nucleus. Predicted to be part of MutLalpha complex. Human ortholog(s) of this gene implicated in several diseases, including Lynch syndrome (multiple); carcinoma (multiple); and cervix uteri carcinoma in situ. Is an ortholog of human MLH1 (mutL homolog 1).
-Curator: Ranjana Kishore; Valerio Arnaboldi
-
-3. ***mrt-2*** gene knockout.
-
-***mrt-2*** gene predicted to enable damaged DNA binding activity. Involved in DNA metabolic process and intracellular signal transduction. Predicted to be located in nucleus. Predicted to be part of checkpoint clamp complex. Orthologous to human RAD1 (RAD1 checkpoint DNA exonuclease).
-
-```{csv-table} re-analysis samples info.
-:header-rows: 0 
-Sample,Genotype,Generation,Replicate,Mutagen
-CD0009b,mrt-2,0,0,
-CD0009f,mrt-2,20,3,
-CD0001b,N2,0,0,
-CD0134a,mlh-1,20,2,
-CD0134c,mlh-1,20,3,
-CD0134d,mlh-1,20,4,
-CD0392a,xpc-1,0,0,
-CD0842b,xpc-1,1,1,UV
-CD0842c,xpc-1,1,2,UV
-CD0842d,xpc-1,1,3,UV
+```{code} bash
+mkdir -p ~/projects/WGS
+cd ~/projects/WGS
+conda activate clindet
 ```
 
-## Download data
+## Download data and setup a samplesheet.csv
 
+## Write an Snakemake file from template 
+For this project, modify the sample sheet and create a new Snakemake file named **snake_wgs.smk** (see below). Set the following parameters in the Snakemake file:
 
-## Download and confing  C.elegans genome file
+1. **configfile (str)**: config file for softwares and resource parameters.
+1. **stage (list)**: analysis steps. avaiable options:`['conpair','report']`
+2. **sample_csv (str)**: `sample_info.csv` path
+3. **genome_version (str)**: genome version, can be genome version which setup in cofig.yaml eg. `b37`
+4. **recal (Boolean)**: use GATK BaseRecalibrator for Base Quality Score Recalibration?  this is a time-consume task  but can slightly improved calling accuracy. `True or False`. default `True`.
+5. **caller_list (list)**: somatic mutation calling softwares used. avaiable options:`['sage','HaplotypeCaller','strelkasomaticmanta','cgppindel_filter','caveman','muse','deepvariant','Mutect2_filter'] `
+6. **germ_call_list (list)**: germline mutation calling softwares used. avaiable options: `['strelkamanta','caveman']`
+7. **somatic_cnv_list (list)**: Somatic Copy Number variant calling softwares. avaiable options: `['purple','ASCAT','sequenza','freec','exomedepth']`
+8. **recall_pon (Boolean)**: call panel-of-normal mutect2_pon.vcf from cohort normal samples. default `False`, use public available resource.
+9. **custome_pon_db (Boolean)**: use public available resource. default `False`.
+10. **recall_pon_pindel (Boolean)**: call panel-of-normal pindel_pon.vcf from cohort normal samples. default `False`, use public available resource.
+
 
 ## write Snakemake file 
 For this project, we need change the  sample sheet info.
@@ -56,73 +50,163 @@ For this project, we need change the  sample sheet info.
 ```{code} python
 
 import pandas as pd
-samples_info = pd.read_csv('',index_col='Sample_name') # set sample sheet path
+samples_info = pd.read_csv('./pipe_WGS.csv',index_col='Sample_name')
 
 unpaired_samples = samples_info.loc[pd.isna(samples_info['Normal_R1_file_path'])].index.tolist()
 paired_samples = samples_info.loc[~pd.isna(samples_info['Normal_R1_file_path'])].index.tolist()
 
-configfile: "" # set config file path
+configfile: "/config/config.yaml"
 
 project = samples_info["Project"].unique().tolist()[0]
-genome_version = 'WBcel235' # set genome version 
+genome_version = 'b37'
+
 
 import os
-if not os.path.exists("logs/slurm"):
-    os.makedirs("logs/slurm")
-
-pre_pon_db = False
-
-if not os.path.exists('analysis/pindel_normal/log'):
-    os.makedirs('analysis/pindel_normal/log')
-
 groups = ['NC','T']
 
-germ_caller_list = ['caveman']
-caller_list = ['strelkasomaticmanta','caveman','muse','cgppindel_filter']
+germ_caller_list = ['caveman','deepvariant']
+somatic_caller_list = ['strelkasomaticmanta','muse','cgppindel_filter','deepvariant','sage','caveman']
+somatic_cnv_list = ['purple','ascat']
+somatic_sv_list = ['purple','ascat']
+purple_sv = 'svaba'
+
 
 recall_pon =  False
 recall_pon_pindel =  False
-
 recal = False
+## paired sample list
+paired_res_list = [
+    ##### for QC report ######
+    # rules.conpair_contamination.output           if 'conpair'          in stages else None,
+    '{project}/{genome_version}/logs/paired/conpair/{sample}.done' if 'conpair'          in stages else None,
+    ##### for SNV/INDEL calling #####
+    "{project}/{genome_version}/results/maf/paired/{sample}/merge/{sample}.maf",
+    ##### for CNV result ##### There is a bug for snakemake rules namelist when include *smk for 3-4 levels
+    # rules.paired_purple.output.qc  if 'purple' in somatic_cnv_list else None, # purple call
+    "{project}/{genome_version}/results/cnv/paired/purple/{sample}/purple/{sample}.purple.qc"  if 'purple' in somatic_cnv_list else None, # purple call
+    # rules.CNA_ASCAT.output.rdata   if 'ASCAT'  in somatic_cnv_list else None, # ASCAT call
+    "{project}/{genome_version}/results/cnv/paired/ascat/{sample}/{sample}_ASCAT.rdata"   if 'ASCAT'  in somatic_cnv_list else None, # ASCAT call
+    # rules.facets.output.qc         if 'facets' in somatic_cnv_list else None, # facets call
+    # rules.facets.output.qc         if 'facets' in somatic_cnv_list else None, # facets call
+    "{project}/{genome_version}/results/cnv/paired/freec/{sample}/{sample}_config_freec.ini" if 'freec' in somatic_cnv_list else None, 
+    ##### for SV calling ######
+
+    #### Case report #####
+]
+paired_res_list = list(filter(None, paired_res_list))
+
 rule all:
     input:
         ## paired sample
-        expand([
-            "{project}/{genome_version}/results/dedup/paired/{sample}-{group}.sorted.bam",
-            "{project}/{genome_version}/results/sv/paired/DELLY/{sample}/SV_delly_{sample}_filter.vcf",
-            "{project}/{genome_version}/results/vcf/paired/{sample}/strelkasomaticmanta.vcf",
-            "{project}/{genome_version}/results/vcf/paired/{sample}/muse.vcf",
-            '{project}/{genome_version}/logs/paired/caveman_{sample}.log',
-        ],
+        expand(paired_res_list,
         project = project,
         genome_version = genome_version,
         sample = paired_samples,
 	    group = groups,
+        caller = caller_list),
+        ## unpaired sample
+        expand([
+            # "{project}/{genome_version}/results/recal/unpaired/{sample}-T.bam",
+            # "{project}/{genome_version}/results/stats/unpaired/wgs_metrics/{sample}-{group}.txt"
+            # "{project}/{genome_version}/results/maf/unpaired/{sample}/merge/{sample}.maf",
+            # "{project}/{genome_version}/results/maf/unpaired/{sample}/{caller}.vcf.maf",
+        ],
+        project = project,
+        group = ['T'],
+        genome_version = genome_version,
+        sample = unpaired_samples,
         caller = caller_list)
 
-include: "workflow/WGS/Snakefile"  # the relative path of clindet workflow WGS subfolder snakefile  
-
-
+include: "workflow/WGS/Snakefile"
 ```
 :::
 
 ## Run clindet 
+There is two way you can run clindet
+1. run on a local server 
+2. submit to HPC through slurm
 
-``` bash
-nohup snakemake --profile workflow/config_slurm \
--j 30 --printshellcmds -s snake_wgs_worm.smk \
---use-singularity \
---singularity-args "--bind /public/home/:/public/home/,/public/ClinicalExam:/public/ClinicalExam" \
---latency-wait 300 --use-conda --conda-frontend conda  -k > worm.out &
-
+### Run on local node 
+```{code} bash
+nohup snakemake -j 30 --printshellcmds -s snake_wgs.smk \
+--use-singularity --singularity-args "--bind /your/home/path:/your/home/path" \
+--latency-wait 300 --use-conda >> rna.log
 ```
 
-:::{aside} An Optional Title
-This is an aside. It is not entirely relevant to the main article.
-:::
+### Submit to HPC use slurm
+we provide a slurm config.yaml under clindet/workflow/config_slurm folder.
+```{code}  bash
+nohup snakemake --profile workflow/config_slurm \
+-j 30 --printshellcmds -s snake_wgs.smk --use-singularity \
+--singularity-args "--bind /your/home/path:/your/home/path" \
+--latency-wait 300 --use-conda >> rna.log
+```
+
 ## Results
+After successful execution, you will see the following directory structure. The cnv folder contains the copy number variants detection results, the sv folder contains the structural variants detection results, and the vcf/maf folders contain mutaions (annotated and raw)  results.
+```bash
+~/projects/WGS/b37/results
+├── cnv
+│   └── paired
+│       ├── ascat
+│       └── purple
+├── dedup
+│   └── paired
+├── maf
+│   └── paired
+│       └── COL0829
+├── qc
+│   └── dedup
+│       └── paired
+├── recal
+│   └── paired
+├── sv
+│   └── paired
+│       ├── BRASS
+│       ├── DELLY
+│       ├── gridss
+│       ├── linx
+│       └── svaba
+├── vcf
+   └── paired
+       ├── COL0829
+       └── HG008
+```
+### Copy number variants of COLO829 
+To assess the consistency among different software tools in representing the genomic content of the COLO829 cancer cell line, we evaluated the presence of CNVs and SVs. Regarding copy number variation, the four software tools generated similar estimates of tumor purity and ploidy.
 
-### 突变检测
+**The karyotype of the COLO829 cell line**
+```{image} ./karyotype.png
+:alt: COLO820 CNV karyotype  
+:class: bg-primary
+:width: 600px
+:align: center
+```
+**Copy number results of COLO829**
 
-### 
-在本例中我们选取了两种加
+```{image} ./ascat.png
+:alt: COLO820 CNV karyotype  
+:class: bg-primary
+:width: 600px
+:align: center
+```
+
+Furthermore, low-resolution copy number alteration (CNA) analysis revealed highly consistent copy number profiles across external “true set” software tools except for Facets, with correlation coefficients of `0.76–0.98` among different datasets.
+
+```{image} ./cnvcell.png
+:alt: COLO820 CNV compare  
+:class: bg-primary
+:width: 900px
+:align: center
+```
+
+### Structural variants of COLO829 
+Due to the absence of established benchmarks and best-practice protocols for somatic SV detection, the primary aim of this study was to establish an analytical workflow rather than to benchmark SV calling tools. Consequently, we selected optimal mapping and SV calling tools based on current best practices and available knowledge. SV calling parameters were optimized for high sensitivity rather than maximum precision to minimize the risk of missing genuine events. Compared to the previously established "truth set" from XX et al., the candidate somatic SV calls produced by individual software tools showed considerable variability, ranging from 115 breakpoints detected by GRIDSS to 27,285 by DELLY, resulting in a combined total of 28,233 merged SV calls. Among these tools, DELLY generated a relatively high number of false-positive calls. The results indicated that integrating outputs from multiple SV detection tools substantially reduced the number of false-positive predictions.
+
+
+```{image} ./colo829sv.png
+:alt: COLO820 SV compare  
+:class: bg-primary
+:width: 900px
+:align: center
+```

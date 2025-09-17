@@ -1,5 +1,5 @@
-(clindet-wxs-workflow)=
-# clindet WXS workflow
+(clindet-wgs-workflow)=
+# clindet WGS workflow
 For better reproducibility, Clindet incorporates best practices from leading international research institutions, including the [Hartwig Medical Foundation (HMF)](https://github.com/hartwigmedical/hmftools), the [German Cancer Research Center (DKFZ)](https://www.dkfz.de/en/), the [New York Genome Center (NYGC)](https://www.nygenome.org/), the [ICGC-TCGA-PanCancer project](https://github.com/ICGC-TCGA-PanCancer), the [Wellcome Sanger Institute](https://www.sanger.ac.uk/programme/cancer-ageing-and-somatic-mutation/), and the Broad Institute [GATK best practice](https://gatk.broadinstitute.org/hc/en-us/sections/360007226651-Best-Practices-Workflows). 
 
 
@@ -7,22 +7,24 @@ For better reproducibility, Clindet incorporates best practices from leading int
 Clindet provides two mutation detection modes for tumor samples: tumor-normal paired sample mode and tumor-only mode, to accommodate the testing needs of different clinical cohorts.
 
 
-- [clindet WXS workflow](#clindet-wxs-workflow)
+- [clindet WGS workflow](#clindet-wgs-workflow)
   - [QC and preprocess](#qc-and-preprocess)
   - [Small variants (SNVs/Indels)](#small-variants-snvsindels)
     - [Small variants (SNVs/Indels) (Somatic)](#small-variants-snvsindels-somatic)
       - [Summary](#summary)
       - [Details](#details)
-        - [Run SNV, MNV, INDEL calling:](#run-snv-mnv-indel-calling)
-        - [Extract passing calls (with PASS in FILTER)](#extract-passing-calls-with-pass-in-filter)
+        - [RunSNV, MNV, INDEL calling:](#runsnv-mnv-indel-calling)
         - [Annotation of mutations](#annotation-of-mutations)
         - [Consensus results from Multiple softwares](#consensus-results-from-multiple-softwares)
     - [SNPs and small indels (Germline)](#snps-and-small-indels-germline)
+  - [Structural variants](#structural-variants)
+    - [SV calling: ESVEE, Manta, Delly, svaba, gridss](#sv-calling-esvee-manta-delly-svaba-gridss)
+    - [consensus results by jasmine](#consensus-results-by-jasmine)
   - [Copy Number Variants](#copy-number-variants)
     - [Summary](#summary-1)
     - [Calculate BAF and coverage log2ration](#calculate-baf-and-coverage-log2ration)
     - [call segment from BAF and log ratio](#call-segment-from-baf-and-log-ratio)
-      - [CNV segment calling: AMBER,  COBALT,  PURPLE, ASCAT,  free-C, sequenza, Facets, ExomdDepth](#cnv-segment-calling-amber--cobalt--purple-ascat--free-c-sequenza-facets-exomddepth)
+      - [CNV segment calling: AMBER,  COBALT,  PURPLE, ASCAT,  free-C,  Battebberg, sequenza, Facets](#cnv-segment-calling-amber--cobalt--purple-ascat--free-c--battebberg-sequenza-facets)
       - [Plot the segment results](#plot-the-segment-results)
   - [RNA-seq](#rna-seq)
   - [MultiQC](#multiqc)
@@ -78,7 +80,7 @@ Post-preprocessing BAM files are analyzed using various software tools. For soma
 #### Details
 
 Steps are:
-##### Run SNV, MNV, INDEL calling:
+##### RunSNV, MNV, INDEL calling:
 [SAGE](https://github.com/hartwigmedical/hmftools/tree/master/sage), [HaplotypeCaller](https://github.com/broadinstitute/gatk), [Mutect2](https://github.com/broadinstitute/gatk), [Strelka](https://github.com/Illumina/strelka), [CaVEMan](https://github.com/cancerit/CaVEMan), [Varscan](https://varscan.sourceforge.net/), [Muse](https://bioinformatics.mdanderson.org/public-software/muse/), [Pindel](https://github.com/cancerit/cgpPindel), [DeepVariant](https://github.com/google/deepsomatic), [Lofreq](https://csb5.github.io/lofreq/)
 
   - [**SAGE**](https://github.com/hartwigmedical/hmftools/tree/master/sage) is an in-house tool (java) developed by the Hartwig Medical Foundation for somatic variant calling, specifically designed to identify somatic variants such as multi-nucleotide variants (MNVs), single-nucleotide variants (SNVs), and indels by comparing tumor and reference samples. sage called variants can be annotated by [pave](https://github.com/hartwigmedical/hmftools/tree/master/pave) or generated report by purple. This tool only support *human* genome (b37 nochr prefix, hg38 with chr prefix).
@@ -103,20 +105,26 @@ Steps are:
 
   - **VarDict** is a variant discovery program, initially developed in Perl and ported to Java, designed for sensitive variant calling from BAM files in next-generation sequencing, particularly for cancer genomics. Its primary purpose is to detect single nucleotide variants (SNVs), insertions, deletions, and structural variants in both single and paired sample analyses. Key features include amplicon bias awareness for targeted sequencing, rescue of long indels through realignment of soft-clipped reads, and improved scalability, with the Java port being approximately 10x faster than the original Perl implementation. It supports various modes such as single sample, paired sample, and amplicon-based calling, utilizing inputs like reference genomes in FASTA format, aligned reads in BAM format, and target regions in BED format. Applications are prominent in cancer research, facilitating the identification of somatic mutations and other genomic alterations.
   
-##### Extract passing calls (with PASS in FILTER)
 
-ClinDet use bcftools to filter `PASS` variants.
- 
 ##### Annotation of mutations
 The called results (in VCF format) are filtered and annotated using the vcf2maf software to produce MAF files. This tool is based on VEP, so user can add some VEP plugins.
 
 ##### Consensus results from Multiple softwares
-Subsequently, all MAF-format outputs from all SNV callers are processed through a custom R script to generate consensus mutation detection results. For somatic structural variations, Clindet employs five software tools for detection; to achieve consensus results, Jasmine software is used to merge structural variation events sharing the same orientation and breakpoint positions within 500bp. For copy number variations, Clindet utilizes seven software tools for detection and organizes the final results into segment-format files. Users can select specific software for subsequent analyses according to their requirements.
-
+    Subsequently, all MAF-format outputs from all SNV callers are processed through a custom R script to generate consensus mutation detection results. For somatic structural variations, Clindet employs five software tools for detection; to achieve consensus results, Jasmine software is used to merge structural variation events sharing the same orientation and breakpoint positions within 500bp. For copy number variations, Clindet utilizes seven software tools for detection and organizes the final results into segment-format files. Users can select specific software for subsequent analyses according to their requirements.
 
 (snps-and-small-indels-germline)=
 ### SNPs and small indels (Germline)
 ClinDet filter germline variant from calling results of **strelka,caveman,vardict**.
+
+## Structural variants
+
+The idea is to report gene fusions, exon deletions, high impact and LoF events
+in tumor suppressors, and prioritise events in cancer genes.
+
+### SV calling: [ESVEE](https://github.com/hartwigmedical/hmftools/tree/master/esvee), [Manta](https://github.com/hartwigmedical/hmftools/tree/master/esvee), [Delly](https://github.com/hartwigmedical/hmftools/tree/master/esvee), [svaba](https://github.com/hartwigmedical/hmftools/tree/master/esvee), [gridss](https://github.com/hartwigmedical/hmftools/tree/master/esvee)
+
+### consensus results by jasmine
+
 
 ## Copy Number Variants
 
@@ -127,7 +135,7 @@ ClinDet uses multiple software tools to call arm-level CNVs. Some of these tools
 ### Calculate BAF and coverage log2ration
    SNPs from human 1000 genome project will be used by alleleCountr or AMBER to get base counts of each loci, and then Calculate B-allele frequencies. Next, Sample  gender will be determined by sex chromosomes' coverage (**ASCAT can corrected these values by GC-contents and replication times**). Furthermore, the purity and ploidy will be estimated by grid search.
 ### call segment from BAF and log ratio
-#### CNV segment calling: [AMBER](https://github.com/hartwigmedical/hmftools/tree/master/amber),  [COBALT](https://github.com/hartwigmedical/hmftools/tree/master/cobalt),  [PURPLE](https://github.com/hartwigmedical/hmftools/tree/master/purple), [ASCAT](https://github.com/VanLoo-lab/ascat),  [free-C](https://github.com/BoevaLab/FREEC), [sequenza](https://github.com/oicr-gsi/sequenza), [Facets](https://github.com/mskcc/facets), [ExomdDepth](https://github.com/vplagnol/ExomeDepth)
+#### CNV segment calling: [AMBER](https://github.com/hartwigmedical/hmftools/tree/master/amber),  [COBALT](https://github.com/hartwigmedical/hmftools/tree/master/cobalt),  [PURPLE](https://github.com/hartwigmedical/hmftools/tree/master/purple), [ASCAT](https://github.com/VanLoo-lab/ascat),  [free-C](https://github.com/BoevaLab/FREEC),  [Battebberg](https://github.com/Wedge-lab/battenberg), [sequenza](https://github.com/oicr-gsi/sequenza), [Facets](https://github.com/mskcc/facets)
     
   - **AMBER** is an in-house tool developed by the Hartwig Medical Foundation (HMF) for estimating allele-specific copy numbers in tumor samples. It analyzes B-allele frequencies (BAFs) of heterozygous germline variants to infer minor allele copy numbers, aiding in the detection of somatic copy number alterations (CNAs) in cancer genomics. Integrated into HMF pipelines like Pipeline5, it supports whole-genome sequencing (WGS) data processing, contributing to accurate tumor ploidy and purity assessments.
 
@@ -139,11 +147,12 @@ ClinDet uses multiple software tools to call arm-level CNVs. Some of these tools
 
   - **FREEC** (Control-FREEC) is a tool for detecting copy-number changes and allelic imbalances, including loss of heterozygosity (LOH), using deep-sequencing data in whole-genome and whole-exome sequencing. It automatically computes, normalizes, and segments copy number and BAF profiles, calling CNAs and LOH with optional matched normal controls. Features include subclonal gain/loss detection, contamination evaluation, and support for BAM/SAM inputs, making it suitable for cancer genomics to identify genomic alterations.
 
+  - **Battenberg** is an R package for subclonal copy number estimation from whole-genome sequencing data, distinguishing clonal and subclonal states using major/minor allele copy numbers and frequencies. It generates outputs like copy number profiles, purity estimates, and visualizations (e.g., BAF/logR plots), with support for structural variant integration and phasing via tools like Impute2. Optimized for tumor-normal pairs, it aids in analyzing tumor heterogeneity and evolution in cancer genomics.
+
+
   - **Sequenza** is a workflow for estimating cellularity and ploidy, providing allele-specific copy numbers and log-posterior probabilities based on B-allele frequency and depth ratios. It processes SNP and CNV data from tools like Varscan, supporting segmentation with tunable gamma parameters and generating outputs such as JSON files, summary plots, and Rmarkdown reports. Used in cancer genomics for analyzing tumor purity and copy number variations from sequencing data.
 
   - **FACETS** is an algorithm for estimating the fraction of tumor cells and allele-specific copy numbers from tumor-normal sequencing data. It performs joint segmentation to output copy number profiles, diploid log-ratio values, and flags for estimation issues, with support for clonal cluster analysis. Implemented in R, it requires dependencies like pctGCdata and is used in cancer genomics to analyze somatic alterations and tumor purity from BAM files.
-
-  - **ExomdDepth** ExomeDepth is a R package designed to detect inherited copy number variants (CNVs) using high throughput DNA sequence data. While Exome is included in the name of the package it in fact performs best on smaller panels, because the analytics of the package leverage the tight correlation structure between the (often) large number of samples being run in parallel. These tight correlations is what ExomeDepth looks for when building a reference sample for each test sample and the quality of the output will typically vary depending on that correlation structure. Note that while it can be used in the context of tumour/control matched pairs, this is not the initial intent of the tools and the performances in that context are largely untested.
 
 #### Plot the segment results
    CNVs results called by each tool can be visualized by circos and R, see results folder of each tool.

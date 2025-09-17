@@ -3,11 +3,12 @@ Use Case
 
 .. toctree::
    :numbered:
-   :maxdepth: 2
+   :maxdepth: 1
 
    intro
    case_one
    case_two
    case_three
+   case_four
 
 
