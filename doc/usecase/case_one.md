@@ -41,10 +41,10 @@ Download data from the GSA database using wget and prepare the sample informatio
 cd ~/projects/CGGA_WES
 mkdir -p data && cd data
 ## sample CGGA_D14 tumor-sample paired fqs
-wget -c -O T_CGGA_D14_r1.fq.gz ftp://download.big.ac.cn/gsa-human/HRA000071/HRR025119/HRR025119_f1.fq.gz
-wget -c -O T_CGGA_D14_r2.fq.gz ftp://download.big.ac.cn/gsa-human/HRA000071/HRR025119/HRR025119_r2.fq.gz
-wget -c -O B_CGGA_D14_r1.fq.gz ftp://download.big.ac.cn/gsa-human/HRA000071/HRR024833/HRR024833_f1.fq.gz
-wget -c -O B_CGGA_D14_r2.fq.gz ftp://download.big.ac.cn/gsa-human/HRA000071/HRR024833/HRR024833_f2.fq.gz
+wget -c --no-check-certificate -O T_CGGA_D14_r1.fq.gz https://download.big.ac.cn/gsa-human/HRA000071/HRR025119/HRR025119_f1.fq.gz
+wget -c --no-check-certificate -O T_CGGA_D14_r2.fq.gz https://download.big.ac.cn/gsa-human/HRA000071/HRR025119/HRR025119_r2.fq.gz
+wget -c --no-check-certificate -O B_CGGA_D14_r1.fq.gz https://download.big.ac.cn/gsa-human/HRA000071/HRR024833/HRR024833_f1.fq.gz
+wget -c --no-check-certificate -O B_CGGA_D14_r2.fq.gz https://download.big.ac.cn/gsa-human/HRA000071/HRR024833/HRR024833_r2.fq.gz
 
 ## sample CGGA_653 tumor-sample paired fqs
 wget -c -O T_CGGA_653_r1.fq.gz	ftp://download.big.ac.cn/gsa-human/HRA000071/HRR025103/HRR025103_f1.fq.gz	wget -c -O T_CGGA_653_r2.fq.gz  ftp://download.big.ac.cn/gsa-human/HRA000071/HRR025103/HRR025103_r2.fq.gz
@@ -56,8 +56,8 @@ Next, create a CSV file named pipe_wes.csv in the ~/projects/CGGA_WES directory 
 
 ```
 Tumor_R1_file_path,Tumor_R2_file_path,Normal_R1_file_path,Normal_R2_file_path,Sample_name,Target_file_bed,Project
-~/projects/CGGA_WES/data/T_CGGA_D14_r1.fq.gz,~/projects/CGGA_WES/data/T_CGGA_D14_r2.fq.gz,~/projects/CGGA_WES/data/B_CGGA_D14_r1.fq.gz,~/projects/CGGA_WES/data/B_CGGA_D14_r1.fq.gz,CGGA_D14,target.bed,CGGA_WES
-~/projects/CGGA_WES/data/T_CGGA_653_r1.fq.gz,~/projects/CGGA_WES/data/T_CGGA_653_r2.fq.gz,~/projects/CGGA_WES/data/B_CGGA_653_r1.fq.gz,~/projects/CGGA_WES/data/B_CGGA_653_r1.fq.gz,CGGA_653,target.bed,CGGA_WES
+/AbsoPath/of/projects/CGGA_WES/data/T_CGGA_D14_r1.fq.gz,/AbsoPath/of/projects/CGGA_WES/data/T_CGGA_D14_r2.fq.gz,/AbsoPath/of/projects/CGGA_WES/data/B_CGGA_D14_r1.fq.gz,/AbsoPath/of/projects/CGGA_WES/data/B_CGGA_D14_r2.fq.gz,CGGA_D14,/AbsoPath/of/target.bed,CGGA_WES
+/AbsoPath/of/projects/CGGA_WES/data/T_CGGA_653_r1.fq.gz,/AbsoPath/of/projects/CGGA_WES/data/T_CGGA_653_r2.fq.gz,/AbsoPath/of/projects/CGGA_WES/data/B_CGGA_653_r1.fq.gz,/AbsoPath/of/projects/CGGA_WES/data/B_CGGA_653_r2.fq.gz,CGGA_653,/AbsoPath/of/target.bed,CGGA_WES
 ```
 
 ## Write an Snakemake file from template 
@@ -84,49 +84,77 @@ unpaired_samples = samples_info.loc[pd.isna(samples_info['Normal_R1_file_path'])
 paired_samples = samples_info.loc[~pd.isna(samples_info['Normal_R1_file_path'])].index.tolist()
 
 configfile: "/AbsoPath/of/clindet/folder/config/config.yaml"
-
 project = samples_info["Project"].unique().tolist()[0]
 genome_version = 'b37'
 recal = False
-pre_pon_db = False
 
 groups = ['NC','T']
 ## somatic mutation calling softwares
-caller_list = ['sage','HaplotypeCaller','strelkasomaticmanta','cgppindel_filter','caveman','muse','deepvariant','Mutect2_filter']
-stages = ['report','conpair']
+caller_list = ['HaplotypeCaller','strelkasomaticmanta','cgppindel_filter','caveman','muse','deepvariant','Mutect2_filter']# 'sage'
+stages = ['conpair','case_report']
 # germline mutation calling softwares
-germ_caller_list = ['strelkamanta','caveman']
+germ_caller_list = ['strelkamanta','caveman']# 'vardict_germline',
 # somatic CNV calling softwares
-somatic_cnv_list = ['purple','ASCAT','facets','sequenza','freec']
-# tumor-only somatic mutation calling softwares
+somatic_cnv_list = ['purple','ASCAT']#'facets','sequenza','freec','dryclean']
+# somatic SV calling softwares
+# somatic_sv_list = ['BRASS','delly','gridss','igcaller','linx','svaba','Manta']
+somatic_sv_list = ['svaba','gridss']
+
+
+### tumor only call
 tumor_only_caller = ['sage']
 
 recall_pon =  False
 custome_pon_db = True
 recall_pon_pindel =  False
+purple_sv = 'gridss'
+
 
 ## paired sample list
 paired_res_list = [
     ##### for QC report ######
     # rules.conpair_contamination.output           if 'conpair'          in stages else None,
     '{project}/{genome_version}/logs/paired/conpair/{sample}.done' if 'conpair'          in stages else None,
+
     ##### for SNV/INDEL calling #####
     "{project}/{genome_version}/results/maf/paired/{sample}/merge/{sample}.maf",
+
+    # somatic_cnv_list = ['purple','ASCAT','facets','sequenza','freec','dryclean']
     ##### for CNV result ##### There is a bug for snakemake rules namelist when include *smk for 3-4 levels
     # rules.paired_purple.output.qc  if 'purple' in somatic_cnv_list else None, # purple call
     "{project}/{genome_version}/results/cnv/paired/purple/{sample}/purple/{sample}.purple.qc"  if 'purple' in somatic_cnv_list else None, # purple call
     # rules.CNA_ASCAT.output.rdata   if 'ASCAT'  in somatic_cnv_list else None, # ASCAT call
     "{project}/{genome_version}/results/cnv/paired/ascat/{sample}/{sample}_ASCAT.rdata"   if 'ASCAT'  in somatic_cnv_list else None, # ASCAT call
+
     # rules.facets.output.qc         if 'facets' in somatic_cnv_list else None, # facets call
     # rules.facets.output.qc         if 'facets' in somatic_cnv_list else None, # facets call
     "{project}/{genome_version}/results/cnv/paired/freec/{sample}/{sample}_config_freec.ini" if 'freec' in somatic_cnv_list else None, # Control-FREEC call
+
+
     # rules.CNA_exomedepth.output.tsv       if 'exomedepth' in somatic_cnv_list else None, # sequenza call
     "{project}/{genome_version}/results/cnv/paired/exomedepth/{sample}/{sample}_exomedepth.tsv"  if 'exomedepth' in somatic_cnv_list else None, # sequenza call
     # rules.sequenza_call.output.segment       if 'sequenza' in somatic_cnv_list else None, # sequenza call
     # "{project}/{genome_version}/results/cnv/paired/sequenza/{sample}/{sample}_segments.txt"  if 'sequenza' in somatic_cnv_list else None, # sequenza call
+    
     #### Case report #####
+    '{project}/{genome_version}/results/report/{sample}/{sample}_cancer_report.html' if 'case_report' in stages else None,
 ]
 paired_res_list = list(filter(None, paired_res_list))
+
+
+## unpaired sample list
+unpaired_res_list = [
+    ##### for SNV/INDEL calling #####
+    "{project}/{genome_version}/results/maf/unpaired/{sample}/merge/{sample}.maf",
+    ##### for CNV result ##### There is a bug for snakemake rules namelist when include *smk for 3-4 levels
+    # rules.paired_purple.output.qc  if 'purple' in somatic_cnv_list else None, # purple call
+    "{project}/{genome_version}/results/cnv/unpaired/purple/{sample}/purple/{sample}.purple.qc"    if 'purple' in tumor_only_cnv_caller else None,
+    ### if you want call CNV from use tumor-only WES data, take you own risk
+    "{project}/{genome_version}/results/cnv/unpaired/freec/{sample}/{sample}-T.bam_ratio.txt.png"  if 'freec' in tumor_only_cnv_caller else None,
+
+]
+unpaired_res_list = list(filter(None, unpaired_res_list))
+
 ##### Modules #####
 rule all:
     input:
@@ -138,18 +166,14 @@ rule all:
         group = groups,
         caller = caller_list),
         #### unpaired sample
-        expand([
-            "{project}/{genome_version}/results/recal/unpaired/{sample}-T.bam",
-            "{project}/{genome_version}/results/maf/unpaired/{sample}/merge/{sample}.maf",
-            "{project}/{genome_version}/results/maf/unpaired/{sample}/{caller}.vcf.maf"
-        ],
+        expand(unpaired_res_list,
         project = project,
         genome_version = genome_version,
         sample = unpaired_samples,
-        caller = tumor_only_caller),
+        caller = caller_list),
         ##### multiqc report ########
-        f'{project}/{genome_version}/results/multiqc/filelist.txt',
-        f'{project}/{genome_version}/results/multiqc_report.html'
+        f'{project}/{genome_version}/results/multiqc/filelist.txt' if 'report' in stages else [],
+        f'{project}/{genome_version}/results/multiqc_report.html' if 'report' in stages else [],
 
 
 include: '/AbsoPath/of/clindet/folder/workflow/WES/Snakefile'  # the absolutely path of clindet workflow WGS subfolder snakefile  
@@ -163,19 +187,40 @@ There is two way you can run clindet
 2. submit to HPC through slurm
 
 ### Run on local node 
+You need 
 ```{code} bash
 nohup snakemake -j 30 --printshellcmds -s snake_wes.smk \
---use-singularity --singularity-args "--bind /public/home/:/public/home/,/public/ClinicalExam:/public/ClinicalExam" \
+--use-singularity --singularity-args "--bind /you/homepath/:/you/homepath/" \
 --latency-wait 300 --use-conda >> wes.log
 ```
 
 ### Submit to HPC use slurm
-we provide a slurm config.yaml under clindet/workflow/config_slurm folder.
+We provide a Slurm config.yaml file under the clindet/workflow/config_slurm folder. When submitting jobs, users can specify the `partition` parameter in the YAML file to the desired **node name** according to their needs.
+```{code}  yaml
+executor: cluster-generic
+cluster-generic-submit-cmd:
+  mkdir -p logs/{wildcards.project}/slurm &&
+  sbatch
+    --partition=SVC
+    --cpus-per-task={threads}
+    --job-name={rule}
+    --output=logs/{wildcards.project}/slurm/{wildcards.sample}_{rule}.%N.%j.out
+default-resources:
+  - partition=SVC
+latency-wait: 60
+jobs: 50
+keep-going: True
+rerun-incomplete: True
+printshellcmds: True
+scheduler: greedy
+use-conda: True
+```
+Afterwards, you can run the analysis using the following command (make sure to replace `/Absolute/Path/of/home_dir` with your own path):
 ```{code}  bash
-nohup snakemake --profile workflow/config_slurm \
+nohup snakemake --profile /Absolute/Path/of/clindet/workflow/config_slurm \
 -j 30 --printshellcmds -s snake_wes.smk --use-singularity \
---singularity-args "--bind /public/home/:/public/home/,/public/ClinicalExam:/public/ClinicalExam" \
---latency-wait 300 --use-conda >> wes.log
+--singularity-args "--bind /Absolute/Path/of/home_dir/:/Absolute/Path/of/home_dir/" \
+--latency-wait 300 --use-conda >> wes.log  2>&1 &
 ```
 
 ### Output

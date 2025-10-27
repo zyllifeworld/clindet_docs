@@ -19,13 +19,50 @@ Before starting the analysis, please ensure that you have set up the analysis en
 Create a folder named project/WGS in your home directory and activate the Clindet conda environment.
 
 ```{code} bash
-mkdir -p ~/projects/WGS
-cd ~/projects/WGS
+mkdir -p ~/projects/COLO829_WGS
+cd ~/projects/COLO829_WGS
 conda activate clindet
 ```
 
 ## Download data and setup a samplesheet.csv
+Your can download WGS fastq file from [HMFtools Resources](https://console.cloud.google.com/storage/browser/hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq?pageState=(%22StorageObjectListTable%22:(%22f%22:%22%255B%255D%22))&inv=1&invt=Ab1qLA)
+```{code} bash
+cd ~/projects/COLO829_WGS
+mkdir -p data && cd data
+conda activate gsutil
+gsutil -m cp \
+  "gs://hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq/COLO829v003R_AHHKYHDSXX_S13_L001_R1_001.fastq.gz" \
+  "gs://hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq/COLO829v003R_AHHKYHDSXX_S13_L001_R2_001.fastq.gz" \
+  "gs://hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq/COLO829v003R_AHHKYHDSXX_S13_L002_R1_001.fastq.gz" \
+  "gs://hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq/COLO829v003R_AHHKYHDSXX_S13_L002_R2_001.fastq.gz" \
+  "gs://hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq/COLO829v003R_AHHKYHDSXX_S13_L003_R1_001.fastq.gz" \
+  "gs://hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq/COLO829v003R_AHHKYHDSXX_S13_L003_R2_001.fastq.gz" \
+  "gs://hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq/COLO829v003R_AHHKYHDSXX_S13_L004_R1_001.fastq.gz" \
+  "gs://hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq/COLO829v003R_AHHKYHDSXX_S13_L004_R2_001.fastq.gz" \
+  "gs://hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq/COLO829v003T_AHHKYHDSXX_S12_L001_R1_001.fastq.gz" \
+  "gs://hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq/COLO829v003T_AHHKYHDSXX_S12_L001_R2_001.fastq.gz" \
+  "gs://hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq/COLO829v003T_AHHKYHDSXX_S12_L002_R1_001.fastq.gz" \
+  "gs://hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq/COLO829v003T_AHHKYHDSXX_S12_L002_R2_001.fastq.gz" \
+  "gs://hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq/COLO829v003T_AHHKYHDSXX_S12_L003_R1_001.fastq.gz" \
+  "gs://hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq/COLO829v003T_AHHKYHDSXX_S12_L003_R2_001.fastq.gz" \
+  "gs://hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq/COLO829v003T_AHHKYHDSXX_S12_L004_R1_001.fastq.gz" \
+  "gs://hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq/COLO829v003T_AHHKYHDSXX_S12_L004_R2_001.fastq.gz" \
+  .
 
+```
+
+then you need  merge those fastq.gz files (eg. `cat`) to :
+- COLO829v003R_R1.fastq.gz (~26G)
+- COLO829v003R_R2.fastq.gz (~27G)
+- COLO829v003T_R1.fastq.gz (~96G)
+- COLO829v003T_R2.fastq.gz (~100G)
+
+Next, create a CSV file named pipe_wgs.csv in the ~/projects/COLO829_WGS directory with the following content:
+
+```
+Tumor_R1_file_path,Tumor_R2_file_path,Normal_R1_file_path,Normal_R2_file_path,Sample_name,Project
+/AbsoPath/of/projects/COLO829_WGS/data/COLO829v003T_R1.fastq.gz,/AbsoPath/of/projects/COLO829_WGS/data/COLO829v003T_R2.fastq.gz,/AbsoPath/of/projects/COLO829_WGS/data/COLO829v003R_R1.fastq.gz,/AbsoPath/of/projects/COLO829_WGS/data/COLO829v003R_R2.fastq.gz,COL0829,WGS
+```
 ## Write an Snakemake file from template 
 For this project, modify the sample sheet and create a new Snakemake file named **snake_wgs.smk** (see below). Set the following parameters in the Snakemake file:
 

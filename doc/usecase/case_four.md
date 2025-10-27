@@ -1,7 +1,16 @@
-# Use case IV: Mutational signatures analysis for ***C.elegans*** 
+# Use case IV: Quantifying​​ the contributions of DNA repair defective gene mutations to mutational signatures（***C.elegans***） 
 
 ## Background
-In this example, we will re-analysis whole genome sequencing data from [***Volkova et,al.***](https://www.nature.com/articles/s41467-020-15912-7).
+As mentioned by Douglas Hanahan in the "[cancer hallmark paper (2022)](https://aacrjournals.org/cancerdiscovery/article/12/1/31/675608/Hallmarks-of-Cancer-New-DimensionsHallmarks-of) ([version 1: 2011](https://www.cell.com/fulltext/S0092-8674(11)00127-9))", genome (DNA) instability and mutation is a fundamental component of cancer formation and pathogenesis. In the laset two decades, computational analysis of pan-cancer data has identified signatures of mutational processes thought to be responsible for the pattern of mutations in any given cancer. These analyses identified altered DNA repair pathways in a much broader spectrum of cancers than previously appreciated with significant therapeutic implications. The development of DNA repair deficiency biomarkers is critical to the implementation of therapeutic targeting of repair-deficient tumors, using either DNA damaging agents or immunotherapy for the personalization of cancer therapy ([Jennifer Ma, et al. 2018](https://www.nature.com/articles/s41467-018-05228-y)). But the underly causal factor behind this process is hard to quantify in human, so as an alternative option, experiments have been done in model organisms, such as worm.
+
+```{image} ./cancer_hallmark.png
+:alt: Hallmarks of cancer
+:class: bg-primary
+:width: 500px
+:align: center
+```
+
+In this use case, we will re-analysis whole genome sequencing data from [***Volkova et,al.***](https://www.nature.com/articles/s41467-020-15912-7) to validated the mutation signature pattern caused by gene mutations in DNA repaired pathway (e.g. *xpc, mlh*)
 
 In the original paper, 54 gentypes C.elegans were treated by 12 genotoxins with 2-3 different doses, generated 2717 total mutagenesis experiments and whole genome sequencing data. We utilized Clindet’s tumor-normal paired mode within the WGS module to analyze this dataset and successfully reproduced the mutational signatures reported in the original study. Our focus was on WGS data from seven mutant worm samples and their matched normal controls, including: (1) three biological replicates of mlh-1 mutants, deficient in DNA mismatch repair and propagated for 20 generations; (2) three replicates of xpc-1 mutants exposed to UV light; and (3) one mrt-2 mutant, deficient in telomere maintenance and also propagated for 20 generations, which is known to undergo telomere crisis and breakage-fusion-bridge (BFB) cycles, resulting in extensive copy number alterations and genomic rearrangements. 
 
@@ -43,9 +52,23 @@ CD0842c,xpc-1,1,2,UV
 CD0842d,xpc-1,1,3,UV
 ```
 
+Create a folder named project/worm_WGS in your home directory and activate the Clindet conda environment.
+
+```{code} bash
+mkdir -p ~/projects/worm_WGS
+cd ~/projects/worm_WGS
+conda activate clindet
+```
+
 ## Download data
+We generate an `worm_meta.tsv` for this use case, you can download and put it in ~/projects/worm_WGS/data folder.
+then you can download those fastq by useing [`parallel`]():
 
-
+```{code} bash
+cd ~/projects/worm_WGS
+mkdir -p data && cd data
+parallel --colsep '\t' wget -q -c -O {12} {10} :::: worm_meta.tsv
+```
 ## Download and confing  C.elegans genome file
 
 ## write Snakemake file 

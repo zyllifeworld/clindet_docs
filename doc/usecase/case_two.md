@@ -43,16 +43,16 @@ wget -q -c -O A26.11 https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR12099713/SR
 wget -q -c -O A27.19 https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR12099714/SRR12099714
 wget -q -c -O A28.15 https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR12099715/SRR12099715
 
-fastq-dump --gzip -O /public/ClinicalExam/lj_sih/projects/project_clindet/data/GSE153380 --split-3 ./A26.11
-fastq-dump --gzip -O /public/ClinicalExam/lj_sih/projects/project_clindet/data/GSE153380 --split-3 ./A27.19
-fastq-dump --gzip -O /public/ClinicalExam/lj_sih/projects/project_clindet/data/GSE153380 --split-3 ./A28.15
+fastq-dump --gzip -O ~/projects/MM_RNA/data --split-3 ./A26.11
+fastq-dump --gzip -O ~/projects/MM_RNA/data --split-3 ./A27.19
+fastq-dump --gzip -O ~/projects/MM_RNA/data --split-3 ./A28.15
 
 ```
 
 Next, create a CSV file named pipe_rna.csv in the ~/projects/MM_RNA directory with the following content:
 
 ```
-Tumor_R1_file_path,Tumor_R2_file_path,Normal_R1_file_path,Normal_R2_file_path,Sample_name,Target_file_bed,Project
+R1_file_path,R2_file_path,Sample_name,Project
 ~/projects/MM_RNA/data/A26.11_1.fastq.gz,~/projects/MM_RNA/data/A26.11_2.fastq.gz,MF1
 ~/projects/MM_RNA/data/A27.19_1.fastq.gz,~/projects/MM_RNA/data/A27.19_2.fastq.gz,MS3
 ~/projects/MM_RNA/data/A28.15_1.fastq.gz,~/projects/MM_RNA/data/A28.15_2.fastq.gz,CD1
@@ -66,10 +66,9 @@ For this project, modify the sample sheet and create a new Snakemake file named 
 
 
 ## write Snakemake file 
-For this project, we need change the  sample sheet info.
+For this project, we need change the **samplesheet info** and **config.yaml** path in the snake_rna.smk .
 :::{tip}
 :class: dropdown
-
 ```{code} python
 
 import pandas as pd
@@ -77,11 +76,7 @@ samples_info = pd.read_csv('./pipe_rna.csv',index_col='Sample_name')
 unpaired_samples = samples_info.loc[pd.isna(samples_info['R2_file_path'])].index.tolist()
 paired_samples = samples_info.loc[~pd.isna(samples_info['R1_file_path'])].index.tolist()
 
-configfile: "/public/ClinicalExam/lj_sih/projects/project_clindet/build_log/config.yaml"
-
-import os
-if not os.path.exists("logs/slurm"):
-    os.makedirs("logs/slurm")
+configfile: "/AbsoPath/of/clindet/folder/config/config.yaml"
 
 groups = ['NC','T']
 stages = ['RSEM','arriba','TRUST4','samlom','kallisto']
@@ -105,16 +100,13 @@ rule all:
     input:
         ## paired sample
         expand(rna_res_list,
-        # sample = paired_samples,
-        sample = ['CD1','COLO829'],
+        sample = paired_samples,
         project = project,
         genome_version = genome_version
         ),
         
 ##### Modules #####
-include: "workflow/RNA/Snakefile"
-
-
+include: "/AbsoPath/of/clindet/folder/workflow/RNA/Snakefile"
 ```
 :::
 
@@ -133,7 +125,7 @@ nohup snakemake -j 30 --printshellcmds -s snake_rna.smk \
 ### Submit to HPC use slurm
 we provide a slurm config.yaml under clindet/workflow/config_slurm folder.
 ```{code}  bash
-nohup snakemake --profile workflow/config_slurm \
+nohup snakemake --profile /Absolute/Path/of/clindet/workflow/config_slurm \
 -j 30 --printshellcmds -s snake_rna.smk --use-singularity \
 --singularity-args "--bind /your/home/path:/your/home/path" \
 --latency-wait 300 --use-conda >> rna.log

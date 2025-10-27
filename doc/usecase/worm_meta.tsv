@@ -1,0 +1,22 @@
+CD0001b	N2	0	0	NA		mut.acc.	NA	ERS068338	ftp.sra.ebi.ac.uk/vol1/fastq/ERR089/ERR089806/ERR089806_1.fastq.gz	4e8ac61e4ee9d04ec59c456fa3827dad;97a4375b0f39d66ea06fe52d2d2cd6e7	CD0001b_R1.fq.gz
+CD0001b	N2	0	0	NA		mut.acc.	NA	ERS068338	ftp.sra.ebi.ac.uk/vol1/fastq/ERR089/ERR089806/ERR089806_2.fastq.gz	4e8ac61e4ee9d04ec59c456fa3827dad;97a4375b0f39d66ea06fe52d2d2cd6e7	CD0001b_R2.fq.gz
+CD0009b	mrt-2	0	0	NA		mut.acc.	NA	ERS078371	ftp.sra.ebi.ac.uk/vol1/fastq/ERR224/ERR224714/ERR224714_1.fastq.gz	dad3b7a854834350ad1d2bcd9c95b7eb;b17dcfd257c091e4047ba9e3da050934	CD0009b-1_R1.fq.gz
+CD0009b	mrt-2	0	0	NA		mut.acc.	NA	ERS078371	ftp.sra.ebi.ac.uk/vol1/fastq/ERR224/ERR224714/ERR224714_2.fastq.gz	dad3b7a854834350ad1d2bcd9c95b7eb;b17dcfd257c091e4047ba9e3da050934	CD0009b-1_R2.fq.gz
+CD0009b	mrt-2	0	0	NA		mut.acc.	NA	ERS078371	ftp.sra.ebi.ac.uk/vol1/fastq/ERR224/ERR224738/ERR224738_1.fastq.gz	e1122e6b10bdb01d051fb1c4d6cd0e9f;a3ad2ab21092d17da98b51f4327919d2	CD0009b-2_R1.fq.gz
+CD0009b	mrt-2	0	0	NA		mut.acc.	NA	ERS078371	ftp.sra.ebi.ac.uk/vol1/fastq/ERR224/ERR224738/ERR224738_2.fastq.gz	e1122e6b10bdb01d051fb1c4d6cd0e9f;a3ad2ab21092d17da98b51f4327919d2	CD0009b-2_R2.fq.gz
+CD0392a	xpc-1	0	0	NA		mut.acc.	NA	ERS607731	ftp.sra.ebi.ac.uk/vol1/fastq/ERR980/ERR980436/ERR980436_1.fastq.gz	0c4f8e2eacbb23552835a5a17e108b56;b93eff009c9d11161f8153861d14e432	CD0392a_R1.fq.gz
+CD0392a	xpc-1	0	0	NA		mut.acc.	NA	ERS607731	ftp.sra.ebi.ac.uk/vol1/fastq/ERR980/ERR980436/ERR980436_2.fastq.gz	0c4f8e2eacbb23552835a5a17e108b56;b93eff009c9d11161f8153861d14e432	CD0392a_R2.fq.gz
+CD0009f	mrt-2	20	3	NA	CD0009b	mut.acc.	NA	ERS085305	ftp.sra.ebi.ac.uk/vol1/fastq/ERR224/ERR224745/ERR224745_1.fastq.gz	3dd3db33012a8c2a96fc3554d5af3895;01b1eaecd6d4e9f7f12f5f68838604cf	CD0009f_R1.fq.gz
+CD0009f	mrt-2	20	3	NA	CD0009b	mut.acc.	NA	ERS085305	ftp.sra.ebi.ac.uk/vol1/fastq/ERR224/ERR224745/ERR224745_2.fastq.gz	3dd3db33012a8c2a96fc3554d5af3895;01b1eaecd6d4e9f7f12f5f68838604cf	CD0009f_R2.fq.gz
+CD0134a	mlh-1	20	2	NA		mut.acc.	NA	ERS361473	ftp.sra.ebi.ac.uk/vol1/fastq/ERR425/ERR425350/ERR425350_1.fastq.gz	0a9318ada6ba1bd71f4f2dbd09904032;3fa13bf2703a02c7d4a46a9e43172849	CD0134a_R1.fq.gz
+CD0134a	mlh-1	20	2	NA		mut.acc.	NA	ERS361473	ftp.sra.ebi.ac.uk/vol1/fastq/ERR425/ERR425350/ERR425350_2.fastq.gz	0a9318ada6ba1bd71f4f2dbd09904032;3fa13bf2703a02c7d4a46a9e43172849	CD0134a_R2.fq.gz
+CD0134c	mlh-1	20	3	NA		mut.acc.	NA	ERS361474	ftp.sra.ebi.ac.uk/vol1/fastq/ERR425/ERR425351/ERR425351_1.fastq.gz	46bf925ad8257a1703576bdd76b0cd67;6b096033cb4d779f00a5158349aea25e	CD0134c_R1.fq.gz
+CD0134c	mlh-1	20	3	NA		mut.acc.	NA	ERS361474	ftp.sra.ebi.ac.uk/vol1/fastq/ERR425/ERR425351/ERR425351_2.fastq.gz	46bf925ad8257a1703576bdd76b0cd67;6b096033cb4d779f00a5158349aea25e	CD0134c_R2.fq.gz
+CD0134d	mlh-1	20	4	NA		mut.acc.	NA	ERS361475	ftp.sra.ebi.ac.uk/vol1/fastq/ERR425/ERR425352/ERR425352_1.fastq.gz	b30158766f5f35125bc35e96a943328f;00797398726e798911004ba1b1f9009d	CD0134d_R1.fq.gz
+CD0134d	mlh-1	20	4	NA		mut.acc.	NA	ERS361475	ftp.sra.ebi.ac.uk/vol1/fastq/ERR425/ERR425352/ERR425352_2.fastq.gz	b30158766f5f35125bc35e96a943328f;00797398726e798911004ba1b1f9009d	CD0134d_R2.fq.gz
+CD0842b	xpc-1	1	1	UV		mutagen	200	ERS1033301	ftp.sra.ebi.ac.uk/vol1/fastq/ERR274/006/ERR2744796/ERR2744796_1.fastq.gz	1cd6d0aa60fa184a79c9b9348e8ce628;cf3f39ce3f9e51838dbba62ce19553ca	CD0842b_R1.fq.gz
+CD0842b	xpc-1	1	1	UV		mutagen	200	ERS1033301	ftp.sra.ebi.ac.uk/vol1/fastq/ERR274/006/ERR2744796/ERR2744796_2.fastq.gz	1cd6d0aa60fa184a79c9b9348e8ce628;cf3f39ce3f9e51838dbba62ce19553ca	CD0842b_R2.fq.gz
+CD0842c	xpc-1	1	2	UV		mutagen	200	ERS1033302	ftp.sra.ebi.ac.uk/vol1/fastq/ERR274/007/ERR2744797/ERR2744797_1.fastq.gz	efddf257d2d983266ce48772942a5ff6;f56bb911ef11635cae9ab10dd49cc8b2	CD0842c_R1.fq.gz
+CD0842c	xpc-1	1	2	UV		mutagen	200	ERS1033302	ftp.sra.ebi.ac.uk/vol1/fastq/ERR274/007/ERR2744797/ERR2744797_2.fastq.gz	efddf257d2d983266ce48772942a5ff6;f56bb911ef11635cae9ab10dd49cc8b2	CD0842c_R2.fq.gz
+CD0842d	xpc-1	1	3	UV		mutagen	200	ERS1033303	ftp.sra.ebi.ac.uk/vol1/fastq/ERR274/008/ERR2744798/ERR2744798_1.fastq.gz	ef91b16cdb6f1b29c89d3a10aefc416f;2ec6b0897662b2d59a0c6998d0884f88	CD0842d_R1.fq.gz
+CD0842d	xpc-1	1	3	UV		mutagen	200	ERS1033303	ftp.sra.ebi.ac.uk/vol1/fastq/ERR274/008/ERR2744798/ERR2744798_2.fastq.gz	ef91b16cdb6f1b29c89d3a10aefc416f;2ec6b0897662b2d59a0c6998d0884f88	CD0842d_R2.fq.gz
