@@ -1,13 +1,13 @@
 (clindet-wxs-workflow)=
-# clindet WXS workflow
-For better reproducibility, Clindet incorporates best practices from leading international research institutions, including the [Hartwig Medical Foundation (HMF)](https://github.com/hartwigmedical/hmftools), the [German Cancer Research Center (DKFZ)](https://www.dkfz.de/en/), the [New York Genome Center (NYGC)](https://www.nygenome.org/), the [ICGC-TCGA-PanCancer project](https://github.com/ICGC-TCGA-PanCancer), the [Wellcome Sanger Institute](https://www.sanger.ac.uk/programme/cancer-ageing-and-somatic-mutation/), and the Broad Institute [GATK best practice](https://gatk.broadinstitute.org/hc/en-us/sections/360007226651-Best-Practices-Workflows). 
+# ClinDet WXS workflow
+For better reproducibility, ClinDet incorporates best practices from leading international research institutions, including the [Hartwig Medical Foundation (HMF)](https://github.com/hartwigmedical/hmftools), the [German Cancer Research Center (DKFZ)](https://www.dkfz.de/en/), the [New York Genome Center (NYGC)](https://www.nygenome.org/), the [ICGC-TCGA-PanCancer project](https://github.com/ICGC-TCGA-PanCancer), the [Wellcome Sanger Institute](https://www.sanger.ac.uk/programme/cancer-ageing-and-somatic-mutation/), and the Broad Institute [GATK best practice](https://gatk.broadinstitute.org/hc/en-us/sections/360007226651-Best-Practices-Workflows). 
 
 
 
-Clindet provides two mutation detection modes for tumor samples: tumor-normal paired sample mode and tumor-only mode, to accommodate the testing needs of different clinical cohorts.
+ClinDet provides two mutation detection modes for tumor samples: tumor-normal paired sample mode and tumor-only mode, to accommodate the testing needs of different clinical cohorts.
 
 
-- [clindet WXS workflow](#clindet-wxs-workflow)
+- [ClinDet WXS workflow](#clindet-wxs-workflow)
   - [QC and preprocess](#qc-and-preprocess)
   - [Small variants (SNVs/Indels)](#small-variants-snvsindels)
     - [Small variants (SNVs/Indels) (Somatic)](#small-variants-snvsindels-somatic)
@@ -29,7 +29,7 @@ Clindet provides two mutation detection modes for tumor samples: tumor-normal pa
   - [Case Reports](#case-reports)
   - [Implementation](#implementation)
 
-clindet post-processess outputs of cancer variant calling analysis pipelines
+ClinDet post-processess outputs of cancer variant calling analysis pipelines
 from **BAM** from Tumor-Normal paired (Tumor-only model)
 and generates reports for researchers and curators at UMCCR.
 
@@ -44,7 +44,7 @@ variant calling workflows:
 
 (qc-and-preprocess)=
 ## QC and preprocess
-In the pre-processing step, Clindet processes FASTQ files in accordance with GATK best practices.Fastp were used to trim adapter and generate sequencing report of each fastq file. Then trimmed sequence reads were aligned to the reference genome using BWA-MEM, followed by deduplication and recalibration with GATK. Specifically, for tumor-normal paired samples, ConPair is employed to verify whether the samples originate from the same individual, and quality control statistics files are generated via GATK.
+In the pre-processing step, ClinDet processes FASTQ files in accordance with GATK best practices.Fastp were used to trim adapter and generate sequencing report of each fastq file. Then trimmed sequence reads were aligned to the reference genome using BWA-MEM, followed by deduplication and recalibration with GATK. Specifically, for tumor-normal paired samples, ConPair is employed to verify whether the samples originate from the same individual, and quality control statistics files are generated via GATK.
 
 
 fastp is a tool designed to provide ultrafast all-in-one preprocessing and quality control for FastQ data.
@@ -60,7 +60,7 @@ fastp is a tool designed to provide ultrafast all-in-one preprocessing and quali
 (small-variants-snvsindels-somatic)=
 ### Small variants (SNVs/Indels) (Somatic)
 
-Post-preprocessing BAM files are analyzed using various software tools. For somatic mutations, 11 software tools are utilized for detection. To exclude germline mutations and sequencing artifacts from the final results as comprehensively as possible (particularly for tumor-only samples), Clindet supports a [panel of normals](https://github.com/umccr/vcf_stuff/blob/master/vcf_stuff/panel_of_normals/story/panel_of_normals.md) strategy to mark and filter variants, which has been demonstrated to effectively remove germline variants and recurrent technical artifacts. Users may specify pre-built VCF files or employ Clindet to construct them de-novo based on normal sample data from the cohort. The remaining detected results (in VCF format) are filtered and annotated using the [vcf2maf](https://github.com/mskcc/vcf2maf) software to produce MAF files. Subsequently, these MAF-format outputs from all SNV callers are processed through a custom R script to generate consensus mutation detection results. For somatic structural variations, Clindet employs five software tools for detection; to achieve consensus results, [Jasmine](https://github.com/mkirsche/Jasmine) software is used to merge structural variation events sharing the same orientation and breakpoint positions within 500bp. For copy number variations, Clindet utilizes seven software tools for detection and organizes the final results into segment-format files. Users can select specific software for subsequent analyses according to their requirements.
+Post-preprocessing BAM files are analyzed using various software tools. For somatic mutations, 11 software tools are utilized for detection. To exclude germline mutations and sequencing artifacts from the final results as comprehensively as possible (particularly for tumor-only samples), ClinDet supports a [panel of normals](https://github.com/umccr/vcf_stuff/blob/master/vcf_stuff/panel_of_normals/story/panel_of_normals.md) strategy to mark and filter variants, which has been demonstrated to effectively remove germline variants and recurrent technical artifacts. Users may specify pre-built VCF files or employ ClinDet to construct them de-novo based on normal sample data from the cohort. The remaining detected results (in VCF format) are filtered and annotated using the [vcf2maf](https://github.com/mskcc/vcf2maf) software to produce MAF files. Subsequently, these MAF-format outputs from all SNV callers are processed through a custom R script to generate consensus mutation detection results. For somatic structural variations, ClinDet employs five software tools for detection; to achieve consensus results, [Jasmine](https://github.com/mkirsche/Jasmine) software is used to merge structural variation events sharing the same orientation and breakpoint positions within 500bp. For copy number variations, ClinDet utilizes seven software tools for detection and organizes the final results into segment-format files. Users can select specific software for subsequent analyses according to their requirements.
 
 
 (summary)=
@@ -111,7 +111,7 @@ ClinDet use bcftools to filter `PASS` variants.
 The called results (in VCF format) are filtered and annotated using the vcf2maf software to produce MAF files. This tool is based on VEP, so user can add some VEP plugins.
 
 ##### Consensus results from Multiple softwares
-Subsequently, all MAF-format outputs from all SNV callers are processed through a custom R script to generate consensus mutation detection results. For somatic structural variations, Clindet employs five software tools for detection; to achieve consensus results, Jasmine software is used to merge structural variation events sharing the same orientation and breakpoint positions within 500bp. For copy number variations, Clindet utilizes seven software tools for detection and organizes the final results into segment-format files. Users can select specific software for subsequent analyses according to their requirements.
+Subsequently, all MAF-format outputs from all SNV callers are processed through a custom R script to generate consensus mutation detection results. For somatic structural variations, ClinDet employs five software tools for detection; to achieve consensus results, Jasmine software is used to merge structural variation events sharing the same orientation and breakpoint positions within 500bp. For copy number variations, ClinDet utilizes seven software tools for detection and organizes the final results into segment-format files. Users can select specific software for subsequent analyses according to their requirements.
 
 
 (snps-and-small-indels-germline)=
@@ -156,18 +156,18 @@ ClinDet uses multiple software tools to call arm-level CNVs. Some of these tools
 
 ## MultiQC
 
-Following the derivation of consensus SNVs, CNVs, and SVs from all samples, Clindet generates a comprehensive array of quality control metrics using Fastp, ConPair, GATK, and Samtools, which are visualized as an aggregated quality control review across samples via MultiQC.
+Following the derivation of consensus SNVs, CNVs, and SVs from all samples, ClinDet generates a comprehensive array of quality control metrics using Fastp, ConPair, GATK, and Samtools, which are visualized as an aggregated quality control review across samples via MultiQC.
 
 ## Case Reports
-To enhance the clinical applicability of the detection results, Clindet employs R Markdown and HMF [ORANGE](https://github.com/hartwigmedical/hmftools/tree/master/orange) software to visualize the consensus outputs for each patient (tumor-normal paired), ultimately generating a structured HTML report file. This report includes basic sample information, potential cancer driver genes identified from the mutation detection results, and targetable sites, to support the selection of patient treatment regimens.
+To enhance the clinical applicability of the detection results, ClinDet employs R Markdown and HMF [ORANGE](https://github.com/hartwigmedical/hmftools/tree/master/orange) software to visualize the consensus outputs for each patient (tumor-normal paired), ultimately generating a structured HTML report file. This report includes basic sample information, potential cancer driver genes identified from the mutation detection results, and targetable sites, to support the selection of patient treatment regimens.
 
 ## Implementation
 
-The Clindet pipeline tool was developed using Snakemake, following a clean, and robust design in accordance with best practice coding standards. Instructions for installing and running Clindet are provided in the public GitHub repository (https://github.com/clindet/clindet). A detailed manual, which outlines the workflows and operating parameters, is also available on the GitHub README page. To ensure the reproducibility of data analyses and to mitigate the challenges associated with dependency configuration in bioinformatics tool installations, multiple containers for analysis software were constructed using an integrated approach involving Conda, Docker, and Singularity. Leveraging container technology, Clindet can be deployed seamlessly on any Linux-compatible computing system. The runtime parameters of these software tools are managed via a YAML-format configuration file, enabling users to readily modify them according to specific analysis requirements, such as the genome version required for alignment or the allocation of computational resources for tasks. Additionally, owing to Snakemake's flexible syntax, users can easily add, delete, or modify steps in the data analysis workflow.
+The ClinDet pipeline tool was developed using Snakemake, following a clean, and robust design in accordance with best practice coding standards. Instructions for installing and running ClinDet are provided in the public GitHub repository (https://github.com/zyllifeworld/clindet). A detailed manual, which outlines the workflows and operating parameters, is also available on the GitHub README page. To ensure the reproducibility of data analyses and to mitigate the challenges associated with dependency configuration in bioinformatics tool installations, multiple containers for analysis software were constructed using an integrated approach involving Conda, Docker, and Singularity. Leveraging container technology, ClinDet can be deployed seamlessly on any Linux-compatible computing system. The runtime parameters of these software tools are managed via a YAML-format configuration file, enabling users to readily modify them according to specific analysis requirements, such as the genome version required for alignment or the allocation of computational resources for tasks. Additionally, owing to Snakemake's flexible syntax, users can easily add, delete, or modify steps in the data analysis workflow.
 
 > support genome version for each tool was listd below:
 
-:::{table} Clindet WES mutation call module
+:::{table} ClinDet WES mutation call module
 :align: center
 :widths: auto
 | Softwares | Tumor-Nomral paired | Tumor-only | Support genome version |

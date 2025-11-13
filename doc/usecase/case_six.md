@@ -1,7 +1,6 @@
-# Use case V: Switching to different genome version (e.g. hg38)
-
-In a recent article titled "Choose your human genome reference wisely," published in (**Nature Methods**)[https://www.nature.com/articles/s41592-025-02850-9], the authors provide a systematic overview of the different versions of the human reference genome used in bioinformatics and offer guidance on selecting the appropriate genome assembly.
-Over the past few decades, multiple versions of the human genome have been developed, such as b37, hg38, T2T-CHM13, and various pan-genome assemblies. These versions differ significantly in aspects like gene annotation accuracy and chromosomal assembly completeness. Therefore, selecting a suitable genomic reference is a critical step in data analysis.
+# Use case VI: Analysis Mouse data (e.g. mm10)
+https://www.ncbi.nlm.nih.gov/sra?linkname=bioproject_sra_all&from_uid=726033
+https://www.nature.com/articles/s41586-025-08625-8
 
 ```{image} ./choose_genome.png
 :alt: glioma
@@ -28,9 +27,6 @@ The required files listed below can be downloaded manually. Alternatively, to si
 2. DBSNP, ASCAT loci, allele files. 
 3. config files for hmftools, GATK tools. 
 4. config files for Sanger tools (CaVEMan, BRASS, cgppindel).
-
-
-
 
 
 ## modify YAML file
@@ -274,8 +270,4 @@ b37:
     known_fusion_bed: "/AbsoPath/of/clindet/folder/resources/ref_genome/b37/hmf_pipeline_resources/dna/sv/known_fusions.37.bedpe"
     blacklist: "/AbsoPath/of/clindet/folder/resources/ref_genome/b37/hmf_pipeline_resources/dna/sv/gridss_blacklist.37.bed.gz"
 ```
-
-
-## re-run WES data in use case I
-
 

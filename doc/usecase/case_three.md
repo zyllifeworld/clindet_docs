@@ -3,7 +3,7 @@
 ## Background
 Whole-genome sequencing (WGS) is increasingly being adopted in clinical oncology, providing a comprehensive view of the tumor genetic landscape. Compared to whole-exome sequencing (WES), this approach enables the detection of a broader range of disease-associated genetic alterations, including mutations in non-coding regions and structural variants (SVs). Such comprehensive profiling can facilitate deeper insights into cancer evolution and inform the development of personalized therapeutic strategies. However, WGS generates extensive datasets, necessitating robust bioinformatics pipelines for their analysis. To demonstrate how high-quality, validated somatic variants can be identified from WGS data, we employed Clindet to analyze a metastatic melanoma cell line (COLO829) and its matched normal lymphoblastoid cell line (COLO829BL), for which a "truth set" of copy number variants (CNVs) and structural variants (SVs) had been established. 
 
-**COLO829 cell**
+**COLO829 cell line**
 ```{image} ./colo829_cell.png
 :alt: COLO829
 :class: bg-primary
@@ -25,7 +25,7 @@ conda activate clindet
 ```
 
 ## Download data and setup a samplesheet.csv
-Your can download WGS fastq file from [HMFtools Resources](https://console.cloud.google.com/storage/browser/hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq?pageState=(%22StorageObjectListTable%22:(%22f%22:%22%255B%255D%22))&inv=1&invt=Ab1qLA)
+Your can download WGS fastq file **(~249G)** from [HMFtools Resources](https://console.cloud.google.com/storage/browser/hmf-public/HMFtools-Resources/test_data/COLO829v003T/fastq?pageState=(%22StorageObjectListTable%22:(%22f%22:%22%255B%255D%22))&inv=1&invt=Ab1qLA)
 ```{code} bash
 cd ~/projects/COLO829_WGS
 mkdir -p data && cd data
@@ -92,67 +92,105 @@ samples_info = pd.read_csv('./pipe_WGS.csv',index_col='Sample_name')
 unpaired_samples = samples_info.loc[pd.isna(samples_info['Normal_R1_file_path'])].index.tolist()
 paired_samples = samples_info.loc[~pd.isna(samples_info['Normal_R1_file_path'])].index.tolist()
 
-configfile: "/config/config.yaml"
+configfile: "/AbsoPath/of/clindet/folder/config/config.yaml"
 
 project = samples_info["Project"].unique().tolist()[0]
 genome_version = 'b37'
 
 
 import os
-groups = ['NC','T']
 
 germ_caller_list = ['caveman','deepvariant']
 somatic_caller_list = ['strelkasomaticmanta','muse','cgppindel_filter','deepvariant','sage','caveman']
 somatic_cnv_list = ['purple','ascat']
-somatic_sv_list = ['purple','ascat']
+somatic_sv_list = ['svaba','gridss']
 purple_sv = 'svaba'
 
 
 recall_pon =  False
+custome_pon_db = True
 recall_pon_pindel =  False
-recal = False
-## paired sample list
+
 paired_res_list = [
     ##### for QC report ######
     # rules.conpair_contamination.output           if 'conpair'          in stages else None,
     '{project}/{genome_version}/logs/paired/conpair/{sample}.done' if 'conpair'          in stages else None,
+
     ##### for SNV/INDEL calling #####
     "{project}/{genome_version}/results/maf/paired/{sample}/merge/{sample}.maf",
+
     ##### for CNV result ##### There is a bug for snakemake rules namelist when include *smk for 3-4 levels
     # rules.paired_purple.output.qc  if 'purple' in somatic_cnv_list else None, # purple call
     "{project}/{genome_version}/results/cnv/paired/purple/{sample}/purple/{sample}.purple.qc"  if 'purple' in somatic_cnv_list else None, # purple call
     # rules.CNA_ASCAT.output.rdata   if 'ASCAT'  in somatic_cnv_list else None, # ASCAT call
     "{project}/{genome_version}/results/cnv/paired/ascat/{sample}/{sample}_ASCAT.rdata"   if 'ASCAT'  in somatic_cnv_list else None, # ASCAT call
     # rules.facets.output.qc         if 'facets' in somatic_cnv_list else None, # facets call
-    # rules.facets.output.qc         if 'facets' in somatic_cnv_list else None, # facets call
-    "{project}/{genome_version}/results/cnv/paired/freec/{sample}/{sample}_config_freec.ini" if 'freec' in somatic_cnv_list else None, 
-    ##### for SV calling ######
+    # rules.facets.output.qc         if 'freec' in somatic_cnv_list else None, # freec call
+    "{project}/{genome_version}/results/cnv/paired/freec/{sample}/{sample}_config_freec.ini" if 'freec' in somatic_cnv_list else None, # Control-FREEC call
+    # rules.CNA_exomedepth.output.tsv       if 'exomedepth' in somatic_cnv_list else None, # sequenza call
+    "{project}/{genome_version}/results/cnv/paired/exomedepth/{sample}/{sample}_exomedepth.tsv"  if 'exomedepth' in somatic_cnv_list else None, # sequenza call
+    # rules.sequenza_call.output.segment       if 'sequenza' in somatic_cnv_list else None, # sequenza call
+    "{project}/{genome_version}/results/cnv/paired/sequenza/{sample}/{sample}_segments.txt"  if 'sequenza' in somatic_cnv_list else None, # sequenza call
+    
+    ##### for SV result #####
+    # somatic_sv_list = ['BRASS','delly','gridss','igcaller','linx','svaba','Manta']
+    # BRASS call
+    "{project}/{genome_version}/results/sv/paired/BRASS/{sample}/{sample}_brass.log"  if 'BRASS' in somatic_sv_list else None, # purple call
+    # DELLY call
+    "{project}/{genome_version}/results/sv/paired/DELLY/{sample}/SV_delly_{sample}.vcf"   if 'delly'  in somatic_sv_list else None, # ASCAT call
+    # gridss call
+    "{project}/{genome_version}/results/sv/paired/gridss/{sample}/high_confidence_somatic.vcf.bgz" if 'gridss' in somatic_sv_list else None, # Control-FREEC call
+    # linx call
+    "{project}/{genome_version}/results/sv/paired/linx/{sample}/{sample}.linx.svs.tsv"  if 'linx' in somatic_sv_list else None, # sequenza call
+    # svaba call
+    "{project}/{genome_version}/results/sv/paired/svaba/{sample}/{sample}.svaba.somatic.sv.vcf"  if 'svaba' in somatic_sv_list else None, # sequenza call
+    # igcaller call
+    "{project}/{genome_version}/results/sv/paired/igcaller/{sample}/{sample}-T_IgCaller/{sample}-T_output_filtered.tsv"  if 'igcaller' in somatic_sv_list else None, # sequenza call
+    # Manta call
+    "{project}/{genome_version}/results/vcf/paired/{sample}/Manta/results/variants/somaticSV.vcf.gz"  if 'Manta' in somatic_sv_list else None, # sequenza call
 
     #### Case report #####
+    '{project}/{genome_version}/results/report/{sample}/{sample}_cancer_report.html' if 'case_report' in stages else None,
+    #### Multiple QC report #####
+    '{project}/{genome_version}/results/multiqc_report.html' if 'multiqc' in stages else None,
+
 ]
 paired_res_list = list(filter(None, paired_res_list))
 
+
+## unpaired sample list
+unpaired_res_list = [
+    ##### for SNV/INDEL calling #####
+    "{project}/{genome_version}/results/maf/unpaired/{sample}/merge/{sample}.maf",
+    ##### for CNV result ##### There is a bug for snakemake rules namelist when include *smk for 3-4 levels
+    # rules.paired_purple.output.qc  if 'purple' in somatic_cnv_list else None, # purple call
+    "{project}/{genome_version}/results/cnv/unpaired/purple/{sample}/purple/{sample}.purple.qc"    if 'purple' in tumor_only_cnv_caller else None,
+    ### if you want call CNV from use tumor-only WES data, take you own risk
+    "{project}/{genome_version}/results/cnv/unpaired/freec/{sample}/{sample}-T.bam_ratio.txt.png"  if 'freec' in tumor_only_cnv_caller else None,
+
+]
+unpaired_res_list = list(filter(None, unpaired_res_list))
+
+##### Modules #####
 rule all:
     input:
         ## paired sample
         expand(paired_res_list,
+        sample = paired_samples,
         project = project,
         genome_version = genome_version,
-        sample = paired_samples,
-	    group = groups,
+        group = groups,
         caller = caller_list),
-        ## unpaired sample
-        expand([
-            # "{project}/{genome_version}/results/recal/unpaired/{sample}-T.bam",
-            # "{project}/{genome_version}/results/stats/unpaired/wgs_metrics/{sample}-{group}.txt"
-            # "{project}/{genome_version}/results/maf/unpaired/{sample}/merge/{sample}.maf",
-            # "{project}/{genome_version}/results/maf/unpaired/{sample}/{caller}.vcf.maf",
-        ],
+        #### unpaired sample
+        expand(unpaired_res_list,
         project = project,
-        group = ['T'],
         genome_version = genome_version,
         sample = unpaired_samples,
-        caller = caller_list)
+        caller = caller_list),
+        ##### multiqc report ########
+        f'{project}/{genome_version}/results/multiqc/filelist.txt' if 'report' in stages else [],
+        f'{project}/{genome_version}/results/multiqc_report.html' if 'report' in stages else [],
+
 
 include: "workflow/WGS/Snakefile"
 ```
@@ -167,7 +205,7 @@ There is two way you can run clindet
 ```{code} bash
 nohup snakemake -j 30 --printshellcmds -s snake_wgs.smk \
 --use-singularity --singularity-args "--bind /your/home/path:/your/home/path" \
---latency-wait 300 --use-conda >> rna.log
+--latency-wait 300 --use-conda >> wgs.log
 ```
 
 ### Submit to HPC use slurm
@@ -176,28 +214,29 @@ we provide a slurm config.yaml under clindet/workflow/config_slurm folder.
 nohup snakemake --profile workflow/config_slurm \
 -j 30 --printshellcmds -s snake_wgs.smk --use-singularity \
 --singularity-args "--bind /your/home/path:/your/home/path" \
---latency-wait 300 --use-conda >> rna.log
+--latency-wait 300 --use-conda >> wgs.log
 ```
 
 ## Results
 After successful execution, you will see the following directory structure. The cnv folder contains the copy number variants detection results, the sv folder contains the structural variants detection results, and the vcf/maf folders contain mutaions (annotated and raw)  results.
+### Overview of outputs
 ```bash
 ~/projects/WGS/b37/results
-├── cnv
-│   └── paired
+├── cnv ** Copy Number variants results**
+│   └── paired ** For tumor-normal paired sample**
 │       ├── ascat
 │       └── purple
-├── dedup
+├── dedup ** deduplication BAM files**
 │   └── paired
-├── maf
+├── maf ** annotation somatic mutation MAF files**
 │   └── paired
 │       └── COL0829
-├── qc
+├── qc ** QC results for fastp conpair and so on**
 │   └── dedup
 │       └── paired
-├── recal
+├── recal ** BAM files after base recalibration**
 │   └── paired
-├── sv
+├── sv ** Structural Variant results**
 │   └── paired
 │       ├── BRASS
 │       ├── DELLY

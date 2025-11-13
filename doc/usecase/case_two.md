@@ -9,7 +9,7 @@ RNA sequencing (RNA-Seq) is a high-throughput transcriptome profiling technology
 3. ​Infectious Disease Characterization​​: Profiling host-pathogen interactions and pathogen expression in complex infections.
 1. Biomarker Discovery​​: Validating expression-based biomarkers for disease monitoring and treatment response.
 
-Gene fusions, or chromosomal translocations, are among the most common classes of mutations observed in cancer. These events can contribute to oncogenesis either by generating chimeric transcripts—such as BCR::ABL and RUNX1::RUNX1T1—or by inducing the overexpression of oncogenes, such as IGH::CCND1. The RNA-seq analysis module in Clindet integrates key functionalities including transcript quantification, gene fusion detection, immune repertoire profiling, and RNA variant calling. In this study, we employed the Clindet RNA-seq module to perform gene expression quantification and structural variant analysis by reanalyzing transcriptomic data from 31 flow-sorted bone marrow plasma cell samples published by [Jaime et al](https://www.nature.com/articles/s41467-021-25704-2). As a case study, we focused on three multiple myeloma patients (CD1, MS3, and MF1), all of whom were reported to carry chromosomal rearrangements involving the IGH enhancer and partner genes.
+Gene fusions, or chromosomal translocations, are among the most common classes of mutations observed in cancer. These events can contribute to oncogenesis either by generating chimeric transcripts—such as BCR::ABL and RUNX1::RUNX1T1—or by inducing the overexpression of oncogenes, such as IGH::CCND1. The RNA-seq analysis module in ClinDet integrates key functionalities including transcript quantification, gene fusion detection, immune repertoire profiling, and RNA variant calling. In this study, we employed the ClinDet RNA-seq module to perform gene expression quantification and structural variant analysis by reanalyzing transcriptomic data from 31 flow-sorted bone marrow plasma cell samples published by [Jaime et al](https://www.nature.com/articles/s41467-021-25704-2). As a case study, we focused on three multiple myeloma patients (CD1, MS3, and MF1), all of whom were reported to carry chromosomal rearrangements involving the IGH enhancer and partner genes.
 
 ```{image} ./jaime.png
 :alt: BCR MM
@@ -24,7 +24,7 @@ Gene fusions, or chromosomal translocations, are among the most common classes o
 Before starting the analysis, please ensure that you have set up the analysis environment using the build_conda_env.sh script.
 ````
 
-Create a folder named project/MM_RNA in your home directory and activate the Clindet conda environment.
+Create a folder named `project/MM_RNA` in your home directory and activate the clindet conda environment.
 
 ```{code} bash
 mkdir -p ~/projects/MM_RNA
@@ -78,22 +78,27 @@ paired_samples = samples_info.loc[~pd.isna(samples_info['R1_file_path'])].index.
 
 configfile: "/AbsoPath/of/clindet/folder/config/config.yaml"
 
-groups = ['NC','T']
 stages = ['RSEM','arriba','TRUST4','samlom','kallisto']
 caller_list = ['sentieon_anno_rnaedit','Mutect2_filter']
 project = 'RNA'
 genome_version = 'b37'
 
 rna_res_list = [
-    ##### for isoform expression ######
-    "{project}/{genome_version}/results/summary/RSEM/{sample}/{sample}.genes.results" if 'RSEM'          in stages else None,
-    ##### ka
-    "{project}/{genome_version}/results/summary/kallisto/{sample}/abundance.tsv" if 'kallisto'          in stages else None,
+    ##### for isoform expression RSEM ######
+    "{project}/{genome_version}/results/summary/RSEM/{sample}/{sample}.genes.results" if 'RSEM'      in rna_stages else None,
+    ##### kallisto
+    "{project}/{genome_version}/results/summary/kallisto/{sample}/abundance.tsv"      if 'kallisto'  in rna_stages else None,
+    ##### salmon
+    "{project}/{genome_version}/results/summary/salmon/{sample}/quant.sf"             if 'salmon'    in rna_stages else None,
+    ##### for Immu analysis #####
+    "{project}/{genome_version}/results/IG/TRUST4/{sample}_report.tsv"                if 'TRUST4'    in rna_stages else None,
     ##### for fusion gene detection #####
-    "{project}/{genome_version}/results/fusion/{sample}_arriba_fusion.tsv" if 'arriba'          in stages else None,
-    ##### for TRUST4 immu analysis #####
-    "{project}/{genome_version}/results/IG/TRUST4/{sample}_report.tsv" if 'TRUST4'          in stages else None,
-    #### Case report #####
+    "{project}/{genome_version}/results/fusion/{sample}_arriba_fusion.tsv"            if 'arriba'    in rna_stages else None,
+    ##### for isofox immu analysis #####
+    "{project}/{genome_version}/results/summary/isofox/{sample}/{sample}.sorted.bam"  if 'isofox'    in rna_stages else None,
+
+    #### mutation section #####
+    "{project}/{genome_version}/results/mut/maf/{sample}/merge/{sample}.maf"
 ]
 rna_res_list = list(filter(None, rna_res_list))
 rule all:
@@ -103,15 +108,15 @@ rule all:
         sample = paired_samples,
         project = project,
         genome_version = genome_version
-        ),
+        )
         
 ##### Modules #####
 include: "/AbsoPath/of/clindet/folder/workflow/RNA/Snakefile"
 ```
 :::
 
-## Run clindet 
-There is two way you can run clindet
+## Run ClinDet 
+There is two way you can run ClinDet
 1. run on a local server 
 2. submit to HPC through slurm
 
@@ -134,12 +139,22 @@ nohup snakemake --profile /Absolute/Path/of/clindet/workflow/config_slurm \
 ## Results
 After successful execution, you will see the following directory structure. The fusion folder contains the fusion gene detection results, and the summary folder contains the gene expression quantification results.
 
+### Overview of outputs
 ```bash
 ~/projects/MM_RNA/b37/results
-├── fusion
-├── mapped
+├── fusion # Fusion Gene Detection Results
+├── mapped # STAR mapping results
 │   └── STAR
-└── summary
+├── mut # RNA Mutation Detection Results
+│   ├── dedup
+│   ├── maf # annotated MAF file
+│   ├── STAR
+│   └── vcf
+├── IG # Immune repertoire reconstruction results
+│   └── TRUST4
+│ 
+└── summary # Results of Gene Expression Quantification
+    ├── kallisto
     ├── RSEM
     └── salmon
 ```

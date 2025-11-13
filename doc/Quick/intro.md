@@ -42,7 +42,7 @@ Clindet is a next-generation high-throughput sequencing data analysis workflow d
 
 - SV calling: 
 (
-[ESVEE](https://github.com/hartwigmedical/hmftools/tree/master/esvee),
+[BRASS](https://github.com/cancerit/BRASS),
 [Manta](https://github.com/hartwigmedical/hmftools/tree/master/esvee),
 [Delly](https://github.com/hartwigmedical/hmftools/tree/master/esvee),
 [svaba](https://github.com/hartwigmedical/hmftools/tree/master/esvee),
@@ -57,11 +57,11 @@ Clindet is a next-generation high-throughput sequencing data analysis workflow d
 [Battebberg](https://github.com/Wedge-lab/battenberg), 
 [sequenza](https://github.com/oicr-gsi/sequenza), 
 [Facets](https://github.com/mskcc/facets), 
-[Dryclean](https://github.com/mskilab-org/dryclean))
+[ExomeDepth](https://github.com/vplagnol/ExomeDepth))
 
 - SV and driver event interpretation: [LINX](https://github.com/hartwigmedical/hmftools/tree/master/linx)
 - RNA transcript analysis: 
-[RSEM](https://github.com/deweylab/RSEM)
+([RSEM](https://github.com/deweylab/RSEM),[Salmon](https://combine-lab.github.io/salmon/),[kallisto](https://github.com/pachterlab/kallisto))
 - RNA fusion gene detection: 
 [Arriba](https://github.com/suhrig/arriba)
 - Summary report: [ORANGE](https://github.com/hartwigmedical/hmftools/tree/master/orange),[Rmarkdown](https://rmarkdown.rstudio.com/)
@@ -84,19 +84,19 @@ Clindet is a next-generation high-throughput sequencing data analysis workflow d
 ````
 
 ````{note}
-> It is recommended to create a Snakemake file for each project. Specific examples can be found in the Clindet directory, including **snake_wes_template.smk**, **snake_wgs_template.smk**, **and snake_rna_template.smk**. Project-specific parameters can be modified within these files.
+> It is recommended to create a Snakemake file for each project. Specific examples can be found in the Clindet directory, including **template/snake_wes.smk**, **template/snake_wgs.smk**, **and template/snake_rna.smk**. Project-specific parameters can be modified within these files.
 ````
 **Detail See** <project:./install.md>
 
 
 ## Book structure
-Part 1 (Quick overview) brief introduction of ClinDet.
-Part 2 (Workflows Details) Usage details of Clindet.
-Part 3 (usecase) show some real world applications of ClinDet. 
+1. Part 1 (Quick overview) brief introduction of ClinDet.
+2. Part 2 (Workflows Details) Usage details of ClinDet.
+3. Part 3 (usecase) show some real world applications of ClinDet. 
 
 ## Credits
 
-The `Clindet` pipeline was written and is maintained by Yuliang Zhang ([@Yuliang Zhang](https://github.com/zyllifeworld)) , Junyi Zhang and Jianfeng Li from
+The `ClinDet` pipeline was written and is maintained by Yuliang Zhang ([@Yuliang Zhang](https://github.com/zyllifeworld)) , Junyi Zhang and Jianfeng Li from
 the [National Research Center for Translational Medicine at Shanghai](https://github.com/clindet).
 
 We thank the following organisations and people for their extensive assistance in the development of this pipeline,
@@ -106,7 +106,8 @@ listed in alphabetical order:
 - [Hartwig Medical Foundation Australia](https://www.hartwigmedicalfoundation.nl/en/partnerships/hartwig-medical-foundation-australia/)
 - [Wellcome Sanger Institute](https://www.sanger.ac.uk/)
 - [New York Genome Center](https://www.nygenome.org/)
-- JianFeng Li
+- [JianFeng Li](https://github.com/Miachol)
+- [JunYi Zhang](https://github.com/zjy-sjtu)
 
 ## Want to help?
 

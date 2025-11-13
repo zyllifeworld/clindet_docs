@@ -9,10 +9,10 @@ Whole Exome Sequencing (WES) is a powerful tool in clinical diagnostics, enablin
 ​​Pharmacogenomics​​: Assessing drug-response variants to optimize treatment regimens.
 4. WES improves diagnostic yield (~30-40% for rare diseases) while maintaining cost-efficiency compared to whole-genome sequencing. Integration with ACMG/AMP guidelines ensures clinically actionable reporting.
 
-The Clindet WES analysis pipeline supports the analysis of Whole Exome Sequencing (WES), panel, and targeted sequencing data, allowing each sample to correspond to different target regions. This workflow performs both somatic and germline variant calling from WES data and supports analyses of paired tumor-normal samples as well as tumor-only samples. It integrates multiple variant callers to detect single nucleotide variants (SNVs), insertions and deletions (INDELs), copy number variations (CNVs), and structural variations (SVs), followed by comprehensive quality control and reporting.
+The ClinDet WES analysis pipeline supports the analysis of Whole Exome Sequencing (WES), panel, and targeted sequencing data, allowing each sample to correspond to different target regions. This workflow performs both somatic and germline variant calling from WES data and supports analyses of paired tumor-normal samples as well as tumor-only samples. It integrates multiple variant callers to detect single nucleotide variants (SNVs), insertions and deletions (INDELs), copy number variations (CNVs), and structural variations (SVs), followed by comprehensive quality control and reporting.
 
 
-In this example, we will use Clindet to analyze several whole exome sequencing samples from the publicly available Chinese Glioma Genome Atlas (CGGA) dataset. The sequencing data will be aligned to the b37 version of the human reference genome, followed by detection of somatic mutations and copy number variations.
+In this example, we will use ClinDet to analyze several whole exome sequencing samples from the publicly available **Chinese Glioma Genome Atlas (CGGA)** dataset. The sequencing data will be aligned to the b37 version of the human reference genome, followed by detection of somatic mutations and copy number variations.
 
 
 ```{image} ./glioma.png
@@ -35,7 +35,7 @@ conda activate clindet
 ```
 ## Download data and 
 
-Download data from the GSA database using wget and prepare the sample information file.
+Download data from the GSA database using `wget` and prepare the sample information file.
 
 ```{code} bash
 cd ~/projects/CGGA_WES
@@ -176,7 +176,7 @@ rule all:
         f'{project}/{genome_version}/results/multiqc_report.html' if 'report' in stages else [],
 
 
-include: '/AbsoPath/of/clindet/folder/workflow/WES/Snakefile'  # the absolutely path of clindet workflow WGS subfolder snakefile  
+include: '/AbsoPath/of/clindet/folder/workflow/WES/Snakefile'  # the absolutely path of clindet workflow WES subfolder snakefile  
 ```
 :::
 
@@ -224,7 +224,31 @@ nohup snakemake --profile /Absolute/Path/of/clindet/workflow/config_slurm \
 ```
 
 ### Output
-
+### Overview of output
+After success run, you will get the all the results under `{project}/{genome_version}/results` folder. 
+```
+/WES/b37
+├── logs
+│   └── paired
+└── results
+    ├── cnv  **# Copy Number results**
+    ├── dedup **# deduplication BAM files**
+    ├── logs **# Task run logs**
+    ├── maf  **# annotation somatic mutation MAF files**
+    ├── maf_germline  **# annotation germline mutation MAF files**
+    ├── mapped  **# annotation somatic mutation MAF files**
+    ├── multiqc  **# annotation somatic mutation MAF files**
+    ├── multiqc_data
+    ├── multiqc_report_data
+    ├── multiqc_report.html
+    ├── qc  **# QC results for fastp conpair and so on**
+    ├── recal **# BAM files after base recalibration**
+    ├── report **# Case report files**
+    ├── stats  **# BAM statistics info**
+    ├── trimmed  **#temporary trimmed fastq and fastp output**
+    ├── vcf **# RAW somatic mutation VCF files**
+    └── vcf_germline **# RAW germline mutation VCF files**
+```
 ### case report
 There is a example case report of CGGA_P438
 <a href="../_static/CGGA_P438_cancer_report.html">example report HTML</a>
