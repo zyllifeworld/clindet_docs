@@ -24,7 +24,6 @@ ClinDet provides two mutation detection modes for tumor samples: tumor-normal pa
     - [call segment from BAF and log ratio](#call-segment-from-baf-and-log-ratio)
       - [CNV segment calling: AMBER,  COBALT,  PURPLE, ASCAT,  free-C, sequenza, Facets, ExomdDepth](#cnv-segment-calling-amber--cobalt--purple-ascat--free-c-sequenza-facets-exomddepth)
       - [Plot the segment results](#plot-the-segment-results)
-  - [RNA-seq](#rna-seq)
   - [MultiQC](#multiqc)
   - [Case Reports](#case-reports)
   - [Implementation](#implementation)
@@ -147,11 +146,6 @@ ClinDet uses multiple software tools to call arm-level CNVs. Some of these tools
 
 #### Plot the segment results
    CNVs results called by each tool can be visualized by circos and R, see results folder of each tool.
-
-
-
-## RNA-seq
-
 
 
 ## MultiQC

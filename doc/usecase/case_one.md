@@ -23,7 +23,7 @@ In this example, we will use ClinDet to analyze several whole exome sequencing s
 ```
 ## Setup a project folder
 ````{note}
-Before starting the analysis, please ensure that you have set up the analysis environment using the build_conda_env.sh script.
+Before starting the analysis, please ensure that you have set up the analysis environment using the build_conda_envs.sh script.
 ````
 
 Create a folder named project/CGGA_WES in your home directory and activate the Clindet conda environment.

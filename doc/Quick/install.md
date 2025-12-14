@@ -13,9 +13,9 @@ To build the complex Clindet analysis environment, you need to install `Conda` a
 git clone https://github.com/zyllifeworld/clindet.git
 cd clindet
 ```
-### Run build_conda_env.sh 
+### Run build_conda_envs.sh 
 
-Clindet provides a bash script to set up the computational environment required for running the software, as well as to download configuration files needed for various tools that use the human b37 reference genome (e.g., VCF, BED files). Run the script `build_conda_env.sh` to complete this setup, This script will download approximately **~170 GB** of files. Please ensure you have sufficient available space.
+Clindet provides a bash script to set up the computational environment required for running the software, as well as to download configuration files needed for various tools that use the human b37 reference genome (e.g., VCF, BED files). Run the script `build_conda_envs.sh` (under clindet root folder) to complete this setup, This script will download approximately **~170 GB** of files. Please ensure you have sufficient available space.
 
 ### Modify the config.yaml file
 Update the placeholder `/AbsoPath/of/clindet/folder` in **clindet/workflow/config/config_local_test.yaml** file to your actual Clindet directory path (e.g., `/home/users/softwares/clindet`) and then save the file as config.yaml.
