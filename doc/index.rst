@@ -13,6 +13,7 @@ Clindet documentation
    DNAseq/index
    RNAseq/index
    usecase/index
+   GoldStand/index
    CITATIONS
 
 
