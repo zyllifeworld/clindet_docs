@@ -45,12 +45,14 @@ This document collects publicly available datasets for benchmarking NGS-based tu
 |-------------|----------|-------------|-------------|-------------|--------|------|
 | [TCGA](#the-cancer-genome-atlas) | WES/WGS/RNA | SNV, CNV, Fusion | Tumor | Partial | Controlled | Large cohort |
 | [ICGC](#international-cancer-genome-consortium) | WGS/WES | SNV, SV, CNV | Tumor | Yes | Controlled | International |
-| GIAB | WGS | SNV, Indel | Germline | High-confidence | Open | Gold standard |
-| CGIB | WGS,WES,long-read, | SNV, Indel | Somatic | High-confidence | Open | Gold standard |
-| SEQC2 | WES/WGS | SNV, CNV | Synthetic | Yes | Open | Benchmark focused |
-| PCAWG | WGS | SNV, SV, CNV | Tumor | Yes | Controlled | Deep annotation |
-| CCLE | WES/RNA | SNV, CNV, Fusion | Cell line | Partial | Open | Cancer cell lines |
-| CCLE | WES/RNA | SNV, CNV, Fusion | Cell line | Partial | Open | Cancer cell lines |
+| [GIAB](#genome-in-a-bottle) | WGS | SNV, Indel | Germline | High-confidence | Open | Gold standard |
+| [CGIB](#) | WGS,WES,long-read,Hi-C | SNV, Indel | Somatic | High-confidence | Open | Gold standard |
+| [SEQC2](#maqc-consortium) | WES/WGS | SNV, CNV | Synthetic | Yes | Open | Benchmark focused |
+| [PCAWG](#pan-cancer-analysis-of-whole-genomes) | WGS | SNV, SV, CNV | Tumor | Yes | Controlled | Deep annotation |
+| [CCLE](#cancer-cell-line-encyclopedia) | WES/RNA | SNV, CNV, Fusion | Cell line | Partial | Open | Cancer cell lines |
+| [COLO829](#colo829) | WES/WGS/RNA | SNV, CNV, SV | Cell line | Partial | Open | Cancer cell lines |
+| [Somatic reference standards from BostonGene](#bostongene) | WES/WGS/RNA | SNV, CNV, SV | Cell line | Partial | Open | Cancer cell lines |
+
 
 ---
 
@@ -97,8 +99,7 @@ This document collects publicly available datasets for benchmarking NGS-based tu
 
 ---
 
-(GIAB)=
-### GIAB (Genome in a Bottle)
+### Genome in a Bottle
 
 - Website: https://www.nist.gov/programs-projects/genome-bottle
 - Data Type: WGS
@@ -117,10 +118,29 @@ This document collects publicly available datasets for benchmarking NGS-based tu
 - Not tumor data
 - Limited SV/CNV truth sets
 
----
 
-(SEQC2)=
-### SEQC2 (MAQC Consortium)
+### Cancer Genome in a Bottle
+
+- Website: https://www.nist.gov/programs-projects/cancer-genome-bottle
+- Data Type: WGS,WES,Hi-C
+- Variant Types: SNV, Indel
+- Sample Type: Tumor-normal
+- Ground Truth: High-confidence regions
+
+#### Download
+- https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data_somatic/
+
+#### Recommended Usage
+- SNV/Indel caller benchmarking
+- Precision/recall evaluation
+
+#### Notes
+- realworld tumor-normal paired data
+- Limited SV/CNV truth sets
+
+
+
+### MAQC Consortium
 
 - Website: https://www.fda.gov/science-research/bioinformatics-tools/seqc2
 - Data Type: WES, WGS
@@ -137,7 +157,7 @@ This document collects publicly available datasets for benchmarking NGS-based tu
 
 ---
 
-### PCAWG (Pan-Cancer Analysis of Whole Genomes)
+### Pan-Cancer Analysis of Whole Genomes
 
 - Website: https://dcc.icgc.org/pcawg
 - Data Type: WGS
@@ -154,7 +174,7 @@ This document collects publicly available datasets for benchmarking NGS-based tu
 
 ---
 
-### CCLE (Cancer Cell Line Encyclopedia)
+### Cancer Cell Line Encyclopedia
 
 - Website: https://depmap.org/portal/
 - Data Type: WES, RNA-seq
@@ -169,6 +189,24 @@ This document collects publicly available datasets for benchmarking NGS-based tu
 - Fusion detection
 - CNV benchmarking
 - Reproducibility testing
+
+
+### BostonGene
+
+- Website: https://github.com/BostonGene/Somatic_reference_standards
+- Data Type: WES, RNA-seq
+- Variant Types: SNV, CNV, Fusion
+- Sample Type: Cell lines
+- Ground Truth: Partial
+
+#### Download
+- Open access via SRA
+
+#### Recommended Usage
+- Fusion detection
+- CNV benchmarking
+- Reproducibility testing
+
 
 ---
 
