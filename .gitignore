@@ -3,3 +3,6 @@ docs/_build/html/
 docs/build/*
 _build/
 doc/img/clindet_pipeline.ori.png
+doc/GoldStand/The clinical information table of 286 diffuse gliomas patients.xlsx
+doc/.DS_Store
+doc/GoldStand/.DS_Store

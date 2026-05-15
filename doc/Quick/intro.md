@@ -84,7 +84,7 @@ Clindet is a next-generation high-throughput sequencing data analysis workflow d
 ````
 
 ````{note}
-> It is recommended to create a Snakemake file for each project. Specific examples can be found in the Clindet directory, including **template/snake_wes.smk**, **template/snake_wgs.smk**, **and template/snake_rna.smk**. Project-specific parameters can be modified within these files.
+> It is recommended to prepare a workflow YAML config for each project and pass it to Snakemake with `--configfile`. The config should define project-level settings such as the output directory, genome version, sample sheet, and the caller lists or stages required for that analysis.
 ````
 **Detail See** <project:./install.md>
 

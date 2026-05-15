@@ -1,15 +1,13 @@
 # Use case II: Fusion genes detection from **multiple myeloma patient** RNA-seq
 ## Background
-​​Clinical Applications of RNA-Seq in Diagnostic Testing​​
-
-RNA sequencing (RNA-Seq) is a high-throughput transcriptome profiling technology that enables comprehensive analysis of gene expression, splicing variants, fusion events, and novel transcripts. In clinical diagnostics, it serves as a powerful tool for:
+RNA sequencing (RNA-seq) is widely used in clinical and translational research to profile gene expression, splicing patterns, fusion transcripts, and other transcriptional abnormalities. In diagnostic settings, common applications include:
 
 1. ​​Cancer Subtyping​​: Identifying tumor-specific gene expression signatures, fusion genes (e.g., BCR-ABL1), and aberrant splicing events to guide targeted therapies.
 2. Rare Disease Diagnosis​​: Detecting dysregulated pathways and aberrant expression in Mendelian disorders where DNA-based tests are inconclusive.
 3. ​Infectious Disease Characterization​​: Profiling host-pathogen interactions and pathogen expression in complex infections.
-1. Biomarker Discovery​​: Validating expression-based biomarkers for disease monitoring and treatment response.
+4. Biomarker Discovery​​: Validating expression-based biomarkers for disease monitoring and treatment response.
 
-Gene fusions, or chromosomal translocations, are among the most common classes of mutations observed in cancer. These events can contribute to oncogenesis either by generating chimeric transcripts—such as BCR::ABL and RUNX1::RUNX1T1—or by inducing the overexpression of oncogenes, such as IGH::CCND1. The RNA-seq analysis module in ClinDet integrates key functionalities including transcript quantification, gene fusion detection, immune repertoire profiling, and RNA variant calling. In this study, we employed the ClinDet RNA-seq module to perform gene expression quantification and structural variant analysis by reanalyzing transcriptomic data from 31 flow-sorted bone marrow plasma cell samples published by [Jaime et al](https://www.nature.com/articles/s41467-021-25704-2). As a case study, we focused on three multiple myeloma patients (CD1, MS3, and MF1), all of whom were reported to carry chromosomal rearrangements involving the IGH enhancer and partner genes.
+Gene fusions are a major class of oncogenic alterations. They can generate chimeric transcripts, such as BCR::ABL1, or drive overexpression of partner oncogenes, such as IGH::CCND1. The ClinDet RNA workflow supports transcript quantification, fusion detection, immune repertoire analysis, and RNA variant calling. In this example, we reanalyze transcriptomic data from 31 flow-sorted bone marrow plasma cell samples published by [Jaime et al](https://www.nature.com/articles/s41467-021-25704-2). We focus on three multiple myeloma patients, CD1, MS3, and MF1, all reported to harbor rearrangements involving the IGH enhancer and partner genes.
 
 ```{image} ./jaime.png
 :alt: BCR MM
@@ -17,6 +15,9 @@ Gene fusions, or chromosomal translocations, are among the most common classes o
 :width: 600px
 :align: center
 ```
+
+## Why this case matters
+This case shows how the RNA workflow can be used to combine transcript quantification, fusion detection, and immune repertoire analysis in a clinically relevant hematologic malignancy setting. It is also a useful example of how RNA-seq can reveal both structural events and downstream transcriptional consequences.
 
 
 ## Setup a project folder
@@ -58,62 +59,41 @@ R1_file_path,R2_file_path,Sample_name,Project
 ~/projects/MM_RNA/data/A28.15_1.fastq.gz,~/projects/MM_RNA/data/A28.15_2.fastq.gz,CD1
 ```
 
-## Write an Snakemake file from template 
-For this project, modify the sample sheet and create a new Snakemake file named **snake_rna.smk** (see below). Set the following parameters in the Snakemake file:
+## Prepare the YAML workflow config
+In the current workflow, you no longer need to create a project-specific `snake_rna.smk` file. Instead, prepare a YAML configuration file and pass it to Snakemake with `--configfile`.
 
-1. **configfile (str)**: config file for softwares and resource parameters.
-1. **stage (list)**: analysis steps. avaiable options:`['RSEM','arriba','TRUST4','samlom','kallisto']`
+For this example, create `~/projects/MM_RNA/MM_RNA.yaml` and update the following fields:
 
+1. `project.output_dir`: output directory for this analysis.
+2. `project.genome_version`: reference genome version, such as `b37`.
+3. `project.recal_BQSR`: whether to run BQSR.
+4. `project.vcf2maf`: VCF-to-MAF mode.
+5. `project.sample_sheet`: absolute path to the RNA sample sheet CSV file.
+6. `run_params.stages`: RNA analysis stages to run.
+7. `run_params.rna_caller_list`: RNA caller preset used for this analysis.
 
-## write Snakemake file 
-For this project, we need change the **samplesheet info** and **config.yaml** path in the snake_rna.smk .
-:::{tip}
-:class: dropdown
-```{code} python
-
-import pandas as pd
-samples_info = pd.read_csv('./pipe_rna.csv',index_col='Sample_name')
-unpaired_samples = samples_info.loc[pd.isna(samples_info['R2_file_path'])].index.tolist()
-paired_samples = samples_info.loc[~pd.isna(samples_info['R1_file_path'])].index.tolist()
-
-configfile: "/AbsoPath/of/clindet/folder/config/config.yaml"
-
-stages = ['RSEM','arriba','TRUST4','samlom','kallisto']
-caller_list = ['sentieon_anno_rnaedit','Mutect2_filter']
-project = 'RNA'
-genome_version = 'b37'
-
-rna_res_list = [
-    ##### for isoform expression RSEM ######
-    "{project}/{genome_version}/results/summary/RSEM/{sample}/{sample}.genes.results" if 'RSEM'      in rna_stages else None,
-    ##### kallisto
-    "{project}/{genome_version}/results/summary/kallisto/{sample}/abundance.tsv"      if 'kallisto'  in rna_stages else None,
-    ##### salmon
-    "{project}/{genome_version}/results/summary/salmon/{sample}/quant.sf"             if 'salmon'    in rna_stages else None,
-    ##### for Immu analysis #####
-    "{project}/{genome_version}/results/IG/TRUST4/{sample}_report.tsv"                if 'TRUST4'    in rna_stages else None,
-    ##### for fusion gene detection #####
-    "{project}/{genome_version}/results/fusion/{sample}_arriba_fusion.tsv"            if 'arriba'    in rna_stages else None,
-    ##### for isofox immu analysis #####
-    "{project}/{genome_version}/results/summary/isofox/{sample}/{sample}.sorted.bam"  if 'isofox'    in rna_stages else None,
-
-    #### mutation section #####
-    "{project}/{genome_version}/results/mut/maf/{sample}/merge/{sample}.maf"
-]
-rna_res_list = list(filter(None, rna_res_list))
-rule all:
-    input:
-        ## paired sample
-        expand(rna_res_list,
-        sample = paired_samples,
-        project = project,
-        genome_version = genome_version
-        )
-        
-##### Modules #####
-include: "/AbsoPath/of/clindet/folder/workflow/RNA/Snakefile"
+:::{note}
+```{code} yaml
+project:
+  output_dir: '~/projects/MM_RNA'
+  genome_version: 'b37'
+  recal_BQSR: False
+  vcf2maf: 'raw'
+  sample_sheet: '~/projects/MM_RNA/pipe_rna.csv'
+run_params:
+  stages:
+    - salmon
+    - RSEM
+    - kallisto
+    - arriba
+    - trust4
+  rna_caller_list:
+    - default
 ```
 :::
+
+## Configuration rationale
+This configuration is designed for an RNA-seq case where both expression quantification and biologically interpretable structural readouts are important. The selected stages retain three quantification methods, `salmon`, `RSEM`, and `kallisto`, while also enabling `arriba` for fusion detection and `trust4` for immune repertoire analysis. The `default` RNA caller preset is used here as a balanced starting point for a general multiple myeloma RNA workflow.
 
 ## Run ClinDet 
 There is two way you can run ClinDet
@@ -122,18 +102,22 @@ There is two way you can run ClinDet
 
 ### Run on local node 
 ```{code} bash
-nohup snakemake -j 30 --printshellcmds -s snake_rna.smk \
+nohup snakemake -c 20 --config run_type=rna \
+--configfile ~/projects/MM_RNA/MM_RNA.yaml \
+--rerun-triggers mtime --benchmark-extended \
 --use-singularity --singularity-args "--bind /your/home/path:/your/home/path" \
---latency-wait 300 --use-conda >> rna.log
+--latency-wait 300 --use-conda --conda-frontend conda -k >> ~/projects/MM_RNA/MM_RNA.out &
 ```
 
 ### Submit to HPC use slurm
-we provide a slurm config.yaml under clindet/workflow/config_slurm folder.
+We provide a Slurm `config.yaml` file under the `clindet/workflow/config_slurm` folder.
 ```{code}  bash
-nohup snakemake --profile /Absolute/Path/of/clindet/workflow/config_slurm \
--j 30 --printshellcmds -s snake_rna.smk --use-singularity \
---singularity-args "--bind /your/home/path:/your/home/path" \
---latency-wait 300 --use-conda >> rna.log
+nohup snakemake -c 20 --config run_type=rna \
+--configfile ~/projects/MM_RNA/MM_RNA.yaml \
+--profile workflow/config_slurm \
+--rerun-triggers mtime --benchmark-extended \
+--use-singularity --singularity-args "--bind /your/home/path:/your/home/path" \
+--latency-wait 300 --use-conda --conda-frontend conda -k >> ~/projects/MM_RNA/MM_RNA.out &
 ```
 
 ## Results
@@ -158,6 +142,16 @@ After successful execution, you will see the following directory structure. The 
     ├── RSEM
     └── salmon
 ```
+
+### What to expect
+For this case, the most informative outputs are the `arriba` fusion calls, the expression quantification results in the `summary` directory, and the `TRUST4` immune repertoire outputs. Successful completion should allow readers to inspect whether IGH-associated rearrangements are detectable at the transcript level and whether partner-gene overexpression is consistent with the published biology.
+
+## Common pitfalls
+1. `sample_sheet` should be an absolute path and must point to files visible inside the Singularity bind mount.
+2. `genome_version` in the YAML file must match the RNA reference resources configured in the global `config.yaml`.
+3. If `arriba` is enabled, the alignment and fusion resources must be available for the selected reference build.
+4. If `trust4` is enabled, users should expect additional runtime and should verify that the resulting immune repertoire files are produced before interpreting clonality.
+
 ### arriba fusion genes
 Within the gene fusion detection analysis, structural variants were identified in patients CD1 (IGH::CCND1) and MS3 (IGH::NSD2). In contrast, no detectable fusion transcript was found in patient MF1. However, all three patients exhibited aberrantly high expression levels of the corresponding partner genes. We hypothesize that the structural variation breakpoint in the IGH locus of patient MF1 may reside upstream of the MAF gene, possibly in a non-coding regulatory region, allowing enhancer-driven overexpression without producing a fusion transcript.
 ***IGH*** fusion genes circos plot (see below):

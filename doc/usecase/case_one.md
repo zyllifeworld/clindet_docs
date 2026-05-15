@@ -1,18 +1,18 @@
 # Use case I: SNV and CNV calling from **Whole exome sequencing** data
 
 ## Background
-Whole Exome Sequencing (WES) is a powerful tool in clinical diagnostics, enabling the comprehensive analysis of protein-coding regions (~1-2% of the genome) to identify disease-causing variants. Key applications include:
+Whole-exome sequencing (WES) is widely used in clinical and translational genomics to interrogate coding regions of the genome and identify clinically relevant variants. Key applications include:
 
 1. ​​Rare Disease Diagnosis​​: Rapid detection of pathogenic variants in undiagnosed genetic disorders, reducing diagnostic odysseys.
 2. ​​Cancer Genomics​​: Profiling somatic and germline mutations to guide targeted therapy and risk assessment.
 ​​3. Carrier Screening​​: Identifying recessive mutations in prospective parents for reproductive planning.
 ​​Pharmacogenomics​​: Assessing drug-response variants to optimize treatment regimens.
-4. WES improves diagnostic yield (~30-40% for rare diseases) while maintaining cost-efficiency compared to whole-genome sequencing. Integration with ACMG/AMP guidelines ensures clinically actionable reporting.
+4. WES improves diagnostic yield while remaining more cost-efficient than whole-genome sequencing in many clinical settings.
 
-The ClinDet WES analysis pipeline supports the analysis of Whole Exome Sequencing (WES), panel, and targeted sequencing data, allowing each sample to correspond to different target regions. This workflow performs both somatic and germline variant calling from WES data and supports analyses of paired tumor-normal samples as well as tumor-only samples. It integrates multiple variant callers to detect single nucleotide variants (SNVs), insertions and deletions (INDELs), copy number variations (CNVs), and structural variations (SVs), followed by comprehensive quality control and reporting.
+The ClinDet WES workflow supports whole-exome, panel, and targeted DNA sequencing data. It performs somatic and germline variant calling, supports both paired tumor-normal and tumor-only analyses, and integrates multiple tools for detecting single nucleotide variants (SNVs), small insertions and deletions (INDELs), copy-number variants (CNVs), and structural variants (SVs), followed by quality control and downstream reporting.
 
 
-In this example, we will use ClinDet to analyze several whole exome sequencing samples from the publicly available **Chinese Glioma Genome Atlas (CGGA)** dataset. The sequencing data will be aligned to the b37 version of the human reference genome, followed by detection of somatic mutations and copy number variations.
+In this example, we use ClinDet to analyze whole-exome sequencing samples from the publicly available **Chinese Glioma Genome Atlas (CGGA)** dataset. Reads are aligned to the human `b37` reference genome, followed by somatic mutation and copy-number analysis.
 
 
 ```{image} ./glioma.png
@@ -21,6 +21,10 @@ In this example, we will use ClinDet to analyze several whole exome sequencing s
 :width: 600px
 :align: center
 ```
+
+## Why this case matters
+This case serves as a practical paired-WES example for clinical cancer genomics. It demonstrates how ClinDet can combine multiple somatic callers, germline callers, and CNV tools in a single analysis, while still keeping the configuration compact enough for routine project-level use.
+
 ## Setup a project folder
 ````{note}
 Before starting the analysis, please ensure that you have set up the analysis environment using the build_conda_envs.sh script.
@@ -33,7 +37,7 @@ mkdir -p ~/projects/CGGA_WES
 cd ~/projects/CGGA_WES
 conda activate clindet
 ```
-## Download data and 
+## Download data and prepare the sample sheet
 
 Download data from the GSA database using `wget` and prepare the sample information file.
 
@@ -60,138 +64,84 @@ Tumor_R1_file_path,Tumor_R2_file_path,Normal_R1_file_path,Normal_R2_file_path,Sa
 /AbsoPath/of/projects/CGGA_WES/data/T_CGGA_653_r1.fq.gz,/AbsoPath/of/projects/CGGA_WES/data/T_CGGA_653_r2.fq.gz,/AbsoPath/of/projects/CGGA_WES/data/B_CGGA_653_r1.fq.gz,/AbsoPath/of/projects/CGGA_WES/data/B_CGGA_653_r2.fq.gz,CGGA_653,/AbsoPath/of/target.bed,CGGA_WES
 ```
 
-## Write an Snakemake file from template 
-For this project, modify the sample sheet and create a new Snakemake file named **snake_wes.smk** (see below). Set the following parameters in the Snakemake file:
+## Prepare the YAML workflow config
+In the current workflow, you no longer need to create a project-specific `snake_wes.smk` file. Instead, prepare a YAML configuration file and pass it to Snakemake with `--configfile`.
 
-1. **configfile (str)**: config file for softwares and resource parameters.
-1. **stage (list)**: analysis steps. avaiable options:`['conpair','report']`
-2. **sample_csv (str)**: `sample_info.csv` path
-3. **genome_version (str)**: genome version, can be genome version which setup in cofig.yaml eg. `b37`
-4. **recal (Boolean)**: use GATK BaseRecalibrator for Base Quality Score Recalibration?  this is a time-consume task   but can slightly improved calling accuracy. `True or False`. default `True`.
-5. **caller_list (list)**: somatic mutation calling softwares used. avaiable options:`['sage','HaplotypeCaller','strelkasomaticmanta','cgppindel_filter','caveman','muse','deepvariant','Mutect2_filter'] `
-6. **germ_call_list (list)**: germline mutation calling softwares used. avaiable options: `['strelkamanta','caveman']`
-7. **somatic_cnv_list (list)**: Somatic Copy Number variant calling softwares. avaiable options: `['purple','ASCAT','sequenza','freec','exomedepth']`
-8. **recall_pon (Boolean)**: call panel-of-normal mutect2_pon.vcf from cohort normal samples. default `False`, use public available resource.
-9. **custome_pon_db (Boolean)**: use public available resource. default `False`.
-10. **recall_pon_pindel (Boolean)**: call panel-of-normal pindel_pon.vcf from cohort normal samples. default `False`, use public available resource.
+For this example, create `test/CGGA_config.yaml` and update the following fields:
+
+1. `project.output_dir`: output directory for this analysis.
+2. `project.genome_version`: reference genome version, such as `b37`.
+3. `project.recal_BQSR`: whether to run BQSR. Set `False` to skip it.
+4. `project.vcf2maf`: VCF-to-MAF mode.
+5. `project.sample_sheet`: absolute path to the sample sheet CSV file.
+6. `run_params.somatic_caller_list`: somatic SNV/INDEL callers to run.
+7. `run_params.stages`: workflow stages to run, for example `conpair`, `call_mut`, and `report`.
+8. `run_params.germ_caller_list`: germline callers to run.
+9. `run_params.somatic_cnv_list`: somatic CNV callers to run.
+10. `run_params.somatic_sv_list`: somatic SV callers to run.
+11. `run_params.tumor_only_caller` and `run_params.tumor_only_cnv_caller`: callers used for tumor-only samples.
+12. `run_params.purple_sv`: SV caller used by PURPLE-related downstream steps.
 
 :::{note}
-```{code} python
-import pandas as pd
-sample_csv = '~/projects/CGGA_WES/pipe_WES.csv'
-samples_info = pd.read_csv(sample_csv,index_col='Sample_name')
-unpaired_samples = samples_info.loc[pd.isna(samples_info['Normal_R1_file_path'])].index.tolist()
-paired_samples = samples_info.loc[~pd.isna(samples_info['Normal_R1_file_path'])].index.tolist()
-
-configfile: "/AbsoPath/of/clindet/folder/config/config.yaml"
-project = samples_info["Project"].unique().tolist()[0]
-genome_version = 'b37'
-recal = False
-
-groups = ['NC','T']
-## somatic mutation calling softwares
-caller_list = ['HaplotypeCaller','strelkasomaticmanta','cgppindel_filter','caveman','muse','deepvariant','Mutect2_filter']# 'sage'
-stages = ['conpair','case_report']
-# germline mutation calling softwares
-germ_caller_list = ['strelkamanta','caveman']# 'vardict_germline',
-# somatic CNV calling softwares
-somatic_cnv_list = ['purple','ASCAT']#'facets','sequenza','freec','dryclean']
-# somatic SV calling softwares
-# somatic_sv_list = ['BRASS','delly','gridss','igcaller','linx','svaba','Manta']
-somatic_sv_list = ['svaba','gridss']
-
-
-### tumor only call
-tumor_only_caller = ['sage']
-
-recall_pon =  False
-custome_pon_db = True
-recall_pon_pindel =  False
-purple_sv = 'gridss'
-
-
-## paired sample list
-paired_res_list = [
-    ##### for QC report ######
-    # rules.conpair_contamination.output           if 'conpair'          in stages else None,
-    '{project}/{genome_version}/logs/paired/conpair/{sample}.done' if 'conpair'          in stages else None,
-
-    ##### for SNV/INDEL calling #####
-    "{project}/{genome_version}/results/maf/paired/{sample}/merge/{sample}.maf",
-
-    # somatic_cnv_list = ['purple','ASCAT','facets','sequenza','freec','dryclean']
-    ##### for CNV result ##### There is a bug for snakemake rules namelist when include *smk for 3-4 levels
-    # rules.paired_purple.output.qc  if 'purple' in somatic_cnv_list else None, # purple call
-    "{project}/{genome_version}/results/cnv/paired/purple/{sample}/purple/{sample}.purple.qc"  if 'purple' in somatic_cnv_list else None, # purple call
-    # rules.CNA_ASCAT.output.rdata   if 'ASCAT'  in somatic_cnv_list else None, # ASCAT call
-    "{project}/{genome_version}/results/cnv/paired/ascat/{sample}/{sample}_ASCAT.rdata"   if 'ASCAT'  in somatic_cnv_list else None, # ASCAT call
-
-    # rules.facets.output.qc         if 'facets' in somatic_cnv_list else None, # facets call
-    # rules.facets.output.qc         if 'facets' in somatic_cnv_list else None, # facets call
-    "{project}/{genome_version}/results/cnv/paired/freec/{sample}/{sample}_config_freec.ini" if 'freec' in somatic_cnv_list else None, # Control-FREEC call
-
-
-    # rules.CNA_exomedepth.output.tsv       if 'exomedepth' in somatic_cnv_list else None, # sequenza call
-    "{project}/{genome_version}/results/cnv/paired/exomedepth/{sample}/{sample}_exomedepth.tsv"  if 'exomedepth' in somatic_cnv_list else None, # sequenza call
-    # rules.sequenza_call.output.segment       if 'sequenza' in somatic_cnv_list else None, # sequenza call
-    # "{project}/{genome_version}/results/cnv/paired/sequenza/{sample}/{sample}_segments.txt"  if 'sequenza' in somatic_cnv_list else None, # sequenza call
-    
-    #### Case report #####
-    '{project}/{genome_version}/results/report/{sample}/{sample}_cancer_report.html' if 'case_report' in stages else None,
-]
-paired_res_list = list(filter(None, paired_res_list))
-
-
-## unpaired sample list
-unpaired_res_list = [
-    ##### for SNV/INDEL calling #####
-    "{project}/{genome_version}/results/maf/unpaired/{sample}/merge/{sample}.maf",
-    ##### for CNV result ##### There is a bug for snakemake rules namelist when include *smk for 3-4 levels
-    # rules.paired_purple.output.qc  if 'purple' in somatic_cnv_list else None, # purple call
-    "{project}/{genome_version}/results/cnv/unpaired/purple/{sample}/purple/{sample}.purple.qc"    if 'purple' in tumor_only_cnv_caller else None,
-    ### if you want call CNV from use tumor-only WES data, take you own risk
-    "{project}/{genome_version}/results/cnv/unpaired/freec/{sample}/{sample}-T.bam_ratio.txt.png"  if 'freec' in tumor_only_cnv_caller else None,
-
-]
-unpaired_res_list = list(filter(None, unpaired_res_list))
-
-##### Modules #####
-rule all:
-    input:
-        ## paired sample
-        expand(paired_res_list,
-        sample = paired_samples,
-        project = project,
-        genome_version = genome_version,
-        group = groups,
-        caller = caller_list),
-        #### unpaired sample
-        expand(unpaired_res_list,
-        project = project,
-        genome_version = genome_version,
-        sample = unpaired_samples,
-        caller = caller_list),
-        ##### multiqc report ########
-        f'{project}/{genome_version}/results/multiqc/filelist.txt' if 'report' in stages else [],
-        f'{project}/{genome_version}/results/multiqc_report.html' if 'report' in stages else [],
-
-
-include: '/AbsoPath/of/clindet/folder/workflow/WES/Snakefile'  # the absolutely path of clindet workflow WES subfolder snakefile  
+```{code} yaml
+project:
+  output_dir: 'test'
+  genome_version: 'b37'
+  recal_BQSR: False
+  vcf2maf: 'raw'
+  sample_sheet: '/public/ClinicalExam/lj_sih/projects/project_clindet/data/CGGA_primary_sample_info.csv'
+run_params:
+  somatic_caller_list:
+    - HaplotypeCaller
+    - strelkasomaticmanta
+    - cgppindel
+    - caveman
+    - muse
+    - Mutect2
+  stages:
+    - conpair
+    - call_mut
+  germ_caller_list:
+    - sage
+    - caveman
+  somatic_cnv_list:
+    - defulet
+    - ASCAT
+    - facets
+  somatic_sv_list:
+    - BRASS
+    - delly
+    - gridss
+    - igcaller
+    - linx
+    - svaba
+    - Manta
+  tumor_only_caller:
+    - sage
+  tumor_only_cnv_caller:
+    - freec
+  purple_sv: "gridss"
 ```
 :::
 
+## Configuration rationale
+This YAML configuration is designed for a paired WES cancer cohort. We keep `genome_version=b37`, disable `recal_BQSR` to reduce runtime, and use `call_mut` together with `conpair` so that both somatic calling and sample-pair quality checks are performed. The selected somatic callers provide complementary support for SNV/INDEL discovery, while `ASCAT` and `facets` are retained as CNV methods commonly used in exome-based tumor-normal analyses.
+
 
 ## Run clindet 
-There is two way you can run clindet
-1. run on a local server 
+There are two ways to run ClinDet in this example:
+
+1. run on a local node
 2. submit to HPC through slurm
 
-### Run on local node 
-You need 
+### Run on local node
+After preparing the YAML config, you can run the analysis on a local node with:
 ```{code} bash
-nohup snakemake -j 30 --printshellcmds -s snake_wes.smk \
---use-singularity --singularity-args "--bind /you/homepath/:/you/homepath/" \
---latency-wait 300 --use-conda >> wes.log
+snakemake -c 30 --config run_type=wes \
+--configfile test/CGGA_config.yaml \
+--rerun-triggers mtime --benchmark-extended \
+--use-singularity --singularity-args "--bind /your/home/path:/your/home/path" \
+--latency-wait 300 --use-conda --conda-frontend conda -k
 ```
 
 ### Submit to HPC use slurm
@@ -215,12 +165,14 @@ printshellcmds: True
 scheduler: greedy
 use-conda: True
 ```
-Afterwards, you can run the analysis using the following command (make sure to replace `/Absolute/Path/of/home_dir` with your own path):
+After preparing the YAML config, run the analysis with the following command:
 ```{code}  bash
-nohup snakemake --profile /Absolute/Path/of/clindet/workflow/config_slurm \
--j 30 --printshellcmds -s snake_wes.smk --use-singularity \
---singularity-args "--bind /Absolute/Path/of/home_dir/:/Absolute/Path/of/home_dir/" \
---latency-wait 300 --use-conda >> wes.log  2>&1 &
+nohup snakemake --config run_type=wes \
+--configfile test/CGGA_config.yaml \
+--profile workflow/config_slurm \
+-j 30 --printshellcmds --rerun-triggers mtime --benchmark-extended \
+--use-singularity --singularity-args "--bind /your/home/path:/your/home/path" \
+--latency-wait 300 --use-conda --conda-frontend conda -k >> CGGA.out &
 ```
 
 ### Output
@@ -249,6 +201,16 @@ After success run, you will get the all the results under `{project}/{genome_ver
     ├── vcf **# RAW somatic mutation VCF files**
     └── vcf_germline **# RAW germline mutation VCF files**
 ```
+
+### What to expect
+For this case, the most informative outputs are the merged somatic MAF files, the CNV results from `ASCAT` and `facets`, and the QC outputs produced during paired-sample processing. Successful completion should allow readers to compare somatic calls across samples, inspect broad copy-number patterns, and confirm that the tumor-normal pairing behaves as expected.
+
+## Common pitfalls
+1. `sample_sheet` should be an absolute path and must point to files visible inside the Singularity bind mount.
+2. `genome_version` in the YAML file must match the reference resources configured in the global `config.yaml`.
+3. `Target_file_bed` should be set correctly for each WES sample, otherwise coverage-aware downstream steps may not behave as expected.
+4. If `conpair` is enabled, tumor and matched normal samples must be correctly paired in the sample sheet.
+
 ### case report
 There is a example case report of CGGA_P438
 <a href="../_static/CGGA_P438_cancer_report.html">example report HTML</a>

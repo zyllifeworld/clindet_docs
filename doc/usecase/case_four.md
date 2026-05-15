@@ -1,7 +1,7 @@
 # Use case IV: Quantifying​​ the contributions of DNA repair defective gene mutations to mutational signatures（***C.elegans***） 
 
 ## Background
-As mentioned by Douglas Hanahan in the "[cancer hallmark paper (2022)](https:/aacrjournals.org/cancerdiscovery/article/12/1/31/675608/Hallmarks-of-Cancer-New-DimensionsHallmarks-of) ([version 1: 2011](https:/www.cell.com/fulltext/S0092-8674(11)00127-9))", genome (DNA) instability and mutation is a fundamental component of cancer formation and pathogenesis. In the laset two decades, computational analysis of pan-cancer data has identified signatures of mutational processes thought to be responsible for the pattern of mutations in any given cancer. These analyses identified altered DNA repair pathways in a much broader spectrum of cancers than previously appreciated with significant therapeutic implications. The development of DNA repair deficiency biomarkers is critical to the implementation of therapeutic targeting of repair-deficient tumors, using either DNA damaging agents or immunotherapy for the personalization of cancer therapy ([Jennifer Ma, et al. 2018](https:/www.nature.com/articles/s41467-018-05228-y)). But the underly causal factor behind this process is hard to quantify in human, so as an alternative option, experiments have been done in model organisms, such as worm.
+Genome instability is a central feature of tumorigenesis and cancer evolution. Over the past two decades, pan-cancer analyses have shown that many tumors carry characteristic mutational signatures that reflect the underlying DNA damage and repair processes active in the cell. Understanding how defects in DNA repair pathways reshape these signatures is therefore important both biologically and clinically, especially for the development of repair-deficiency biomarkers and treatment strategies ([Jennifer Ma, et al. 2018](https:/www.nature.com/articles/s41467-018-05228-y)). In humans, however, the causal contribution of a single repair defect is often difficult to isolate. Model organisms such as ***C. elegans*** provide a useful experimental system for studying these mechanisms in a more controlled setting.
 
 ```{image} ./cancer_hallmark.png
 :alt: Hallmarks of cancer
@@ -10,9 +10,9 @@ As mentioned by Douglas Hanahan in the "[cancer hallmark paper (2022)](https:/aa
 :align: center
 ```
 
-In this use case, we will re-analysis whole genome sequencing data from [***Volkova et,al.***](https:/www.nature.com/articles/s41467-020-15912-7) to validated the mutation signature pattern caused by gene mutations in DNA repaired pathway (e.g. *xpc, mlh*)
+In this use case, we re-analyze whole-genome sequencing data from [***Volkova et,al.***](https:/www.nature.com/articles/s41467-020-15912-7) to evaluate mutational patterns associated with defects in DNA repair genes such as *xpc-1* and *mlh-1*.
 
-In the original paper, 54 gentypes C.elegans were treated by 12 genotoxins with 2-3 different doses, generated 2717 total mutagenesis experiments and whole genome sequencing data. We utilized Clindet’s tumor-normal paired mode within the WGS module to analyze this dataset and successfully reproduced the mutational signatures reported in the original study. Our focus was on WGS data from seven mutant worm samples and their matched normal controls, including: (1) three biological replicates of mlh-1 mutants, deficient in DNA mismatch repair and propagated for 20 generations; (2) three replicates of xpc-1 mutants exposed to UV light; and (3) one mrt-2 mutant, deficient in telomere maintenance and also propagated for 20 generations, which is known to undergo telomere crisis and breakage-fusion-bridge (BFB) cycles, resulting in extensive copy number alterations and genomic rearrangements. 
+The original study profiled 54 ***C. elegans*** genotypes exposed to 12 genotoxins across multiple dose conditions, generating 2717 mutagenesis experiments with matched WGS data. Here we use the ClinDet WGS workflow in tumor-normal paired mode to reproduce representative mutational patterns from a smaller subset of that study. Our focus is on seven mutant samples and their matched controls: (1) three biological replicates of *mlh-1* mutants, which are deficient in mismatch repair and propagated for 20 generations; (2) three *xpc-1* replicates exposed to UV light; and (3) one *mrt-2* mutant, which is defective in telomere maintenance and is expected to accumulate large-scale copy-number and structural alterations through breakage-fusion-bridge cycles.
 
 
 ```{image} ../img/usecase/usecase_three/design.png
@@ -23,7 +23,8 @@ In the original paper, 54 gentypes C.elegans were treated by 12 genotoxins with 
 ```
 
 
-here, we select ten samples which: 
+## Study design
+This re-analysis uses ten samples:
 1. ***xpc-1*** gene knockout with UV treat. 
 
 ***xpc-1*** gene predicted to enable damaged DNA binding activity and single-stranded DNA binding activity. Involved in response to UV. Predicted to be located in nucleus. Predicted to be part of XPC complex and nucleotide-excision repair factor 2 complex. Predicted to be active in cytoplasm. Is expressed in germline precursor cell; intestine; and nervous system. Used to study xeroderma pigmentosum. Human ortholog(s) of this gene implicated in pancreatic cancer; serous cystadenocarcinoma; xeroderma pigmentosum; and xeroderma pigmentosum group C. Orthologous to human XPC (XPC complex subunit, DNA damage recognition and repair factor).
@@ -52,6 +53,8 @@ CD0842c,xpc-1,1,2,UV
 CD0842d,xpc-1,1,3,UV
 ```
 
+## Why this case matters
+This example is useful for two reasons. First, it shows how the WGS workflow can be adapted to a non-human genome with partial tool support. Second, it demonstrates how variant calling, copy-number analysis, and structural-variant analysis can be combined to recover biologically interpretable patterns linked to specific DNA repair defects.
 
 ## Download data
 **First, Create a folder** named `project/worm_WGS` in your home directory and activate the Clindet conda environment.
@@ -126,11 +129,18 @@ $vep_cmd .= " --no_stats --buffer_size $buffer_size --ccds";
 $vep_cmd .= ( $species ~~ ['homo_sapiens','mus_musculus'] ? " --sift b" : " " );
 ```
 
+## Workflow-specific notes
+Compared with the human WGS workflow, this case requires a few additional adjustments:
 
-## write Snakemake file 
-For this project, we need change the  sample sheet info and setup a new snakemake file.
+1. A non-human reference bundle must be added for `WBcel235`.
+2. Annotation settings for `vcf2maf` and VEP must be adapted for the worm reference.
+3. Some human-oriented tools may require fake or substitute resources to complete successfully.
+4. Certain stages, such as conpair-based contamination checks and case report generation, are intentionally disabled in this example.
 
-1. Create a CSV file named pipe_wes.csv in the ~/projects/worm_WGS directory with the following content:
+## Prepare the YAML workflow config
+For this project, you only need to prepare the sample sheet and a YAML workflow config. A project-specific `snake_wgs_worm.smk` file is no longer required.
+
+1. Create a CSV file named `pipe_wgs.csv` in the `~/projects/worm_WGS` directory with the following content:
 
 ```
 Tumor_R1_file_path,Tumor_R2_file_path,Normal_R1_file_path,Normal_R2_file_path,Sample_name,Target_file_bed,Project
@@ -143,135 +153,75 @@ Tumor_R1_file_path,Tumor_R2_file_path,Normal_R1_file_path,Normal_R2_file_path,Sa
 /AbsoPath/of/projects/worm_WGS/data/CD0134d_R1.fq.gz,/AbsoPath/of/projects/worm_WGS/data/CD0134d_R2.fq.gz,/AbsoPath/of/projects/worm_WGS/data/CD0097a_R1.fq.gz,/AbsoPath/of/projects/worm_WGS/data/CD0097a_R2.fq.gz,CD0134d,,C_elegans
 ```
 
-2. create a snakemake file `snake_wgs_worm.smk` from the template (bellow):
-:::{tip}
-:class: dropdown
-
-```{code} python
-import pandas as pd
-samples_info = pd.read_csv('/AbsoPath/of/pipe_WGS_worm.csv',index_col='Sample_name') # you need change this
-unpaired_samples = samples_info.loc[pd.isna(samples_info['Normal_R1_file_path'])].index.tolist()
-paired_samples = samples_info.loc[~pd.isna(samples_info['Normal_R1_file_path'])].index.tolist()
-
-configfile: "/public/ClinicalExam/lj_sih/projects/project_clindet/build_log/config.yaml"
-# project = samples_info["Project"].unique().tolist()[0]
-project = 'test' # Users can either specify the projectparameter or use the first value from the projectcolumn in the samplesheet.csvfile. The result files will be saved in the corresponding project directory.
-genome_version = 'WBcel235' # FASTQ files will be aligned to the genome version specified in the config.yamlfile to ensure consistency with the configuration.
-
-import os
-caller_list = ['HaplotypeCaller','strelkasomaticmanta','caveman','muse','cgppindel_filter','varscan2']
-stages = [] # Non-human data did not support sample pairing testing and patient report generation
-germ_caller_list = ['strelkamanta','caveman']
-somatic_cnv_list = ['sequenza']
-somatic_sv_list = ['svaba','gridss','delly','Manta']
-
-### tumor only call
-tumor_only_caller = []
-tumor_only_cnv_caller = []
-recall_pon =  False
-pre_pon_db = True
-recall_pon_pindel =  False
-recal = False
-include: "/AbsoPath/of/clindet/folder/workflow/WGS/Snakefile"  # the ABSOLUTE path of clindet workflow WGS subfolder snakefile 
-
-
-## setup tools to run， based on genome version
-paired_res_list = [
-    ##### for QC report ######
-    # rules.conpair_contamination.output           if 'conpair'          in stages else None,
-    '{project}/{genome_version}/logs/paired/conpair/{sample}.done' if 'conpair'          in stages else None,
-
-    ##### for SNV/INDEL calling #####
-    "{project}/{genome_version}/results/maf/paired/{sample}/merge/{sample}.maf",
-
-    ##### for CNV result ##### There is a bug for snakemake rules namelist when include *smk for 3-4 levels
-    # rules.paired_purple.output.qc  if 'purple' in somatic_cnv_list else None, # purple call
-    "{project}/{genome_version}/results/cnv/paired/purple/{sample}/purple/{sample}.purple.qc"  if 'purple' in somatic_cnv_list else None, # purple call
-    # rules.CNA_ASCAT.output.rdata   if 'ASCAT'  in somatic_cnv_list else None, # ASCAT call
-    "{project}/{genome_version}/results/cnv/paired/ascat/{sample}/{sample}_ASCAT.rdata"   if 'ASCAT'  in somatic_cnv_list else None, # ASCAT call
-    # rules.facets.output.qc         if 'facets' in somatic_cnv_list else None, # facets call
-    "{project}/{genome_version}/results/cnv/paired/freec/{sample}/{sample}_config_freec.ini" if 'freec' in somatic_cnv_list else None, # Control-FREEC call
-    # rules.CNA_exomedepth.output.tsv       if 'exomedepth' in somatic_cnv_list else None, # sequenza call
-    "{project}/{genome_version}/results/cnv/paired/exomedepth/{sample}/{sample}_exomedepth.tsv"  if 'exomedepth' in somatic_cnv_list else None, # sequenza call
-    # rules.sequenza_call.output.segment       if 'sequenza' in somatic_cnv_list else None, # sequenza call
-    "{project}/{genome_version}/results/cnv/paired/sequenza/{sample}/{sample}_segments.txt"  if 'sequenza' in somatic_cnv_list else None, # sequenza call
-    
-    ##### for SV result #####
-    # somatic_sv_list = ['BRASS','delly','gridss','igcaller','linx','svaba','Manta']
-    # BRASS call
-    "{project}/{genome_version}/results/sv/paired/BRASS/{sample}/{sample}_brass.log"  if 'BRASS' in somatic_sv_list else None, # purple call
-    # DELLY call
-    "{project}/{genome_version}/results/sv/paired/DELLY/{sample}/SV_delly_{sample}.vcf"   if 'delly'  in somatic_sv_list else None, # ASCAT call
-    # gridss call
-    "{project}/{genome_version}/results/sv/paired/gridss/{sample}/high_confidence_somatic.vcf.bgz" if 'gridss' in somatic_sv_list else None, # Control-FREEC call
-    # linx call
-    "{project}/{genome_version}/results/sv/paired/linx/{sample}/{sample}.linx.svs.tsv"  if 'linx' in somatic_sv_list else None, # sequenza call
-    # svaba call
-    "{project}/{genome_version}/results/sv/paired/svaba/{sample}/{sample}.svaba.somatic.sv.vcf"  if 'svaba' in somatic_sv_list else None, # sequenza call
-    # igcaller call
-    "{project}/{genome_version}/results/sv/paired/igcaller/{sample}/{sample}-T_IgCaller/{sample}-T_output_filtered.tsv"  if 'igcaller' in somatic_sv_list else None, # sequenza call
-    # Manta call
-    "{project}/{genome_version}/results/vcf/paired/{sample}/Manta/results/variants/somaticSV.vcf.gz"  if 'Manta' in somatic_sv_list else None, # sequenza call
-
-    #### Case report #####
-    '{project}/{genome_version}/results/report/{sample}/{sample}_cancer_report.html' if 'case_report' in stages else None,
-    #### Multiple QC report #####
-    '{project}/{genome_version}/results/multiqc_report.html' if 'multiqc' in stages else None,
-
-]
-paired_res_list = list(filter(None, paired_res_list))
-
-
-## unpaired sample list
-unpaired_res_list = [
-    ##### for SNV/INDEL calling #####
-    "{project}/{genome_version}/results/maf/unpaired/{sample}/merge/{sample}.maf",
-    ##### for CNV result ##### There is a bug for snakemake rules namelist when include *smk for 3-4 levels
-    # rules.paired_purple.output.qc  if 'purple' in somatic_cnv_list else None, # purple call
-    "{project}/{genome_version}/results/cnv/unpaired/purple/{sample}/purple/{sample}.purple.qc"    if 'purple' in tumor_only_cnv_caller else None,
-    ### if you want call CNV from use tumor-only WES data, take you own risk
-    "{project}/{genome_version}/results/cnv/unpaired/freec/{sample}/{sample}-T.bam_ratio.txt.png"  if 'freec' in tumor_only_cnv_caller else None,
-
-]
-unpaired_res_list = list(filter(None, unpaired_res_list))
-
-recal = False  ## will not recal for non-human data
-rule all:
-    input:
-        ## paired sample
-        expand(paired_res_list,
-        project = project,
-        genome_version = genome_version,
-        sample = paired_samples,
-	      group = groups,
-        caller = caller_list),
-        ## unpaired sample
-        expand(unpaired_res_list,
-        project = project,
-        genome_version = genome_version,
-        sample = unpaired_samples,
-        caller = caller_list)
+2. Create `~/projects/worm_WGS/worm_WGS.yaml` with the following structure:
+:::{note}
+```{code} yaml
+project:
+  output_dir: '~/projects/worm_WGS'
+  genome_version: 'WBcel235'
+  recal_BQSR: False
+  vcf2maf: 'raw'
+  sample_sheet: '~/projects/worm_WGS/pipe_wgs.csv'
+run_params:
+  somatic_caller_list:
+    - HaplotypeCaller
+    - strelkasomaticmanta
+    - caveman
+    - muse
+    - cgppindel_filter
+    - varscan2
+  stages: []
+  germ_caller_list:
+    - strelkamanta
+    - caveman
+  somatic_cnv_list:
+    - sequenza
+  somatic_sv_list:
+    - svaba
+    - gridss
+    - delly
+    - Manta
 ```
 :::
+
+In this non-human WGS example, `recal_BQSR` is set to `False`. Base quality recalibration is generally not recommended here because it increases runtime and storage usage while usually providing limited benefit for the final results. We also leave `run_params.stages` empty because non-human data in this workflow does not support conpair-based sample pairing checks or case report generation.
+
+## Configuration rationale
+The YAML configuration in this example is intentionally conservative. We keep `run_type=wgs` and `genome_version=WBcel235`, disable `recal_BQSR`, and leave `stages` empty to avoid unsupported human-oriented reporting steps. The selected callers emphasize broad somatic SNV/INDEL discovery together with structural-variant recovery in a non-human setting, while `sequenza` is retained as the CNV method shown in this use case.
 
 ## Run clindet 
+There are two ways to run ClinDet in this example:
 
-``` bash
-nohup snakemake --profile workflow/config_slurm \
--j 30 --printshellcmds -s snake_wgs_worm.smk \
---use-singularity \
---singularity-args "--bind /you/homepath/:/you/homepath/" \
---latency-wait 300 --use-conda --conda-frontend conda  -k >> worm.out &
+1. run on a local node
+2. submit to HPC through slurm
 
+### Run on local node
+```{code} bash
+nohup snakemake -c 30 --config run_type=wgs \
+--configfile ~/projects/worm_WGS/worm_WGS.yaml \
+--rerun-triggers mtime --benchmark-extended \
+--use-singularity --singularity-args "--bind /your/home/path:/your/home/path" \
+--latency-wait 300 --use-conda --conda-frontend conda -k >> ~/projects/worm_WGS/worm.out &
 ```
 
-:::{aside} An Optional Title
-This is an aside. It is not entirely relevant to the main article.
-:::
+### Submit to HPC use slurm
+We provide a Slurm `config.yaml` file under the `clindet/workflow/config_slurm` folder.
+```{code} bash
+nohup snakemake -c 30 --config run_type=wgs \
+--configfile ~/projects/worm_WGS/worm_WGS.yaml \
+--profile workflow/config_slurm \
+--rerun-triggers mtime --benchmark-extended \
+--use-singularity --singularity-args "--bind /your/home/path:/your/home/path" \
+--latency-wait 300 --use-conda --conda-frontend conda -k >> ~/projects/worm_WGS/worm.out &
+```
+
 ## Results
 
 ### Overview of output
-For the final output results, please refer to the corresponding section in Use Case One <project:./case_one.rst>. In the following section, we will present the analyzed results derived from these raw outputs.
+For the final output directory structure, please refer to the corresponding section in Use Case One (`case_one`). In the following section, we present the biological findings derived from these raw outputs.
+
+### What to expect
+For this case, the most informative outputs are the merged somatic MAF files, the `sequenza` copy-number results, and the SV calls from `svaba`, `gridss`, `delly`, and `Manta`. Successful completion should allow readers to compare small-variant patterns across genotypes and to inspect whether the *mrt-2* sample shows chromosome-scale rearrangement signals consistent with the published study.
 
 ### Mutation calling and signature analysis
 For somatic mutation detection, we employed multiple variant callers, including CaVEMan, MuSE, Pindel, Strelka2, and Manta. Copy number variations were identified using FragCounter, while structural variations were detected using Delly. Our analysis revealed that the mlh-1 mutant exhibited a mutational signature predominantly characterized by short insertions and deletions (indels), consistent with its deficiency in mismatch repair. The xpc-1 mutant, involved in nucleotide excision repair, showed an inability to correct UV-induced pyrimidine dimers, resulting in a mutational profile dominated by C>T (or T>C) transitions and short (1–5 bp) indels. Furthermore, in the mrt-2 mutant, Clindet identified CNVs and SVs localized to chromosome V, consistent with previously reported observations by [***Volkova et,al.***](https:/www.nature.com/articles/s41467-020-15912-7).
@@ -295,6 +245,12 @@ Furthermore, in the mrt-2 mutant, Clindet identified CNVs and SVs localized to c
 
 ## Optional: variant calling with CaVEMan and cgpindel
 When analyzing non-human sequencing data, tools like CaVEMan and Pindel require specific configurations to run successfully. However, some species may lack certain necessary data files, such as panel-of-normal results. As an alternative, a fake file can be provided to allow the pipeline to execute, but this may compromise the accuracy of variant calling results. **Use this approach at your own risk.**
+
+## Common pitfalls
+1. `genome_version` in the YAML file must exactly match the key added to the global `config.yaml` resource section.
+2. Paths in `sample_sheet` should be absolute and must point to files visible inside the Singularity bind mount.
+3. The non-human VEP and `vcf2maf` settings must be updated before annotation will run successfully.
+4. Some callers may execute with workaround resources but still produce lower-confidence results than in the human workflows.
 
 These configuration files can be prepared according to the software documentation for CaVEMan and cgpPindel. In this example, we will use configurations based on the human b37 reference genome (ensure you have completed the setup from use case 1).
 ### Setup a fake dbsnp.vcf file

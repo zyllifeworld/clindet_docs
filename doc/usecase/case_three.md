@@ -1,7 +1,7 @@
 # Use case III: Whole genome sequencing of **COLO829 cell line**
 
 ## Background
-Whole-genome sequencing (WGS) is increasingly being adopted in clinical oncology, providing a comprehensive view of the tumor genetic landscape. Compared to whole-exome sequencing (WES), this approach enables the detection of a broader range of disease-associated genetic alterations, including mutations in non-coding regions and structural variants (SVs). Such comprehensive profiling can facilitate deeper insights into cancer evolution and inform the development of personalized therapeutic strategies. However, WGS generates extensive datasets, necessitating robust bioinformatics pipelines for their analysis. To demonstrate how high-quality, validated somatic variants can be identified from WGS data, we employed Clindet to analyze a metastatic melanoma cell line (COLO829) and its matched normal lymphoblastoid cell line (COLO829BL), for which a "truth set" of copy number variants (CNVs) and structural variants (SVs) had been established. 
+Whole-genome sequencing (WGS) provides a broad view of the somatic genome, including coding and non-coding mutations, copy-number changes, and structural rearrangements. Compared with WES, WGS captures a wider spectrum of genomic alterations and is therefore especially useful for tumor profiling, clonality analysis, and structural variant discovery. Because WGS data are large and analytically complex, benchmark-like datasets are particularly useful for evaluating workflow behavior. In this example, we use ClinDet to analyze the metastatic melanoma cell line COLO829 and its matched normal lymphoblastoid control, COLO829BL, a tumor-normal pair with well-characterized CNV and SV truth sets.
 
 **COLO829 cell line**
 ```{image} ./colo829_cell.png
@@ -10,6 +10,9 @@ Whole-genome sequencing (WGS) is increasingly being adopted in clinical oncology
 :width: 400px
 :align: center
 ```
+
+## Why this case matters
+This case functions as a benchmark-style WGS example. It shows how ClinDet integrates multiple somatic callers, CNV tools, and SV callers in a tumor-normal workflow, and it provides a practical setting for comparing output consistency against a well-studied model system.
 
 ## Setup a project folder
 ````{note}
@@ -63,138 +66,57 @@ Next, create a CSV file named pipe_wgs.csv in the ~/projects/COLO829_WGS directo
 Tumor_R1_file_path,Tumor_R2_file_path,Normal_R1_file_path,Normal_R2_file_path,Sample_name,Project
 /AbsoPath/of/projects/COLO829_WGS/data/COLO829v003T_R1.fastq.gz,/AbsoPath/of/projects/COLO829_WGS/data/COLO829v003T_R2.fastq.gz,/AbsoPath/of/projects/COLO829_WGS/data/COLO829v003R_R1.fastq.gz,/AbsoPath/of/projects/COLO829_WGS/data/COLO829v003R_R2.fastq.gz,COL0829,WGS
 ```
-## Write an Snakemake file from template 
-For this project, modify the sample sheet and create a new Snakemake file named **snake_wgs.smk** (see below). Set the following parameters in the Snakemake file:
+## Prepare the YAML workflow config
+In the current workflow, you no longer need to create a project-specific `snake_wgs.smk` file. Instead, prepare a YAML configuration file and pass it to Snakemake with `--configfile`.
 
-1. **configfile (str)**: config file for softwares and resource parameters.
-1. **stage (list)**: analysis steps. avaiable options:`['conpair','report']`
-2. **sample_csv (str)**: `sample_info.csv` path
-3. **genome_version (str)**: genome version, can be genome version which setup in cofig.yaml eg. `b37`
-4. **recal (Boolean)**: use GATK BaseRecalibrator for Base Quality Score Recalibration?  this is a time-consume task  but can slightly improved calling accuracy. `True or False`. default `True`.
-5. **caller_list (list)**: somatic mutation calling softwares used. avaiable options:`['sage','HaplotypeCaller','strelkasomaticmanta','cgppindel_filter','caveman','muse','deepvariant','Mutect2_filter'] `
-6. **germ_call_list (list)**: germline mutation calling softwares used. avaiable options: `['strelkamanta','caveman']`
-7. **somatic_cnv_list (list)**: Somatic Copy Number variant calling softwares. avaiable options: `['purple','ASCAT','sequenza','freec','exomedepth']`
-8. **recall_pon (Boolean)**: call panel-of-normal mutect2_pon.vcf from cohort normal samples. default `False`, use public available resource.
-9. **custome_pon_db (Boolean)**: use public available resource. default `False`.
-10. **recall_pon_pindel (Boolean)**: call panel-of-normal pindel_pon.vcf from cohort normal samples. default `False`, use public available resource.
+For this example, create `~/projects/COLO829_WGS/COLO829_WGS.yaml` and update the following fields:
 
+1. `project.output_dir`: output directory for this analysis.
+2. `project.genome_version`: reference genome version, such as `b37`.
+3. `project.recal_BQSR`: whether to run BQSR. For WGS data, this step can significantly increase runtime and disk usage, while usually providing limited improvement to the final results, so `False` is recommended in most cases.
+4. `project.vcf2maf`: VCF-to-MAF mode.
+5. `project.sample_sheet`: absolute path to the WGS sample sheet CSV file.
+6. `run_params.somatic_caller_list`: somatic SNV/INDEL callers to run.
+7. `run_params.stages`: workflow stages to run.
+8. `run_params.germ_caller_list`: germline callers to run.
+9. `run_params.somatic_cnv_list`: somatic CNV callers to run.
+10. `run_params.somatic_sv_list`: somatic SV callers to run.
+11. `run_params.purple_sv`: SV caller used by PURPLE-related downstream steps.
 
-## write Snakemake file 
-For this project, we need change the  sample sheet info.
-:::{tip}
-:class: dropdown
-
-```{code} python
-
-import pandas as pd
-samples_info = pd.read_csv('./pipe_WGS.csv',index_col='Sample_name')
-
-unpaired_samples = samples_info.loc[pd.isna(samples_info['Normal_R1_file_path'])].index.tolist()
-paired_samples = samples_info.loc[~pd.isna(samples_info['Normal_R1_file_path'])].index.tolist()
-
-configfile: "/AbsoPath/of/clindet/folder/config/config.yaml"
-
-project = samples_info["Project"].unique().tolist()[0]
-genome_version = 'b37'
-
-
-import os
-
-germ_caller_list = ['caveman','deepvariant']
-somatic_caller_list = ['strelkasomaticmanta','muse','cgppindel_filter','deepvariant','sage','caveman']
-somatic_cnv_list = ['purple','ascat']
-somatic_sv_list = ['svaba','gridss']
-purple_sv = 'svaba'
-
-
-recall_pon =  False
-custome_pon_db = True
-recall_pon_pindel =  False
-
-paired_res_list = [
-    ##### for QC report ######
-    # rules.conpair_contamination.output           if 'conpair'          in stages else None,
-    '{project}/{genome_version}/logs/paired/conpair/{sample}.done' if 'conpair'          in stages else None,
-
-    ##### for SNV/INDEL calling #####
-    "{project}/{genome_version}/results/maf/paired/{sample}/merge/{sample}.maf",
-
-    ##### for CNV result ##### There is a bug for snakemake rules namelist when include *smk for 3-4 levels
-    # rules.paired_purple.output.qc  if 'purple' in somatic_cnv_list else None, # purple call
-    "{project}/{genome_version}/results/cnv/paired/purple/{sample}/purple/{sample}.purple.qc"  if 'purple' in somatic_cnv_list else None, # purple call
-    # rules.CNA_ASCAT.output.rdata   if 'ASCAT'  in somatic_cnv_list else None, # ASCAT call
-    "{project}/{genome_version}/results/cnv/paired/ascat/{sample}/{sample}_ASCAT.rdata"   if 'ASCAT'  in somatic_cnv_list else None, # ASCAT call
-    # rules.facets.output.qc         if 'facets' in somatic_cnv_list else None, # facets call
-    # rules.facets.output.qc         if 'freec' in somatic_cnv_list else None, # freec call
-    "{project}/{genome_version}/results/cnv/paired/freec/{sample}/{sample}_config_freec.ini" if 'freec' in somatic_cnv_list else None, # Control-FREEC call
-    # rules.CNA_exomedepth.output.tsv       if 'exomedepth' in somatic_cnv_list else None, # sequenza call
-    "{project}/{genome_version}/results/cnv/paired/exomedepth/{sample}/{sample}_exomedepth.tsv"  if 'exomedepth' in somatic_cnv_list else None, # sequenza call
-    # rules.sequenza_call.output.segment       if 'sequenza' in somatic_cnv_list else None, # sequenza call
-    "{project}/{genome_version}/results/cnv/paired/sequenza/{sample}/{sample}_segments.txt"  if 'sequenza' in somatic_cnv_list else None, # sequenza call
-    
-    ##### for SV result #####
-    # somatic_sv_list = ['BRASS','delly','gridss','igcaller','linx','svaba','Manta']
-    # BRASS call
-    "{project}/{genome_version}/results/sv/paired/BRASS/{sample}/{sample}_brass.log"  if 'BRASS' in somatic_sv_list else None, # purple call
-    # DELLY call
-    "{project}/{genome_version}/results/sv/paired/DELLY/{sample}/SV_delly_{sample}.vcf"   if 'delly'  in somatic_sv_list else None, # ASCAT call
-    # gridss call
-    "{project}/{genome_version}/results/sv/paired/gridss/{sample}/high_confidence_somatic.vcf.bgz" if 'gridss' in somatic_sv_list else None, # Control-FREEC call
-    # linx call
-    "{project}/{genome_version}/results/sv/paired/linx/{sample}/{sample}.linx.svs.tsv"  if 'linx' in somatic_sv_list else None, # sequenza call
-    # svaba call
-    "{project}/{genome_version}/results/sv/paired/svaba/{sample}/{sample}.svaba.somatic.sv.vcf"  if 'svaba' in somatic_sv_list else None, # sequenza call
-    # igcaller call
-    "{project}/{genome_version}/results/sv/paired/igcaller/{sample}/{sample}-T_IgCaller/{sample}-T_output_filtered.tsv"  if 'igcaller' in somatic_sv_list else None, # sequenza call
-    # Manta call
-    "{project}/{genome_version}/results/vcf/paired/{sample}/Manta/results/variants/somaticSV.vcf.gz"  if 'Manta' in somatic_sv_list else None, # sequenza call
-
-    #### Case report #####
-    '{project}/{genome_version}/results/report/{sample}/{sample}_cancer_report.html' if 'case_report' in stages else None,
-    #### Multiple QC report #####
-    '{project}/{genome_version}/results/multiqc_report.html' if 'multiqc' in stages else None,
-
-]
-paired_res_list = list(filter(None, paired_res_list))
-
-
-## unpaired sample list
-unpaired_res_list = [
-    ##### for SNV/INDEL calling #####
-    "{project}/{genome_version}/results/maf/unpaired/{sample}/merge/{sample}.maf",
-    ##### for CNV result ##### There is a bug for snakemake rules namelist when include *smk for 3-4 levels
-    # rules.paired_purple.output.qc  if 'purple' in somatic_cnv_list else None, # purple call
-    "{project}/{genome_version}/results/cnv/unpaired/purple/{sample}/purple/{sample}.purple.qc"    if 'purple' in tumor_only_cnv_caller else None,
-    ### if you want call CNV from use tumor-only WES data, take you own risk
-    "{project}/{genome_version}/results/cnv/unpaired/freec/{sample}/{sample}-T.bam_ratio.txt.png"  if 'freec' in tumor_only_cnv_caller else None,
-
-]
-unpaired_res_list = list(filter(None, unpaired_res_list))
-
-##### Modules #####
-rule all:
-    input:
-        ## paired sample
-        expand(paired_res_list,
-        sample = paired_samples,
-        project = project,
-        genome_version = genome_version,
-        group = groups,
-        caller = caller_list),
-        #### unpaired sample
-        expand(unpaired_res_list,
-        project = project,
-        genome_version = genome_version,
-        sample = unpaired_samples,
-        caller = caller_list),
-        ##### multiqc report ########
-        f'{project}/{genome_version}/results/multiqc/filelist.txt' if 'report' in stages else [],
-        f'{project}/{genome_version}/results/multiqc_report.html' if 'report' in stages else [],
-
-
-include: "workflow/WGS/Snakefile"
+:::{note}
+```{code} yaml
+project:
+  output_dir: '~/projects/COLO829_WGS'
+  genome_version: 'b37'
+  recal_BQSR: False
+  vcf2maf: 'raw'
+  sample_sheet: '~/projects/COLO829_WGS/pipe_wgs.csv'
+run_params:
+  somatic_caller_list:
+    - strelkasomaticmanta
+    - muse
+    - cgppindel_filter
+    - deepvariant
+    - sage
+    - caveman
+  stages:
+    - conpair
+    - call_mut
+  germ_caller_list:
+    - caveman
+    - deepvariant
+  somatic_cnv_list:
+    - purple
+    - ascat
+  somatic_sv_list:
+    - svaba
+    - gridss
+  purple_sv: 'svaba'
 ```
 :::
+
+## Configuration rationale
+This WGS configuration is designed to emphasize broad somatic event discovery in a paired tumor-normal sample. We keep `recal_BQSR=False` because BQSR usually increases runtime and storage requirements more than it improves final WGS results in this setting. The selected somatic callers cover complementary SNV/INDEL signals, `purple` and `ascat` are retained as CNV methods, and `svaba` together with `gridss` provides a practical combination for structural-variant discovery in this example.
 
 ## Run clindet 
 There is two way you can run clindet
@@ -203,18 +125,22 @@ There is two way you can run clindet
 
 ### Run on local node 
 ```{code} bash
-nohup snakemake -j 30 --printshellcmds -s snake_wgs.smk \
+nohup snakemake -c 30 --config run_type=wgs \
+--configfile ~/projects/COLO829_WGS/COLO829_WGS.yaml \
+--rerun-triggers mtime --benchmark-extended \
 --use-singularity --singularity-args "--bind /your/home/path:/your/home/path" \
---latency-wait 300 --use-conda >> wgs.log
+--latency-wait 300 --use-conda --conda-frontend conda -k >> ~/projects/COLO829_WGS/COLO829_WGS.out &
 ```
 
 ### Submit to HPC use slurm
-we provide a slurm config.yaml under clindet/workflow/config_slurm folder.
+We provide a Slurm `config.yaml` file under the `clindet/workflow/config_slurm` folder.
 ```{code}  bash
-nohup snakemake --profile workflow/config_slurm \
--j 30 --printshellcmds -s snake_wgs.smk --use-singularity \
---singularity-args "--bind /your/home/path:/your/home/path" \
---latency-wait 300 --use-conda >> wgs.log
+nohup snakemake -c 30 --config run_type=wgs \
+--configfile ~/projects/COLO829_WGS/COLO829_WGS.yaml \
+--profile workflow/config_slurm \
+--rerun-triggers mtime --benchmark-extended \
+--use-singularity --singularity-args "--bind /your/home/path:/your/home/path" \
+--latency-wait 300 --use-conda --conda-frontend conda -k >> ~/projects/COLO829_WGS/COLO829_WGS.out &
 ```
 
 ## Results
@@ -248,6 +174,16 @@ After successful execution, you will see the following directory structure. The 
        ├── COL0829
        └── HG008
 ```
+
+### What to expect
+For this case, the most informative outputs are the merged somatic MAF files, the `purple` and `ascat` CNV results, and the SV calls generated by `svaba` and `gridss`. Successful completion should allow readers to compare large-scale copy-number structure, inspect variation across SV callers, and evaluate how closely the resulting profiles resemble the published COLO829 benchmark patterns.
+
+## Common pitfalls
+1. `sample_sheet` should be an absolute path and must point to files visible inside the Singularity bind mount.
+2. `genome_version` in the YAML file must match the WGS reference resources configured in the global `config.yaml`.
+3. WGS input files are large, so insufficient temporary disk space often causes failures before final outputs are produced.
+4. SV callers can vary substantially in sensitivity and false-positive rate, so individual caller outputs should be interpreted in the context of the combined workflow rather than in isolation.
+
 ### Copy number variants of COLO829 
 To assess the consistency among different software tools in representing the genomic content of the COLO829 cancer cell line, we evaluated the presence of CNVs and SVs. Regarding copy number variation, the four software tools generated similar estimates of tumor purity and ploidy.
 
