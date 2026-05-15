@@ -1,190 +1,252 @@
-# Available datasets for NGS tools Benchmark
+# Capability-Driven Benchmark Matrix
 
 ## Overview
+This document organizes benchmark resources by analytical capability rather than by dataset name alone. It is intended to function as the task matrix of the GoldStand benchmark gym: each section links a workflow capability to one or more recommended datasets, the strength of available truth, the expected outputs, and the main evaluation purpose.
 
-This document organizes benchmarking datasets by **data type and variant type**, rather than by individual dataset.
+This matrix is useful for:
 
-It is designed to help:
-- Select appropriate datasets for specific tool benchmarking
-- Standardize evaluation across different variant types
-- Enable collaborative dataset curation
+- selecting datasets for a specific workflow function
+- planning smoke, standard, gold, or stress tests
+- comparing tool behavior across omics tasks
+- tracking which ClinDet modules are already covered and which still need reference data
 
----
+## How to read this matrix
+Each benchmark category should be interpreted through four questions:
 
-## Data Type Categories
+1. What capability is being tested?
+2. What kind of truth or expectation is available?
+3. What outputs should be inspected after a successful run?
+4. Is the dataset best suited for smoke testing, routine validation, or rigorous benchmarking?
 
-- [WES - SNV / Indel](#wes---snv--indel)
+## Capability categories
+
+- [WES - Somatic SNV / Indel](#wes---somatic-snv--indel)
 - [WES - CNV](#wes---cnv)
-- [WGS - SNV / Indel](#wgs---snv--indel)
-- [WGS - Structural Variants (SV)](#wgs---structural-variants-sv)
+- [WGS - Germline SNV / Indel](#wgs---germline-snv--indel)
+- [WGS - Somatic SNV / Indel](#wgs---somatic-snv--indel)
+- [WGS - Structural Variants](#wgs---structural-variants)
 - [WGS - CNV](#wgs---cnv)
-- [RNA-seq - Gene Fusion](#rna-seq---gene-fusion)
-- [RNA-seq - Expression / Variant](#rna-seq---expression--variant)
-- [Synthetic / Spike-in Datasets](#synthetic--spike-in-datasets)
+- [RNA-seq - Fusion Detection](#rna-seq---fusion-detection)
+- [RNA-seq - Expression Quantification](#rna-seq---expression-quantification)
+- [RNA-seq - Immune Repertoire / Transcript-derived Features](#rna-seq---immune-repertoire--transcript-derived-features)
+- [Synthetic and Spike-in Validation](#synthetic-and-spike-in-validation)
 
----
+## WES - Somatic SNV / Indel
 
-## WES - SNV / Indel
+### Capability
+Benchmark somatic SNV and small Indel detection in tumor-normal or synthetic exome settings.
 
-### Description
-Datasets suitable for benchmarking somatic or germline SNV/Indel detection using WES.
+### Recommended datasets
 
-### Recommended Datasets
+| Dataset | Sample Type | Truth Strength | Access | Recommended Level | Expected Outputs |
+|--------|-------------|----------------|--------|-------------------|------------------|
+| SEQC2 / MAQC | Synthetic / mixture | Known spike-in | Open | Gold | VCF, MAF |
+| TCGA | Tumor / Normal | Partial | Controlled | Standard | VCF, MAF |
+| BostonGene reference standards | Cell line / reference | Partial | Open | Standard | VCF, MAF |
 
-| Dataset | Sample Type | Ground Truth | Access | Link |
-|--------|------------|-------------|--------|------|
-| TCGA | Tumor/Normal | Partial | Controlled | https://portal.gdc.cancer.gov/ |
-| SEQC2 | Synthetic | Yes | Open | https://www.ncbi.nlm.nih.gov/sra |
-| GIAB | Germline | High-confidence | Open | https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/ |
+### Evaluation focus
 
-### Benchmark Focus
-- Sensitivity (low VAF)
-- Precision / Recall
-- Caller comparison (Mutect2, Strelka2, etc.)
-
----
+- sensitivity at low VAF
+- precision / recall across callers
+- concordance between somatic callers
+- impact of filtering strategy on final MAF output
 
 ## WES - CNV
 
-### Description
-Datasets for copy number variation detection using exome sequencing.
+### Capability
+Benchmark exome-based copy-number recovery from targeted coverage profiles.
 
-### Recommended Datasets
+### Recommended datasets
 
-| Dataset | Sample Type | Ground Truth | Access | Link |
-|--------|------------|-------------|--------|------|
-| TCGA | Tumor | Partial | Controlled | https://portal.gdc.cancer.gov/ |
-| CCLE | Cell line | Partial | Open | https://depmap.org/portal/ |
+| Dataset | Sample Type | Truth Strength | Access | Recommended Level | Expected Outputs |
+|--------|-------------|----------------|--------|-------------------|------------------|
+| TCGA | Tumor | Partial | Controlled | Standard | CNV segments, plots |
+| CCLE | Cell line | Partial | Open | Standard | CNV segments, plots |
+| COLO829 WES subsets | Tumor / Normal | Partial | Open | Stress | CNV segments, purity/ploidy |
 
-### Benchmark Focus
-- Exon-level CNV detection
-- Noise handling
-- Tool comparison (CNVkit, EXCAVATOR, etc.)
+### Evaluation focus
 
----
+- exon-level CNV recovery
+- stability under noisy coverage
+- agreement between CNV callers
+- large-scale amplification and deletion detection
 
-## WGS - SNV / Indel
+## WGS - Germline SNV / Indel
 
-### Description
-High-confidence SNV/Indel benchmarking using whole genome sequencing.
+### Capability
+Benchmark high-confidence germline small-variant calling.
 
-### Recommended Datasets
+### Recommended datasets
 
-| Dataset | Sample Type | Ground Truth | Access | Link |
-|--------|------------|-------------|--------|------|
-| GIAB | Germline | High-confidence | Open | https://ftp-trace.ncbi.nlm.nih.gov/giab/ftp/ |
-| PCAWG | Tumor | Consensus | Controlled | https://dcc.icgc.org/pcawg |
-| ICGC | Tumor | Curated | Controlled | https://dcc.icgc.org/ |
+| Dataset | Sample Type | Truth Strength | Access | Recommended Level | Expected Outputs |
+|--------|-------------|----------------|--------|-------------------|------------------|
+| GIAB | Germline reference | High-confidence | Open | Gold | VCF |
+| Cancer Genome in a Bottle normal samples | Germline / matched normal | High-confidence subset | Open | Gold | VCF |
 
-### Benchmark Focus
-- Genome-wide accuracy
-- Difficult regions (GC-rich, repeats)
+### Evaluation focus
 
----
+- precision / recall in confident regions
+- consistency across versions
+- difficult-region behavior
 
-## WGS - Structural Variants (SV)
+## WGS - Somatic SNV / Indel
 
-### Description
-Datasets for benchmarking structural variant detection.
+### Capability
+Benchmark somatic small-variant detection in tumor-normal whole-genome data.
 
-### Recommended Datasets
+### Recommended datasets
 
-| Dataset | Sample Type | Ground Truth | Access | Link |
-|--------|------------|-------------|--------|------|
-| PCAWG | Tumor | Consensus | Controlled | https://dcc.icgc.org/pcawg |
-| ICGC | Tumor | Curated | Controlled | https://dcc.icgc.org/ |
+| Dataset | Sample Type | Truth Strength | Access | Recommended Level | Expected Outputs |
+|--------|-------------|----------------|--------|-------------------|------------------|
+| Cancer Genome in a Bottle | Tumor / Normal | High-confidence subset | Open | Gold | VCF, MAF |
+| PCAWG | Tumor / Normal | Consensus | Controlled | Gold | VCF, MAF |
+| COLO829 | Tumor / Normal | Partial to strong, task-dependent | Open | Standard | VCF, MAF |
 
-### Benchmark Focus
-- Large deletions / insertions
-- Inversions / translocations
-- Breakpoint resolution
+### Evaluation focus
 
----
+- genome-wide somatic accuracy
+- low-frequency mutation sensitivity
+- caller agreement and post-filtering stability
+
+## WGS - Structural Variants
+
+### Capability
+Benchmark somatic structural-variant detection and breakpoint recovery.
+
+### Recommended datasets
+
+| Dataset | Sample Type | Truth Strength | Access | Recommended Level | Expected Outputs |
+|--------|-------------|----------------|--------|-------------------|------------------|
+| PCAWG | Tumor / Normal | Consensus | Controlled | Gold | SV VCF, merged SV set |
+| ICGC | Tumor | Curated | Controlled | Gold | SV VCF |
+| COLO829 | Tumor / Normal | Partial / benchmark-like | Open | Standard | SV VCF, merged SV set |
+
+### Evaluation focus
+
+- breakpoint resolution
+- event class coverage
+- false-positive burden by caller
+- benefit of multi-caller integration
 
 ## WGS - CNV
 
-### Description
-Copy number variation detection using whole genome sequencing.
+### Capability
+Benchmark whole-genome copy-number analysis, including broad arm-level and focal events.
 
-### Recommended Datasets
+### Recommended datasets
 
-| Dataset | Sample Type | Ground Truth | Access | Link |
-|--------|------------|-------------|--------|------|
-| PCAWG | Tumor | Consensus | Controlled | https://dcc.icgc.org/pcawg |
-| TCGA (subset) | Tumor | Partial | Controlled | https://portal.gdc.cancer.gov/ |
+| Dataset | Sample Type | Truth Strength | Access | Recommended Level | Expected Outputs |
+|--------|-------------|----------------|--------|-------------------|------------------|
+| PCAWG | Tumor / Normal | Consensus | Controlled | Gold | segments, purity/ploidy |
+| COLO829 | Tumor / Normal | Partial / benchmark-like | Open | Standard | segments, purity/ploidy |
+| TCGA selected WGS subsets | Tumor | Partial | Controlled | Stress | segments, plots |
 
-### Benchmark Focus
-- Genome-wide CNV
-- Large-scale amplification/deletion
+### Evaluation focus
 
----
+- genome-wide CNV structure
+- purity and ploidy estimation
+- reproducibility across CNV callers
 
-## RNA-seq - Gene Fusion
+## RNA-seq - Fusion Detection
 
-### Description
-Datasets for fusion gene detection benchmarking.
+### Capability
+Benchmark fusion transcript detection in RNA-seq.
 
-### Recommended Datasets
+### Recommended datasets
 
-| Dataset | Sample Type | Ground Truth | Access | Link |
-|--------|------------|-------------|--------|------|
-| TCGA | Tumor | Partial | Controlled | https://portal.gdc.cancer.gov/ |
-| CCLE | Cell line | Partial | Open | https://depmap.org/portal/ |
+| Dataset | Sample Type | Truth Strength | Access | Recommended Level | Expected Outputs |
+|--------|-------------|----------------|--------|-------------------|------------------|
+| CCLE | Cell line | Partial | Open | Standard | fusion TSV |
+| TCGA | Tumor | Partial | Controlled | Standard | fusion TSV |
+| curated MM / leukemia case datasets | Tumor | Partial / orthogonal | Mixed | Standard | fusion TSV, supporting reads |
 
-### Benchmark Focus
-- Fusion detection sensitivity
-- False positive rate
-- Tool comparison (STAR-Fusion, Arriba, etc.)
+### Evaluation focus
 
----
+- fusion sensitivity
+- false-positive burden
+- reproducibility across tools
+- consistency with orthogonal biology
 
-## RNA-seq - Expression / Variant
+## RNA-seq - Expression Quantification
 
-### Description
-RNA-seq datasets for expression quantification or variant calling.
+### Capability
+Benchmark transcript and gene-level quantification.
 
-### Recommended Datasets
+### Recommended datasets
 
-| Dataset | Sample Type | Ground Truth | Access | Link |
-|--------|------------|-------------|--------|------|
-| TCGA | Tumor | Partial | Controlled | https://portal.gdc.cancer.gov/ |
+| Dataset | Sample Type | Truth Strength | Access | Recommended Level | Expected Outputs |
+|--------|-------------|----------------|--------|-------------------|------------------|
+| TCGA | Tumor | Relative expectation | Controlled | Standard | counts, TPM |
+| CCLE | Cell line | Relative expectation | Open | Standard | counts, TPM |
+| curated multiple myeloma or cohort RNA cases | Tumor | Biological expectation | Mixed | Smoke, Standard | counts, TPM |
 
-### Benchmark Focus
-- Expression quantification consistency
-- RNA variant detection
+### Evaluation focus
 
----
+- consistency across quantification methods
+- expression ranking stability
+- expected overexpression of known marker genes
 
-## Synthetic / Spike-in Datasets
+## RNA-seq - Immune Repertoire / Transcript-derived Features
 
-### Description
-Artificial datasets with known ground truth for controlled benchmarking.
+### Capability
+Benchmark repertoire reconstruction and related RNA-derived immunologic readouts.
 
-### Recommended Tools / Datasets
+### Recommended datasets
 
-| Dataset | Type | Ground Truth | Link |
-|--------|------|-------------|------|
-| BAMSurgeon | Spike-in | Yes | https://github.com/adamewing/bamsurgeon |
-| VarSim | Simulation | Yes | https://github.com/bioinform/varsim |
+| Dataset | Sample Type | Truth Strength | Access | Recommended Level | Expected Outputs |
+|--------|-------------|----------------|--------|-------------------|------------------|
+| multiple myeloma RNA cohorts | Tumor | Biological expectation | Mixed | Standard | clonotype reports |
+| TCGA immune-rich cohorts | Tumor | Partial | Controlled | Stress | clonotype reports, summary tables |
 
-### Benchmark Focus
-- Sensitivity evaluation
-- Controlled experiments
-- Edge case testing
+### Evaluation focus
 
----
+- clonality signal recovery
+- consistency with disease biology
+- robustness across sample quality and depth
 
-## Template for Adding New Entries
+## Synthetic and Spike-in Validation
+
+### Capability
+Test pipeline behavior in fully controlled or edge-case scenarios.
+
+### Recommended datasets and tools
+
+| Dataset / Tool | Use Case | Truth Strength | Recommended Level | Expected Outputs |
+|----------------|----------|----------------|-------------------|------------------|
+| BAMSurgeon | Spike-in somatic mutation benchmarking | Exact | Gold | VCF, MAF |
+| VarSim | Simulated variant benchmarking | Exact | Gold | VCF |
+| custom spike-in RNA controls | Fusion / expression stress tests | Exact or designed | Stress | fusion TSV, counts |
+
+### Evaluation focus
+
+- low-frequency sensitivity
+- controlled failure analysis
+- edge-case regression testing
+
+## Dataset selection rules
+When choosing a dataset for the benchmark gym, prefer the smallest dataset that still answers the validation question:
+
+1. use smoke datasets to test whether the pipeline can run
+2. use standard datasets to validate everyday workflow behavior
+3. use gold datasets for regression tracking and tool comparison
+4. use stress datasets for robustness and edge-case evaluation
+
+## Template for new benchmark entries
 
 ```yaml
-Data Category: (e.g. WGS-SV)
+Capability:
+Omics Type:
 Dataset Name:
-Sample Type:
-Variant Type:
-Ground Truth:
+Biological Context:
+Supported Tasks:
+Expected Outputs:
+Truth Strength:
+Benchmark Level:
 Access:
 Download Link:
+Evaluation Focus:
+Known Caveats:
 Recommended Usage:
-Notes:
 Contributor:
 Last Updated:
+```
