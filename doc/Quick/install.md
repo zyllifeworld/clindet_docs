@@ -148,7 +148,15 @@ If you already have reference files (human genome FASTA, GTF, dbSNP, etc.) on yo
 Once the quick test passes, download and configure the full human b37 reference genome:
 
 ```bash
-snakemake --config run_type=build_b37
+snakemake \
+  --config run_type=build_b37 \
+  --cores 2 \
+  --use-conda \
+  --conda-frontend conda \
+  --rerun-incomplete \
+  --latency-wait 300 \
+  --retries 3 \
+  -n -p
 ```
 
 ### Legacy Script (Deprecated)
