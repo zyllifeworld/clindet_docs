@@ -64,6 +64,17 @@ Tumor_R1_file_path,Tumor_R2_file_path,Normal_R1_file_path,Normal_R2_file_path,Sa
 /AbsoPath/of/projects/CGGA_WES/data/T_CGGA_653_r1.fq.gz,/AbsoPath/of/projects/CGGA_WES/data/T_CGGA_653_r2.fq.gz,/AbsoPath/of/projects/CGGA_WES/data/B_CGGA_653_r1.fq.gz,/AbsoPath/of/projects/CGGA_WES/data/B_CGGA_653_r2.fq.gz,CGGA_653,/AbsoPath/of/target.bed,CGGA_WES
 ```
 
+## Prepare the target BED file
+
+For WES and targeted panel analyses, you must provide a BED file that defines the capture regions and matches the reference genome version (e.g., `b37` or `hg38`). This file is referenced in the `Target_file_bed` column of the sample sheet.
+
+- If a BED file from your capture kit is available, it should be provided by the sequencing company. Make sure it uses the same chromosome naming convention as your reference genome (e.g., `1` for b37, `chr1` for hg38).
+- If no BED file is available, you can generate one from a GTF annotation file using the method described in [Setup Clindet → Generate a BED File for WES Analysis](../Quick/install#generate-a-bed-file-for-wes-analysis). ClinDet also provides a [reference BED file](../usecase/b37_gene.bed) for the b37 genome and a script [`gtf2bed.R`](../utils/gtf2bed.R) to create your own.
+
+:::{note}
+An incorrect or mismatched BED file will cause coverage-related downstream steps (e.g., CNV calling) to produce unreliable results. Verify that the BED coordinates match your target regions and genome version before running the analysis.
+:::
+
 ## Prepare the YAML workflow config
 In the current workflow, you no longer need to create a project-specific `snake_wes.smk` file. Instead, prepare a YAML configuration file and pass it to Snakemake with `--configfile`.
 

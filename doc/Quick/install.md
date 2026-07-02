@@ -51,7 +51,17 @@ conda activate clindet
 
 ### Configure Environment Reuse
 
-By default, Snakemake rebuilds Conda environments on every run. To install environments once and reuse them, edit **`workflow/config/conf/softwares.yaml`** and set each tool to its installed environment name:
+By default, Snakemake rebuilds Conda environments on every run. To install environments once and reuse them, first create all the required Conda environments:
+
+```bash
+conda env create -f envs/clindet.yaml
+conda env create -f envs/rsem.yaml
+conda env create -f envs/clindet_vep.yaml
+conda env create -f envs/strelka.yaml
+conda env create -f envs/hmftools.yaml
+```
+
+Then edit **`workflow/config/conf/softwares.yaml`** and set each tool to its installed environment name:
 
 ```yaml
 conda:
