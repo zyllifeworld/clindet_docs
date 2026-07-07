@@ -1,0 +1,741 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5. Use case V: Switching to different genome version (e.g. hg38) &#8212; Clindet 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'usecase/case_five';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="A Gym for Clinical NGS Data Analysis Workflows" href="../GoldStand/index.html" />
+    <link rel="prev" title="4. Use case IV: Quantifying​​ the contributions of DNA repair defective gene mutations to mutational signatures（C.elegans）" href="case_four.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/Clindet_logo.png" class="logo__image only-light" alt="Clindet 0.1.0 documentation - Home"/>
+    <img src="../_static/Clindet_logo.png" class="logo__image only-dark pst-js-only" alt="Clindet 0.1.0 documentation - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Clindet documentation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Quick/index.html">Quick Start</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/intro.html">1. Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/install.html">2. Setup Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/use_case.html">3. Use case</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../DNAseq/index.html">DNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WES/index.html">1. Whole exome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/workflow.html">1.1. ClinDet WXS workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WGS/index.html">2. Whole genome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/workflow.html">2.1. ClinDet WGS workflow</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../RNAseq/index.html">RNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../RNAseq/workflow.html">1. ClinDet RNA-seq workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Use Case</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="case_one.html">1. Use case I: SNV and CNV calling from <strong>Whole exome sequencing</strong> data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case_two.html">2. Use case II: Fusion genes detection from <strong>multiple myeloma patient</strong> RNA-seq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case_three.html">3. Use case III: Whole genome sequencing of <strong>COLO829 cell line</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="case_four.html">4. Use case IV: Quantifying​​ the contributions of DNA repair defective gene mutations to mutational signatures（<em><strong>C.elegans</strong></em>）</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">5. Use case V: Switching to different genome version (e.g. hg38)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../GoldStand/index.html">A Gym for Clinical NGS Data Analysis Workflows</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../GoldStand/dataset.html">1. GoldStand Dataset Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../GoldStand/benchmark.html">2. Benchmark</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../CITATIONS.html">snakemake/clindet: Citations</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/usecase/case_five.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Use case V: Switching to different genome version (e.g. hg38)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-required-files">5.1. Download required files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modify-yaml-file">5.2. modify YAML file</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modify-config-yaml-for-mutation-detection">5.2.1. modify config.yaml for mutation detection</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modify-config-yaml-for-cnv-detection">5.3. modify config.yaml for CNV  detection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modify-config-yaml-for-sv-detection">5.4. modify config.yaml for SV detection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modify-config-yaml-for-rna-expression">5.5. modify config.yaml for RNA expression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modify-config-yaml-for-all-hmftools">5.6. modify config.yaml for all HMFtools</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#re-run-wes-data-in-use-case-i">5.7. re-run WES data in use case I</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="use-case-v-switching-to-different-genome-version-e-g-hg38">
+<h1><span class="section-number">5. </span>Use case V: Switching to different genome version (e.g. hg38)<a class="headerlink" href="#use-case-v-switching-to-different-genome-version-e-g-hg38" title="Link to this heading">#</a></h1>
+<p>In a recent article titled “Choose your human genome reference wisely,” published in (<strong>Nature Methods</strong>)[<a class="reference external" href="https://www.nature.com/articles/s41592-025-02850-9">https://www.nature.com/articles/s41592-025-02850-9</a>], the authors provide a systematic overview of the different versions of the human reference genome used in bioinformatics and offer guidance on selecting the appropriate genome assembly.
+Over the past few decades, multiple versions of the human genome have been developed, such as hg38, hg38, T2T-CHM13, and various pan-genome assemblies. These versions differ significantly in aspects like gene annotation accuracy and chromosomal assembly completeness. Therefore, selecting a suitable genomic reference is a critical step in data analysis.</p>
+<a class="bg-primary reference internal image-reference" href="../_images/choose_genome.png"><img alt="glioma" class="align-center bg-primary" src="../_images/choose_genome.png" style="width: 600px;" />
+</a>
+<p>In this report, the researchers note that the overwhelming majority of clinical testing laboratories still rely on GRCh37. The primary obstacle to updating is a shortage of technical personnel with the requisite expertise, making the perceived cost of migration outweigh the benefits. ClinDet effectively addresses this challenge. Therefore, in this case study, we demonstrate how to use ClinDet to seamlessly switch the analytical genome reference to hg38.</p>
+<a class="bg-primary reference internal image-reference" href="../_images/hg38_transfer.png"><img alt="glioma" class="align-center bg-primary" src="../_images/hg38_transfer.png" style="width: 600px;" />
+</a>
+<p><strong>Let’s begin this section</strong>:</p>
+<section id="download-required-files">
+<h2><span class="section-number">5.1. </span>Download required files<a class="headerlink" href="#download-required-files" title="Link to this heading">#</a></h2>
+<p>The required files listed below can be downloaded manually. Alternatively, to simplify this tedious configuration, ClinDet offers the <a class="reference download internal" download="" href="../_downloads/c4b9716af41b648ef815d4949afa29fe/build_hg38.sh"><span class="xref download myst">build_hg38.sh</span></a> script for automated downloading, which is customizable to meet user requirements.</p>
+<ol class="arabic simple">
+<li><p>genome fasta, dict, annotation GTF</p></li>
+<li><p>DBSNP, ASCAT loci, allele files.</p></li>
+<li><p>config files for hmftools, GATK tools.</p></li>
+<li><p>config files for Sanger tools (CaVEMan, BRASS, cgppindel).</p></li>
+</ol>
+</section>
+<section id="modify-yaml-file">
+<h2><span class="section-number">5.2. </span>modify YAML file<a class="headerlink" href="#modify-yaml-file" title="Link to this heading">#</a></h2>
+<p>if you are not familiarity with yaml format, see <a class="reference external" href="https://yaml.org/">en</a>, <a class="reference external" href="https://www.runoob.com/w3cnote/yaml-intro.html">zh</a>.</p>
+<section id="modify-config-yaml-for-mutation-detection">
+<h3><span class="section-number">5.2.1. </span>modify config.yaml for mutation detection<a class="headerlink" href="#modify-config-yaml-for-mutation-detection" title="Link to this heading">#</a></h3>
+<p>add hg38 config files to <code class="docutils literal notranslate"><span class="pre">config['resource']</span></code> section</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nt">hg38</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">REFFA</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/GRCh38_masked_exclusions_alts_hlas.fasta&quot;</span>
+<span class="w">    </span><span class="nt">GENOME_BED</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="w">    </span><span class="nt">GTF</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/gencode.v49.annotation.gtf&quot;</span>
+<span class="w">    </span><span class="nt">WES_PON</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/1000g_pon.hg38.vcf.gz&quot;</span>
+<span class="w">    </span><span class="nt">WES_BED</span><span class="p">:</span><span class="w"> </span>
+<span class="w">    </span><span class="nt">WGS_PON</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/1000g_pon.hg38.vcf.gz&quot;</span>
+<span class="w">    </span><span class="nt">DBSNP</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Homo_sapiens_assembly38.dbsnp138.vcf&quot;</span>
+<span class="w">    </span><span class="nt">DBSNP_GZ</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Homo_sapiens_assembly38.dbsnp138.vcf.gz&quot;</span>
+<span class="w">    </span><span class="nt">DBSNP_INDEL</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/1000G_phase1.indels.hg38.vcf.gz&quot;</span>
+<span class="w">    </span><span class="nt">MUTECT2_VCF</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/af-only-gnomad.hg38.vcf.gz&quot;</span>
+<span class="w">    </span><span class="nt">REFFA_DICT</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/GRCh38_masked_exclusions_alts_hlas.fasta&quot;</span>
+<span class="w">    </span><span class="nt">MUTECT2_germline_vcf</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/af-only-gnomad.hg38.vcf.gz&quot;</span>
+<span class="w">    </span><span class="nt">common_vcf</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/00-common_all.vcf.gz&quot;</span>
+<span class="w">    </span><span class="nt">RNA_EDIT_VCF</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hg38.RNAediting.vcf.gz&quot;</span>
+</pre></div>
+</div>
+<p>add hg38 config files to <code class="docutils literal notranslate"><span class="pre">config['resource']['varanno']</span></code> section</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">hg38</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">KNOWN_SITES1</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/1000G_phase1.snps.high_confidence.hg38.vcf.gz&quot;</span>
+<span class="w">    </span><span class="nt">KNOWN_SITES2</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/1000G_phase1.indels.hg38.vcf.gz&quot;</span>
+</pre></div>
+</div>
+<p>add hg38 config <code class="docutils literal notranslate"><span class="pre">config['singularity']['cgppindel']</span></code> section</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">hg38</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">species</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;HUMAN&quot;</span>
+<span class="w">    </span><span class="nt">genes</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/refarea_pindel/codingexon_regions.indel.bed.gz&quot;</span>
+<span class="w">    </span><span class="nt">softfil</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/SNV_INDEL_ref/pindel/WXS_Rules.lst&quot;</span>
+<span class="w">    </span><span class="nt">simrep</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/SNV_INDEL_ref/pindel/simpleRepeats.bed.gz&quot;</span>
+<span class="w">    </span><span class="nt">normal_panel</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/SNV_INDEL_ref/pindel/pindel_np.gff3.gz&quot;</span>
+<span class="w">    </span><span class="nt">WES</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">filter</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/SNV_INDEL_ref/pindel/WXS_Rules.lst&quot;</span>
+<span class="w">    </span><span class="nt">normal_panel</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/SNV_INDEL_ref/pindel/pindel_np.gff3.gz&quot;</span>
+<span class="w">    </span><span class="nt">WGS</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">filter</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/SNV_INDEL_ref/pindel/WGS_Rules.lst&quot;</span>
+<span class="w">    </span><span class="nt">normal_panel</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/SNV_INDEL_ref/pindel/pindel_np.gff3.gz&quot;</span>
+</pre></div>
+</div>
+<p>add hg38 config <code class="docutils literal notranslate"><span class="pre">config['singularity']['caveman']</span></code> section</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">hg38</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">ignorebed</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/cgpCaVEManWrapper_CPBI_refarea/hi_seq_depth.bed&quot;</span>
+<span class="w">    </span><span class="nt">flag</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">c</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/SNV_INDEL_ref/caveman/flagging/flag.vcf.config.ini&quot;</span>
+<span class="w">    </span><span class="nt">v</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/SNV_INDEL_ref/caveman/flagging/flag.to.vcf.convert.ini&quot;</span>
+<span class="w">    </span><span class="nt">u</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/SNV_INDEL_ref/caveman/flagging&quot;</span>
+<span class="w">    </span><span class="nt">g</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/SNV_INDEL_ref/caveman/unmatchedNormal.bed.gz&quot;</span>
+<span class="w">    </span><span class="nt">b</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/SNV_INDEL_ref/caveman/flagging&quot;</span>
+<span class="w">    </span><span class="nt">ab</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/SNV_INDEL_ref/caveman/flagging&quot;</span>
+<span class="w">    </span><span class="nt">s</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;HUMAN&quot;</span>
+</pre></div>
+</div>
+<p>add hg38 config <code class="docutils literal notranslate"><span class="pre">config['softwares']['vcf2maf']['build_version']</span></code>  and <code class="docutils literal notranslate"><span class="pre">config['softwares']['vcf2maf']['vep']</span></code> section</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="nt">build_version</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">hg38</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GRCh38&quot;</span>
+<span class="w">    </span><span class="nt">vep</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">hg38</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">vep_data</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/vep&quot;</span>
+<span class="w">        </span><span class="nt">vep_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="w">        </span><span class="nt">cache_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;110&quot;</span>
+<span class="w">        </span><span class="nt">species</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;homo_sapiens&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="modify-config-yaml-for-cnv-detection">
+<h2><span class="section-number">5.3. </span>modify config.yaml for CNV  detection<a class="headerlink" href="#modify-config-yaml-for-cnv-detection" title="Link to this heading">#</a></h2>
+<p>add hg38 config <code class="docutils literal notranslate"><span class="pre">config['softwares']['sequenza']</span></code> section</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">hg38</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">gc</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span>
+</pre></div>
+</div>
+<p>add hg38 config <code class="docutils literal notranslate"><span class="pre">config['softwares']['ascat']</span></code> section</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">hg38</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">loci_1000</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/ASCAT/WES/G1000_lociAll_hg38/G1000_loci_hg38_chr&quot;</span>
+<span class="w">    </span><span class="nt">alleles_1000</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/ASCAT/WES/G1000_allelesAll_hg38/G1000_alleles_hg38_chr&quot;</span>
+<span class="w">    </span><span class="nt">replictimingfile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/ASCAT/WES/RT_G1000_hg38.txt&quot;</span>
+<span class="w">    </span><span class="nt">GCcontentfile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/ASCAT/WES/GC_G1000_hg38.txt&quot;</span>
+</pre></div>
+</div>
+<p>add hg38 config <code class="docutils literal notranslate"><span class="pre">config['singularity']['freec']</span></code> section</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">hg38</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">chrFiles</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/fasta&quot;</span>
+<span class="w">    </span><span class="nt">chrLenFile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/GRCh38_masked_exclusions_alts_hlas.fasta.auto.fai&quot;</span>
+<span class="w">    </span><span class="nt">snp_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hapmap_3.3.hg38.vcf.gz&quot;</span>
+<span class="w">    </span><span class="nt">sambamba</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/AbsoPath/of/conda/envs/freec/bin/sambamba&#39;</span>
+<span class="w">    </span><span class="nt">bedtools</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/AbsoPath/of/conda/envs/freec/bin/bedtools&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="modify-config-yaml-for-sv-detection">
+<h2><span class="section-number">5.4. </span>modify config.yaml for SV detection<a class="headerlink" href="#modify-config-yaml-for-sv-detection" title="Link to this heading">#</a></h2>
+<p>add hg38 config <code class="docutils literal notranslate"><span class="pre">config['singularity']['brass']</span></code> section</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">hg38</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">gc</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/VAGrENT_ref_GRCh38_hla_decoy_ebv_ensembl_91/vagrent/vagrent.cache.gz&quot;</span>
+<span class="w">    </span><span class="nt">b</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/CNV_SV_ref_GRCh38_hla_decoy_ebv_brass6+/brass/500bp_windows.gc.bed.gz&quot;</span>
+<span class="w">    </span><span class="nt">d</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/CNV_SV_ref_GRCh38_hla_decoy_ebv_brass6+/brass/HiDepth.bed.gz&quot;</span>
+<span class="w">    </span><span class="nt">cb</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/CNV_SV_ref_GRCh38_hla_decoy_ebv_brass6+/brass/cytoband.txt&quot;</span>
+<span class="w">    </span><span class="nt">ct</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/CNV_SV_ref_GRCh38_hla_decoy_ebv_brass6+/brass/CentTelo.tsv&quot;</span>
+<span class="w">    </span><span class="nt">vi</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/Sanger/CNV_SV_ref_GRCh38_hla_decoy_ebv_brass6+/brass/viral.genomic.fa.2bit&quot;</span>
+<span class="w">    </span><span class="nt">mi</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/CNV_SV_ref_GRCh38_hla_decoy_ebv_brass6+/brass/all_ncbi_bacteria&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="modify-config-yaml-for-rna-expression">
+<h2><span class="section-number">5.5. </span>modify config.yaml for RNA expression<a class="headerlink" href="#modify-config-yaml-for-rna-expression" title="Link to this heading">#</a></h2>
+<p>add hg38 config <code class="docutils literal notranslate"><span class="pre">config['softwares']['star']['index']</span></code></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="nt">hg38</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/STAR/hg38&quot;</span>
+</pre></div>
+</div>
+<p>and <code class="docutils literal notranslate"><span class="pre">config['softwares']['salmon']['index']</span></code> section</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="nt">hg38</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/salmon/hg38&quot;</span>
+</pre></div>
+</div>
+<p>and <code class="docutils literal notranslate"><span class="pre">config['softwares']['kallisto']['index']</span></code> section</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="nt">hg38</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/salmon/hg38&quot;</span>
+</pre></div>
+</div>
+<p>and <code class="docutils literal notranslate"><span class="pre">config['softwares']['rsem']['index']</span></code> section</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="nt">hg38</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/RSEM/hg38&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="modify-config-yaml-for-all-hmftools">
+<h2><span class="section-number">5.6. </span>modify config.yaml for all HMFtools<a class="headerlink" href="#modify-config-yaml-for-all-hmftools" title="Link to this heading">#</a></h2>
+<p>add hg38 config[‘singularity’][‘hmftools’]</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">hg38</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># AMBER</span>
+<span class="w">    </span><span class="nt">heterozygous_sites</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/copy_number/AmberGermlineSites.38.tsv.gz&#39;</span>
+<span class="w">    </span><span class="c1"># COBALT</span>
+<span class="w">    </span><span class="nt">gc_profile</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/copy_number/GC_profile.1000bp.38.cnp&#39;</span>
+<span class="w">    </span><span class="nt">diploid_bed</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/copy_number/DiploidRegions.38.bed.gz&#39;</span>
+<span class="w">    </span><span class="c1"># CUPPA</span>
+<span class="w">    </span><span class="nt">cuppa_alt_sj</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/misc/cuppa/alt_sj.selected_loci.38.tsv.gz&#39;</span>
+<span class="w">    </span><span class="nt">cuppa_classifier</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/misc/cuppa/cuppa_classifier.38.pickle.gz&#39;</span>
+<span class="w">    </span><span class="c1"># SV Prep</span>
+<span class="w">    </span><span class="nt">sv_prep_blocklist</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/sv/sv_prep_blacklist.38.bed&#39;</span>
+<span class="w">    </span><span class="c1"># ESVEE</span>
+<span class="w">    </span><span class="nt">decoy_sequences_image</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/sv/hg38_decoys.fa.img&#39;</span>
+<span class="w">    </span><span class="nt">gridss_pon_breakends</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/sv/sgl_pon.38.bed.gz&#39;</span>
+<span class="w">    </span><span class="nt">gridss_pon_breakpoints</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/sv/sv_pon.38.bedpe.gz&#39;</span>
+<span class="w">    </span><span class="nt">repeatmasker_annotations</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/sv/repeat_mask_data.38.fa.gz&#39;</span>
+<span class="w">    </span><span class="c1"># Isofox</span>
+<span class="w">    </span><span class="nt">alt_sj_distribution</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/rna/isofox.hmf_38_151_2600.alt_sj_cohort.csv.gz&#39;</span>
+<span class="w">    </span><span class="nt">gene_exp_distribution</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/rna/isofox.hmf_38_151_2600.gene_distribution.csv.gz&#39;</span>
+<span class="w">    </span><span class="nt">isofox_counts</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/rna/read_151_exp_counts.38.csv&#39;</span>
+<span class="w">    </span><span class="nt">isofox_gc_ratios</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/rna/read_100_exp_gc_ratios.38.csv&#39;</span>
+<span class="w">    </span><span class="c1"># LILAC</span>
+<span class="w">    </span><span class="nt">lilac_resources</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/misc/lilac/&#39;</span>
+<span class="w">    </span><span class="c1"># Neo</span>
+<span class="w">    </span><span class="nt">neo_resources</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/misc/neo/binding/&#39;</span>
+<span class="w">    </span><span class="nt">cohort_tpm_medians</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/misc/neo/tpm_cohort/isofox.hmf_38_151_2600.transcript_medians.csv.gz&#39;</span>
+<span class="w">    </span><span class="c1"># CIDER</span>
+<span class="w">    </span><span class="nt">cider_blastdb</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/misc/cider/blastdb/&#39;</span>
+<span class="w">    </span><span class="c1"># PEACH</span>
+<span class="w">    </span><span class="nt">peach_haplotypes</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/misc/peach/haplotypes.38.tsv&#39;</span>
+<span class="w">    </span><span class="nt">peach_haplotype_functions</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/misc/peach/haplotype_functions.38.tsv&#39;</span>
+<span class="w">    </span><span class="nt">peach_drug_info</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/misc/peach/peach_drugs.38.tsv&#39;</span>
+<span class="w">    </span><span class="c1"># ORANGE</span>
+<span class="w">    </span><span class="nt">cohort_mapping</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/misc/orange/cohort_mapping.tsv&#39;</span>
+<span class="w">    </span><span class="nt">cohort_percentiles</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/misc/orange/cohort_percentiles.tsv&#39;</span>
+<span class="w">    </span><span class="nt">disease_ontology</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/misc/orange/doid.json&#39;</span>
+<span class="w">    </span><span class="c1"># SAGE</span>
+<span class="w">    </span><span class="nt">clinvar_annotations</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/variants/clinvar.38.vcf.gz&#39;</span>
+<span class="w">    </span><span class="nt">sage_blocklist_regions</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/variants/KnownBlacklist.germline.38.bed&#39;</span>
+<span class="w">    </span><span class="nt">sage_blocklist_sites</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/variants/KnownBlacklist.germline.38.vcf.gz&#39;</span>
+<span class="w">    </span><span class="nt">sage_actionable_panel</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/variants/ActionableCodingPanel.38.bed.gz&#39;</span>
+<span class="w">    </span><span class="nt">sage_coverage_panel</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/variants/CoverageCodingPanel.38.bed.gz&#39;</span>
+<span class="w">    </span><span class="nt">sage_highconf_regions</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/variants/HG001_GRCh38_GIAB_highconf_CG-IllFB-IllGATKHC-Ion-10X-SOLID_CHROM1-X_v.3.3.2_highconf_nosomaticdel_noCENorHET7.bed.gz&#39;</span>
+<span class="w">    </span><span class="nt">sage_known_hotspots_germline</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/variants/KnownHotspots.germline.38.vcf.gz&#39;</span>
+<span class="w">    </span><span class="nt">sage_known_hotspots_somatic</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/variants/KnownHotspots.somatic.38.vcf.gz&#39;</span>
+<span class="w">    </span><span class="nt">sage_pon</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/variants/hmf_wgs_sage_pon_1000.38.tsv.gz&#39;</span>
+<span class="w">    </span><span class="c1"># Sigs</span>
+<span class="w">    </span><span class="nt">sigs_signatures</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/misc/sigs/snv_cosmic_signatures.csv&#39;</span>
+<span class="w">    </span><span class="nt">sigs_etiology</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/misc/sigs/signatures_etiology.tsv&#39;</span>
+<span class="w">    </span><span class="c1"># Virus breakend</span>
+<span class="w">    </span><span class="nt">virusbreakend_db</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/misc/virusbreakend/&#39;</span>
+<span class="w">    </span><span class="c1"># Virus Interpreter</span>
+<span class="w">    </span><span class="nt">virus_reporting_db</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/misc/virusinterpreter/virus_reporting_db.tsv&#39;</span>
+<span class="w">    </span><span class="nt">virus_taxonomy_db</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/misc/virusinterpreter/taxonomy_db.tsv&#39;</span>
+<span class="w">    </span><span class="nt">virus_blocklist_db</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/misc/virusinterpreter/virus_blacklisting_db.tsv&#39;</span>
+<span class="w">    </span><span class="c1"># Misc</span>
+<span class="w">    </span><span class="nt">driver_gene_panel</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/common/DriverGenePanel.38.tsv&#39;</span>
+<span class="w">    </span><span class="nt">ensembl_data_resources</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/common/ensembl_data/&#39;</span>
+<span class="w">    </span><span class="nt">unmap_regions</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/common/unmap_regions.38.tsv&#39;</span>
+<span class="w">    </span><span class="nt">gnomad_resource</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/variants/gnomad_variants_v38.csv.gz&#39;</span>
+<span class="w">    </span><span class="nt">gridss_config</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/sv/gridss.properties&#39;</span>
+<span class="w">    </span><span class="nt">known_fusion_data</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/sv/known_fusion_data.38.csv&#39;</span>
+<span class="w">    </span><span class="nt">known_fusions</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/sv/known_fusions.38.bedpe&#39;</span>
+<span class="w">    </span><span class="nt">msi_jitter_sites</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/variants/msi_jitter_sites.38.tsv.gz&#39;</span>
+<span class="w">    </span><span class="nt">purple_germline_del</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/copy_number/cohort_germline_del_freq.38.csv&#39;</span>
+<span class="w">    </span><span class="nt">segment_mappability</span><span class="p">:</span><span class="w">  </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/variants/mappability_150.38.bed.gz&#39;</span>
+<span class="w">    </span><span class="c1"># tool spec config</span>
+<span class="w">    </span><span class="nt">amber</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">loci</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38//hmf_pipeline_resources/GermlineHetPon.38.vcf.gz&quot;</span>
+<span class="w">    </span><span class="nt">snp_check_vcf</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/Amber.snpcheck.38.vcf&#39;</span>
+<span class="w">    </span><span class="nt">cobalt</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">ref_genome_version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">38</span>
+<span class="w">    </span><span class="nt">tumor_only_diploid_bed</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/copy_number/DiploidRegions.38.bed.gz&quot;</span>
+<span class="w">    </span><span class="nt">gc_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/copy_number/GC_profile.1000bp.38.cnp&quot;</span>
+<span class="w">    </span><span class="nt">purple</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">ref_genome_version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">38</span>
+<span class="w">    </span><span class="nt">tumor_only_diploid_bed</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/copy_number/DiploidRegions.38.bed.gz&quot;</span>
+<span class="w">    </span><span class="nt">gc_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/copy_number/GC_profile.1000bp.38.cnp&quot;</span>
+<span class="w">    </span><span class="nt">ensembl_data_dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/common/ensembl_data&quot;</span>
+<span class="w">    </span><span class="nt">somatic_hotspots</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/variants/KnownHotspots.somatic.38.vcf.gz&quot;</span>
+<span class="w">    </span><span class="nt">driver_gene_panel</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/common/DriverGenePanel.38.tsv&quot;</span>
+<span class="w">    </span><span class="nt">linx</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">ref_genome_version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">38</span>
+<span class="w">    </span><span class="nt">tumor_only_diploid_bed</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/copy_number/DiploidRegions.38.bed.gz&quot;</span>
+<span class="w">    </span><span class="nt">gc_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/copy_number/GC_profile.1000bp.38.cnp&quot;</span>
+<span class="w">    </span><span class="nt">ensembl_data_dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/common/ensembl_data&quot;</span>
+<span class="w">    </span><span class="nt">somatic_hotspots</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/variants/KnownHotspots.somatic.38.vcf.gz&quot;</span>
+<span class="w">    </span><span class="nt">driver_gene_panel</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/common/DriverGenePanel.38.tsv&quot;</span>
+<span class="w">    </span><span class="nt">known_fusion_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/sv/known_fusion_data.38.csv&quot;</span>
+<span class="w">    </span><span class="nt">sage</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">ref_genome_version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">38</span>
+<span class="w">    </span><span class="nt">ensembl_data_dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/common/ensembl_data&quot;</span>
+<span class="w">    </span><span class="nt">coverage_bed</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/variants/CoverageCodingPanel.38.bed.gz&quot;</span>
+<span class="w">    </span><span class="nt">hotspots</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/variants/KnownHotspots.somatic.38.vcf.gz</span><span class="nv"> </span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">panel_bed</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/variants/ActionableCodingPanel.38.bed.gz&quot;</span>
+<span class="w">    </span><span class="nt">high_confidence_bed</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/variants/NA12878_GIAB_highconf_IllFB-IllGATKHC-CG-Ion-Solid_ALLCHROM_v3.2.2_highconf.bed.gz&quot;</span>
+<span class="w">    </span><span class="nt">esvee</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">ref_genome_version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">38</span>
+<span class="w">    </span><span class="nt">ensembl_data_dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/common/ensembl_data&quot;</span>
+<span class="w">    </span><span class="nt">known_fusion_bed</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/sv/known_fusions.38.bedpe&quot;</span>
+<span class="w">    </span><span class="nt">blacklist</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/AbsoPath/of/clindet/folder/resources/ref_genome/hg38/hmf_pipeline_resources/dna/sv/gridss_blacklist.38.bed.gz&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="re-run-wes-data-in-use-case-i">
+<h2><span class="section-number">5.7. </span>re-run WES data in use case I<a class="headerlink" href="#re-run-wes-data-in-use-case-i" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="case_four.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Use case IV: Quantifying​​ the contributions of DNA repair defective gene mutations to mutational signatures（<em><strong>C.elegans</strong></em>）</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../GoldStand/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">A Gym for Clinical NGS Data Analysis Workflows</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-required-files">5.1. Download required files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modify-yaml-file">5.2. modify YAML file</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modify-config-yaml-for-mutation-detection">5.2.1. modify config.yaml for mutation detection</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modify-config-yaml-for-cnv-detection">5.3. modify config.yaml for CNV  detection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modify-config-yaml-for-sv-detection">5.4. modify config.yaml for SV detection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modify-config-yaml-for-rna-expression">5.5. modify config.yaml for RNA expression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modify-config-yaml-for-all-hmftools">5.6. modify config.yaml for all HMFtools</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#re-run-wes-data-in-use-case-i">5.7. re-run WES data in use case I</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Yuliang Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Yuliang Zhang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

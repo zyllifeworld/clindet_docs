@@ -1,0 +1,688 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Configuring the workflow &#8212; Clindet 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Quick/config';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/Clindet_logo.png" class="logo__image only-light" alt="Clindet 0.1.0 documentation - Home"/>
+    <img src="../_static/Clindet_logo.png" class="logo__image only-dark pst-js-only" alt="Clindet 0.1.0 documentation - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Clindet documentation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="index.html">Quick Start</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro.html">1. Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html">2. Setup Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="use_case.html">3. Use case</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../DNAseq/index.html">DNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WES/index.html">1. Whole exome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/workflow.html">1.1. ClinDet WXS workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WGS/index.html">2. Whole genome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/workflow.html">2.1. ClinDet WGS workflow</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../RNAseq/index.html">RNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../RNAseq/workflow.html">1. ClinDet RNA-seq workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../usecase/index.html">Use Case</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_one.html">1. Use case I: SNV and CNV calling from <strong>Whole exome sequencing</strong> data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_two.html">2. Use case II: Fusion genes detection from <strong>multiple myeloma patient</strong> RNA-seq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_three.html">3. Use case III: Whole genome sequencing of <strong>COLO829 cell line</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_four.html">4. Use case IV: Quantifying​​ the contributions of DNA repair defective gene mutations to mutational signatures（<em><strong>C.elegans</strong></em>）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_five.html">5. Use case V: Switching to different genome version (e.g. hg38)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../GoldStand/index.html">A Gym for Clinical NGS Data Analysis Workflows</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../GoldStand/dataset.html">1. GoldStand Dataset Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../GoldStand/benchmark.html">2. Benchmark</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../CITATIONS.html">snakemake/clindet: Citations</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Quick/config.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Configuring the workflow</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#genomes-yaml">genomes.yaml</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#field-descriptions">Field descriptions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-custom-genome">Adding a custom genome</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#singularity-yaml">singularity.yaml</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Field descriptions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#softwares-yaml">softwares.yaml</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#softwares-params-yaml">softwares_params.yaml</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="configuring-the-workflow">
+<h1>Configuring the workflow<a class="headerlink" href="#configuring-the-workflow" title="Link to this heading">#</a></h1>
+<p>Clindet is configured through four YAML files located under <code class="docutils literal notranslate"><span class="pre">workflow/config/conf/</span></code>. Each file controls a distinct aspect of the workflow. The defaults are based on software best practices and validated across a wide range of cancer datasets — beginners can use them as-is. Experienced users may customize individual files to fit their environment and analysis needs.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Config file</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>genomes.yaml</code></td>
+<td>Genome reference files (FASTA, dbSNP, GTF, tool-specific resources)</td>
+</tr>
+<tr>
+<td><code>singularity.yaml</code></td>
+<td>Singularity image locations and pull addresses</td>
+</tr>
+<tr>
+<td><code>softwares.yaml</code></td>
+<td>Conda environment names for each tool</td>
+</tr>
+<tr>
+<td><code>softwares_params.yaml</code></td>
+<td>Per-tool runtime parameters</td>
+</tr>
+</tbody>
+</table>
+<section id="genomes-yaml">
+<h2>genomes.yaml<a class="headerlink" href="#genomes-yaml" title="Link to this heading">#</a></h2>
+<p>This file defines reference genome resources. The top-level <code class="docutils literal notranslate"><span class="pre">resources</span></code> key holds one entry per genome version. Each entry name is the <strong>genome version identifier</strong> — the value you set as <code class="docutils literal notranslate"><span class="pre">project.genome_version</span></code> in your project config. The example below shows the <code class="docutils literal notranslate"><span class="pre">b37</span></code> entry:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">b37</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">REFFA</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/ref_genome/b37/Homo_sapiens.GRCh37.GATK.illumina.fasta&quot;</span>
+<span class="w">    </span><span class="nt">GENOME_BED</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="w">    </span><span class="nt">GTF</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/ref_genome/b37/Homo_sapiens.GRCh37.87.gtf&quot;</span>
+<span class="w">    </span><span class="nt">GFF</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/ref_genome/b37/Homo_sapiens.GRCh37.87.gff3&quot;</span>
+<span class="w">    </span><span class="nt">WES_PON</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/ref_genome/b37/Mutect2-exome-panel.vcf&quot;</span>
+<span class="w">    </span><span class="nt">WES_BED</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;reference/b37/b37.exon.bed&quot;</span>
+<span class="w">    </span><span class="nt">WGS_PON</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/ref_genome/b37/Mutect2-WGS-panel-b37.vcf&quot;</span>
+<span class="w">    </span><span class="nt">DBSNP</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/ref_genome/b37/Homo_sapiens_assembly19.dbsnp138.vcf&quot;</span>
+<span class="w">    </span><span class="nt">DBSNP_GZ</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/ref_genome/b37/Homo_sapiens_assembly19.dbsnp138.vcf.gz&quot;</span>
+<span class="w">    </span><span class="nt">DBSNP_INDEL</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/ref_genome/b37/Homo_sapiens_assembly19.dbsnp138.indel.vcf.gz&quot;</span>
+<span class="w">    </span><span class="nt">MUTECT2_VCF</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/ref_genome/b37/af-only-gnomad.raw.sites.vcf&quot;</span>
+<span class="w">    </span><span class="nt">REFFA_DICT</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/ref_genome/b37/Homo_sapiens.GRCh37.GATK.illumina.fasta&quot;</span>
+<span class="w">    </span><span class="nt">MUTECT2_germline_vcf</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/ref_genome/b37/af-only-gnomad.raw.sites.vcf&quot;</span>
+<span class="w">    </span><span class="nt">common_vcf</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/ref_genome/b37/00-common_all.vcf.gz&quot;</span>
+<span class="w">    </span><span class="nt">RNA_EDIT_VCF</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/ref_genome/b37/b37.RNAediting.vcf.gz&quot;</span>
+</pre></div>
+</div>
+<p>Each field under a genome version entry is explained below. Fields left as <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code> are optional — the workflow will skip the corresponding tool or annotation step for that genome.</p>
+<section id="field-descriptions">
+<h3>Field descriptions<a class="headerlink" href="#field-descriptions" title="Link to this heading">#</a></h3>
+<dl class="simple myst">
+<dt><code class="docutils literal notranslate"><span class="pre">REFFA</span></code></dt><dd><p>Path to the reference genome FASTA file. Used by all aligners (BWA, STAR) and GATK tools. Must be accompanied by a <code class="docutils literal notranslate"><span class="pre">.fai</span></code> index in the same directory.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">REFFA_DICT</span></code></dt><dd><p>Sequence dictionary (<code class="docutils literal notranslate"><span class="pre">.dict</span></code>) companion to <code class="docutils literal notranslate"><span class="pre">REFFA</span></code>. Generated with <code class="docutils literal notranslate"><span class="pre">picard</span> <span class="pre">CreateSequenceDictionary</span></code>. Required by GATK and Picard tools.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GTF</span></code></dt><dd><p>Gene annotation in GTF format. Used by STAR (alignment), RSEM (expression quantification), VEP (variant effect prediction), and featureCounts (coverage counting).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GFF</span></code></dt><dd><p>Gene annotation in GFF3 format. Optional for human genomes; used by certain annotation tools. Leave empty if not needed.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GENOME_BED</span></code></dt><dd><p>Genome-wide BED file defining all calling regions. Typically left empty for WES/panel analyses because the target BED is provided per-sample via the <code class="docutils literal notranslate"><span class="pre">Target_file_bed</span></code> column in the sample sheet. Set this only for whole-genome analyses without a per-sample BED.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">WES_BED</span></code></dt><dd><p>Exome capture target BED for the genome version. Used by WES coverage tools and CNV callers. Obtain this from your sequencing provider or generate it from the GTF (see <a class="reference internal" href="#../Quick/install#generate-a-bed-file-for-wes-analysis"><span class="xref myst">Generate a BED File for WES Analysis</span></a>).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">WES_PON</span></code></dt><dd><p>Panel of Normals for Mutect2 somatic calling in exome mode. A VCF of common germline variants from a cohort of normal samples run on the same capture kit.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">WGS_PON</span></code></dt><dd><p>Panel of Normals for Mutect2 in whole-genome mode. Equivalent to <code class="docutils literal notranslate"><span class="pre">WES_PON</span></code> but for WGS data.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">DBSNP</span></code></dt><dd><p>dbSNP known-sites VCF (uncompressed). Used by GATK BaseRecalibrator (BQSR) and VEP annotation.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">DBSNP_GZ</span></code></dt><dd><p>dbSNP known-sites VCF (gzipped). Alternative compressed form of the same resource. At least one of <code class="docutils literal notranslate"><span class="pre">DBSNP</span></code> or <code class="docutils literal notranslate"><span class="pre">DBSNP_GZ</span></code> must be set for BQSR.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">DBSNP_INDEL</span></code></dt><dd><p>dbSNP INDEL-only known-sites VCF. Additional input for GATK BQSR to improve INDEL base quality recalibration.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">MUTECT2_VCF</span></code></dt><dd><p>Population allele-frequency VCF (typically gnomAD). Used by Mutect2 as a background population resource during somatic variant filtering.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">MUTECT2_germline_vcf</span></code></dt><dd><p>Population resource VCF for germline variant filtering. Often the same file as <code class="docutils literal notranslate"><span class="pre">MUTECT2_VCF</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">common_vcf</span></code></dt><dd><p>High-frequency common variant VCF. Used during variant filtration to flag or remove variants with high population allele frequencies.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">RNA_EDIT_VCF</span></code></dt><dd><p>Known RNA-editing sites in VCF format. Used during RNA-seq variant calling to mask sites that are likely RNA-editing events rather than true genomic variants. Leave empty if not performing RNA variant calling.</p>
+</dd>
+</dl>
+</section>
+<section id="adding-a-custom-genome">
+<h3>Adding a custom genome<a class="headerlink" href="#adding-a-custom-genome" title="Link to this heading">#</a></h3>
+<p>You can add any species’ genome by creating a new key under <code class="docutils literal notranslate"><span class="pre">resources</span></code> with the same set of fields. Point each field to the corresponding reference file, or leave it empty (<code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>) if a resource is not available. However, you are responsible for providing the correct reference files for your species — ensure the FASTA, GTF/GFF, dbSNP, and population-frequency VCF files are appropriate for your organism based on domain knowledge. Reference the key name as <code class="docutils literal notranslate"><span class="pre">project.genome_version</span></code> in your project config.</p>
+</section>
+</section>
+<section id="singularity-yaml">
+<h2>singularity.yaml<a class="headerlink" href="#singularity-yaml" title="Link to this heading">#</a></h2>
+<p>This file maps each tool to its Singularity container image. Each entry has two primary fields, plus optional tool-specific extras:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">singularity</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">caveman</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">sif</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/containers/caveman153.sif&quot;</span>
+<span class="w">    </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;docker://quay.io/wtsicgp/cgpcavemanwrapper:1.15.3&quot;</span>
+<span class="w">  </span><span class="nt">freec</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">sif</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/containers/control-freec-11.6.sif&quot;</span>
+<span class="w">    </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;docker://quay.io/biocontainers/control-freec:11.6b--h503566f_2&quot;</span>
+<span class="w">    </span><span class="nt">config_wes</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;workflow/WES/scripts/freec/config_exome.ini&quot;</span>
+<span class="w">  </span><span class="nt">arriba</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">sif</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/containers/arriba240.sif&quot;</span>
+<span class="w">    </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;docker://uhrigs/arriba:2.4.0&quot;</span>
+<span class="w">    </span><span class="nt">call</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/arriba_v2.4.0/arriba&quot;</span>
+</pre></div>
+</div>
+<section id="id1">
+<h3>Field descriptions<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<dl class="simple myst">
+<dt><code class="docutils literal notranslate"><span class="pre">sif</span></code></dt><dd><p>Local path to the Singularity image (<code class="docutils literal notranslate"><span class="pre">.sif</span></code> file), relative to the Clindet repository root. If the file exists, Singularity uses it directly without pulling. If left empty (e.g., <code class="docutils literal notranslate"><span class="pre">sequenza</span></code> in the default config), the image will be pulled from <code class="docutils literal notranslate"><span class="pre">repo</span></code> at runtime.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">repo</span></code></dt><dd><p>Remote registry URI from which to pull the image. Supports <code class="docutils literal notranslate"><span class="pre">docker://</span></code> (Docker Hub / <a class="reference external" href="http://Quay.io">Quay.io</a>) and <code class="docutils literal notranslate"><span class="pre">https://</span></code> (Galaxy Depot / direct Singularity registry) schemes.</p>
+</dd>
+</dl>
+<p>Some tools declare additional fields:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">config_wes</span></code> / <code class="docutils literal notranslate"><span class="pre">config_wgs</span></code> — path to a tool-specific configuration template (e.g., Control-FREEC exome INI)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">call</span></code> — path to the main executable inside the container, used when the container’s default entrypoint is not the desired command</p></li>
+</ul>
+</section>
+</section>
+<section id="softwares-yaml">
+<h2>softwares.yaml<a class="headerlink" href="#softwares-yaml" title="Link to this heading">#</a></h2>
+<p>This file maps each tool to its Conda environment name. The default file ships with the recommended environment names as shown below:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">conda</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">clindet_main</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;clindet&#39;</span>
+<span class="w">    </span><span class="nt">multiqc</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;clindet&#39;</span>
+<span class="w">    </span><span class="nt">clindet_rsem</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;clindet_rsem&#39;</span>
+<span class="w">    </span><span class="nt">clindet_vep</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;clindet_vep&#39;</span>
+<span class="w">    </span><span class="nt">facets</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">hmftools</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;hmftools&#39;</span>
+<span class="w">    </span><span class="nt">strelka</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;strelka&#39;</span>
+<span class="w">    </span><span class="nt">trust4</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;clindet_rsem&#39;</span>
+<span class="w">    </span><span class="nt">rna</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;clindet_rsem&#39;</span>
+<span class="w">    </span><span class="nt">clindet_mut</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;clindet_mutflag&quot;</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p><strong>Important:</strong> Replace the environment names with the names <strong>you</strong> used when running <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">env</span> <span class="pre">create</span> <span class="pre">-f</span> <span class="pre">envs/&lt;name&gt;.yaml</span></code> (see <a class="reference internal" href="#../Quick/install#configure-environment-reuse"><span class="xref myst">Setup Clindet → Configure Environment Reuse</span></a>). The default values above reflect the recommended naming convention, but if you named your environments differently, you must update them here accordingly.</p>
+</div></blockquote>
+<p>If an environment name is left empty (e.g., <code class="docutils literal notranslate"><span class="pre">facets:</span></code> above), Snakemake will rebuild that environment from the corresponding <code class="docutils literal notranslate"><span class="pre">envs/*.yaml</span></code> file on every run.</p>
+</section>
+<section id="softwares-params-yaml">
+<h2>softwares_params.yaml<a class="headerlink" href="#softwares-params-yaml" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><p><strong>Expert users only.</strong> This file records the runtime parameters, reference data paths, and configuration templates for every software tool in the workflow. Clindet ships with carefully tuned defaults based on software best practices and validated benchmark results. <strong>If you have followed the standard setup instructions, do not modify this file</strong> — the defaults will work for the vast majority of analyses.</p>
+</div></blockquote>
+<p>The file is organized by genome version under the <code class="docutils literal notranslate"><span class="pre">softwares_params</span></code> key. Each tool’s subsection contains its genome-specific reference files and runtime flags. A representative excerpt for <code class="docutils literal notranslate"><span class="pre">b37</span></code> is shown below:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">softwares_params</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">b37</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">star</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">index</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/ref_genome/b37/STAR/b37&quot;</span>
+<span class="w">    </span><span class="nt">rsem</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">index</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/ref_genome/b37/RSEM/b37&quot;</span>
+<span class="w">    </span><span class="nt">vcf2maf</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">build_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GRCh37&quot;</span>
+<span class="w">      </span><span class="nt">vep</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">vep_data</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/ref_genome/b37/vep&quot;</span>
+<span class="w">        </span><span class="nt">cache_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;113&quot;</span>
+<span class="w">        </span><span class="nt">species</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;homo_sapiens&quot;</span>
+<span class="w">    </span><span class="nt">caveman</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">ignorebed</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/ref_genome/b37/Sanger/cgpCaVEManWrapper_CPBI_refarea/hi_seq_depth.bed&quot;</span>
+<span class="w">      </span><span class="nt">flag</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">s</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;HUMAN&quot;</span>
+<span class="w">    </span><span class="nt">sage</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">ref_genome_version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">37</span>
+<span class="w">      </span><span class="nt">clinvar_annotations</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;resources/ref_genome/b37/hmf_pipeline_resources/dna/variants/clinvar.37.vcf.gz&quot;</span>
+</pre></div>
+</div>
+<p>The file configures the following tool groups, each under its genome version:</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Tool</th>
+<th>What it configures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>star</code>, <code>salmon</code>, <code>kallisto</code>, <code>rsem</code></td>
+<td>Genome index paths for aligners and quantifiers</td>
+</tr>
+<tr>
+<td><code>vcf2maf</code>, <code>maf2vcf</code></td>
+<td>VEP cache path, species, and build version for variant annotation</td>
+</tr>
+<tr>
+<td><code>annotate_beds</code></td>
+<td>GIAB (Genome in a Bottle) confident/difficult region BEDs</td>
+</tr>
+<tr>
+<td><code>conpair</code></td>
+<td>Reference FASTA for concordance checking</td>
+</tr>
+<tr>
+<td><code>caveman</code>, <code>cgppindel</code>, <code>brass</code></td>
+<td>Sanger pipeline reference files and species flags</td>
+</tr>
+<tr>
+<td><code>ascat</code>, <code>ascat_wgs</code>, <code>freec</code>, <code>facets</code>, <code>sequenza</code></td>
+<td>CNV tool reference data and genome build</td>
+</tr>
+<tr>
+<td><code>arriba</code>, <code>gridss</code></td>
+<td>Fusion/SV tool databases and blacklists</td>
+</tr>
+<tr>
+<td><code>hmftools</code></td>
+<td>HMF pipeline resources — includes sub-configs for <code>amber</code>, <code>cobalt</code>, <code>purple</code>, <code>linx</code>, <code>sage</code>, <code>esvee</code>, <code>orange</code>, and others</td>
+</tr>
+<tr>
+<td><code>trust4</code></td>
+<td>Immune repertoire reference sequences</td>
+</tr>
+</tbody>
+</table>
+<p>These blocks are repeated for each supported genome (<code class="docutils literal notranslate"><span class="pre">b37</span></code>, <code class="docutils literal notranslate"><span class="pre">hg38</span></code>, <code class="docutils literal notranslate"><span class="pre">WBcel235</span></code>, <code class="docutils literal notranslate"><span class="pre">mm10</span></code>). If you add a custom genome to <code class="docutils literal notranslate"><span class="pre">genomes.yaml</span></code>, you must add a corresponding block here with the appropriate reference files for that genome version.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#genomes-yaml">genomes.yaml</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#field-descriptions">Field descriptions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-custom-genome">Adding a custom genome</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#singularity-yaml">singularity.yaml</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Field descriptions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#softwares-yaml">softwares.yaml</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#softwares-params-yaml">softwares_params.yaml</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Yuliang Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Yuliang Zhang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

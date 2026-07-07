@@ -1,0 +1,687 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2. Use case II: Fusion genes detection from multiple myeloma patient RNA-seq &#8212; Clindet 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'usecase/case_two';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Use case III: Whole genome sequencing of COLO829 cell line" href="case_three.html" />
+    <link rel="prev" title="1. Use case I: SNV and CNV calling from Whole exome sequencing data" href="case_one.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/Clindet_logo.png" class="logo__image only-light" alt="Clindet 0.1.0 documentation - Home"/>
+    <img src="../_static/Clindet_logo.png" class="logo__image only-dark pst-js-only" alt="Clindet 0.1.0 documentation - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Clindet documentation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Quick/index.html">Quick Start</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/intro.html">1. Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/install.html">2. Setup Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/use_case.html">3. Use case</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../DNAseq/index.html">DNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WES/index.html">1. Whole exome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/workflow.html">1.1. ClinDet WXS workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WGS/index.html">2. Whole genome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/workflow.html">2.1. ClinDet WGS workflow</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../RNAseq/index.html">RNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../RNAseq/workflow.html">1. ClinDet RNA-seq workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Use Case</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="case_one.html">1. Use case I: SNV and CNV calling from <strong>Whole exome sequencing</strong> data</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2. Use case II: Fusion genes detection from <strong>multiple myeloma patient</strong> RNA-seq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case_three.html">3. Use case III: Whole genome sequencing of <strong>COLO829 cell line</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="case_four.html">4. Use case IV: Quantifying​​ the contributions of DNA repair defective gene mutations to mutational signatures（<em><strong>C.elegans</strong></em>）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case_five.html">5. Use case V: Switching to different genome version (e.g. hg38)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../GoldStand/index.html">A Gym for Clinical NGS Data Analysis Workflows</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../GoldStand/dataset.html">1. GoldStand Dataset Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../GoldStand/benchmark.html">2. Benchmark</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../CITATIONS.html">snakemake/clindet: Citations</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/usecase/case_two.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Use case II: Fusion genes detection from multiple myeloma patient RNA-seq</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background">2.1. Background</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-case-matters">2.2. Why this case matters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-a-project-folder">2.3. Setup a project folder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data-and-setup-a-samplesheet-csv">2.4. Download data and setup a samplesheet.csv</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-yaml-workflow-config">2.5. Prepare the YAML workflow config</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-rationale">2.6. Configuration rationale</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-clindet">2.7. Run ClinDet</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-on-local-node">2.7.1. Run on local node</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#submit-to-hpc-use-slurm">2.7.2. Submit to HPC use slurm</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">2.8. Results</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-outputs">2.8.1. Overview of outputs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-expect">2.8.2. What to expect</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-pitfalls">2.9. Common pitfalls</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#arriba-fusion-genes">2.9.1. arriba fusion genes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aberrant-expression-of-partner-genes">2.9.2. Aberrant expression of partner genes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#immune-repertoire-analysis">2.9.3. immune repertoire analysis</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="use-case-ii-fusion-genes-detection-from-multiple-myeloma-patient-rna-seq">
+<h1><span class="section-number">2. </span>Use case II: Fusion genes detection from <strong>multiple myeloma patient</strong> RNA-seq<a class="headerlink" href="#use-case-ii-fusion-genes-detection-from-multiple-myeloma-patient-rna-seq" title="Link to this heading">#</a></h1>
+<section id="background">
+<h2><span class="section-number">2.1. </span>Background<a class="headerlink" href="#background" title="Link to this heading">#</a></h2>
+<p>RNA sequencing (RNA-seq) is widely used in clinical and translational research to profile gene expression, splicing patterns, fusion transcripts, and other transcriptional abnormalities. In diagnostic settings, common applications include:</p>
+<ol class="arabic simple">
+<li><p>​​Cancer Subtyping​​: Identifying tumor-specific gene expression signatures, fusion genes (e.g., BCR-ABL1), and aberrant splicing events to guide targeted therapies.</p></li>
+<li><p>Rare Disease Diagnosis​​: Detecting dysregulated pathways and aberrant expression in Mendelian disorders where DNA-based tests are inconclusive.</p></li>
+<li><p>​Infectious Disease Characterization​​: Profiling host-pathogen interactions and pathogen expression in complex infections.</p></li>
+<li><p>Biomarker Discovery​​: Validating expression-based biomarkers for disease monitoring and treatment response.</p></li>
+</ol>
+<p>Gene fusions are a major class of oncogenic alterations. They can generate chimeric transcripts, such as BCR::ABL1, or drive overexpression of partner oncogenes, such as IGH::CCND1. The ClinDet RNA workflow supports transcript quantification, fusion detection, immune repertoire analysis, and RNA variant calling. In this example, we reanalyze transcriptomic data from 31 flow-sorted bone marrow plasma cell samples published by <a class="reference external" href="https://www.nature.com/articles/s41467-021-25704-2">Jaime et al</a>. We focus on three multiple myeloma patients, CD1, MS3, and MF1, all reported to harbor rearrangements involving the IGH enhancer and partner genes.</p>
+<a class="bg-primary reference internal image-reference" href="../_images/jaime.png"><img alt="BCR MM" class="align-center bg-primary" src="../_images/jaime.png" style="width: 600px;" />
+</a>
+</section>
+<section id="why-this-case-matters">
+<h2><span class="section-number">2.2. </span>Why this case matters<a class="headerlink" href="#why-this-case-matters" title="Link to this heading">#</a></h2>
+<p>This case shows how the RNA workflow can be used to combine transcript quantification, fusion detection, and immune repertoire analysis in a clinically relevant hematologic malignancy setting. It is also a useful example of how RNA-seq can reveal both structural events and downstream transcriptional consequences.</p>
+</section>
+<section id="setup-a-project-folder">
+<h2><span class="section-number">2.3. </span>Setup a project folder<a class="headerlink" href="#setup-a-project-folder" title="Link to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Before starting the analysis, please ensure that you have set up the analysis environment using the build_conda_env.sh script.</p>
+</div>
+<p>Create a folder named <code class="docutils literal notranslate"><span class="pre">project/MM_RNA</span></code> in your home directory and activate the clindet conda environment.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/projects/MM_RNA
+<span class="nb">cd</span><span class="w"> </span>~/projects/MM_RNA
+conda<span class="w"> </span>activate<span class="w"> </span>clindet
+</pre></div>
+</div>
+</section>
+<section id="download-data-and-setup-a-samplesheet-csv">
+<h2><span class="section-number">2.4. </span>Download data and setup a samplesheet.csv<a class="headerlink" href="#download-data-and-setup-a-samplesheet-csv" title="Link to this heading">#</a></h2>
+<p>Download Multiple myeloma RNA-seq data from the SRA database using wget and prepare the sample information file, make sure fastq-dump are in in $PATH (if don’t install it first)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/projects/MM_RNA
+mkdir<span class="w"> </span>-p<span class="w"> </span>data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>data
+<span class="c1">## Methods one multiple myeloma RNA-seq data</span>
+wget<span class="w"> </span>-q<span class="w"> </span>-c<span class="w"> </span>-O<span class="w"> </span>A26.11<span class="w"> </span>https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR12099713/SRR12099713
+wget<span class="w"> </span>-q<span class="w"> </span>-c<span class="w"> </span>-O<span class="w"> </span>A27.19<span class="w"> </span>https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR12099714/SRR12099714
+wget<span class="w"> </span>-q<span class="w"> </span>-c<span class="w"> </span>-O<span class="w"> </span>A28.15<span class="w"> </span>https://sra-pub-run-odp.s3.amazonaws.com/sra/SRR12099715/SRR12099715
+
+fastq-dump<span class="w"> </span>--gzip<span class="w"> </span>-O<span class="w"> </span>~/projects/MM_RNA/data<span class="w"> </span>--split-3<span class="w"> </span>./A26.11
+fastq-dump<span class="w"> </span>--gzip<span class="w"> </span>-O<span class="w"> </span>~/projects/MM_RNA/data<span class="w"> </span>--split-3<span class="w"> </span>./A27.19
+fastq-dump<span class="w"> </span>--gzip<span class="w"> </span>-O<span class="w"> </span>~/projects/MM_RNA/data<span class="w"> </span>--split-3<span class="w"> </span>./A28.15
+</pre></div>
+</div>
+<p>Next, create a CSV file named pipe_rna.csv in the ~/projects/MM_RNA directory with the following content:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">R1_file_path</span><span class="p">,</span><span class="n">R2_file_path</span><span class="p">,</span><span class="n">Sample_name</span><span class="p">,</span><span class="n">Project</span>
+<span class="o">~/</span><span class="n">projects</span><span class="o">/</span><span class="n">MM_RNA</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">A26</span><span class="mf">.11_1</span><span class="o">.</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="o">~/</span><span class="n">projects</span><span class="o">/</span><span class="n">MM_RNA</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">A26</span><span class="mf">.11_2</span><span class="o">.</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="n">MF1</span>
+<span class="o">~/</span><span class="n">projects</span><span class="o">/</span><span class="n">MM_RNA</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">A27</span><span class="mf">.19_1</span><span class="o">.</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="o">~/</span><span class="n">projects</span><span class="o">/</span><span class="n">MM_RNA</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">A27</span><span class="mf">.19_2</span><span class="o">.</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="n">MS3</span>
+<span class="o">~/</span><span class="n">projects</span><span class="o">/</span><span class="n">MM_RNA</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">A28</span><span class="mf">.15_1</span><span class="o">.</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="o">~/</span><span class="n">projects</span><span class="o">/</span><span class="n">MM_RNA</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">A28</span><span class="mf">.15_2</span><span class="o">.</span><span class="n">fastq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="n">CD1</span>
+</pre></div>
+</div>
+</section>
+<section id="prepare-the-yaml-workflow-config">
+<h2><span class="section-number">2.5. </span>Prepare the YAML workflow config<a class="headerlink" href="#prepare-the-yaml-workflow-config" title="Link to this heading">#</a></h2>
+<p>In the current workflow, you no longer need to create a project-specific <code class="docutils literal notranslate"><span class="pre">snake_rna.smk</span></code> file. Instead, prepare a YAML configuration file and pass it to Snakemake with <code class="docutils literal notranslate"><span class="pre">--configfile</span></code>.</p>
+<p>For this example, create <code class="docutils literal notranslate"><span class="pre">~/projects/MM_RNA/MM_RNA.yaml</span></code> and update the following fields:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">project.output_dir</span></code>: output directory for this analysis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">project.genome_version</span></code>: reference genome version, such as <code class="docutils literal notranslate"><span class="pre">b37</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">project.recal_BQSR</span></code>: whether to run BQSR.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">project.vcf2maf</span></code>: VCF-to-MAF mode.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">project.sample_sheet</span></code>: absolute path to the RNA sample sheet CSV file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_params.stages</span></code>: RNA analysis stages to run.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_params.rna_caller_list</span></code>: RNA caller preset used for this analysis.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">project</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">output_dir</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;~/projects/MM_RNA&#39;</span>
+<span class="w">  </span><span class="nt">genome_version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;b37&#39;</span>
+<span class="w">  </span><span class="nt">recal_BQSR</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">  </span><span class="nt">vcf2maf</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;raw&#39;</span>
+<span class="w">  </span><span class="nt">sample_sheet</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;~/projects/MM_RNA/pipe_rna.csv&#39;</span>
+<span class="nt">run_params</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">stages</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">salmon</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RSEM</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kallisto</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arriba</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">trust4</span>
+<span class="w">  </span><span class="nt">rna_caller_list</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="configuration-rationale">
+<h2><span class="section-number">2.6. </span>Configuration rationale<a class="headerlink" href="#configuration-rationale" title="Link to this heading">#</a></h2>
+<p>This configuration is designed for an RNA-seq case where both expression quantification and biologically interpretable structural readouts are important. The selected stages retain three quantification methods, <code class="docutils literal notranslate"><span class="pre">salmon</span></code>, <code class="docutils literal notranslate"><span class="pre">RSEM</span></code>, and <code class="docutils literal notranslate"><span class="pre">kallisto</span></code>, while also enabling <code class="docutils literal notranslate"><span class="pre">arriba</span></code> for fusion detection and <code class="docutils literal notranslate"><span class="pre">trust4</span></code> for immune repertoire analysis. The <code class="docutils literal notranslate"><span class="pre">default</span></code> RNA caller preset is used here as a balanced starting point for a general multiple myeloma RNA workflow.</p>
+</section>
+<section id="run-clindet">
+<h2><span class="section-number">2.7. </span>Run ClinDet<a class="headerlink" href="#run-clindet" title="Link to this heading">#</a></h2>
+<p>There is two way you can run ClinDet</p>
+<ol class="arabic simple">
+<li><p>run on a local server</p></li>
+<li><p>submit to HPC through slurm</p></li>
+</ol>
+<section id="run-on-local-node">
+<h3><span class="section-number">2.7.1. </span>Run on local node<a class="headerlink" href="#run-on-local-node" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nohup<span class="w"> </span>snakemake<span class="w"> </span>-c<span class="w"> </span><span class="m">20</span><span class="w"> </span>--config<span class="w"> </span><span class="nv">run_type</span><span class="o">=</span>rna<span class="w"> </span><span class="se">\</span>
+--configfile<span class="w"> </span>~/projects/MM_RNA/MM_RNA.yaml<span class="w"> </span><span class="se">\</span>
+--rerun-triggers<span class="w"> </span>mtime<span class="w"> </span>--benchmark-extended<span class="w"> </span><span class="se">\</span>
+--use-singularity<span class="w"> </span>--singularity-args<span class="w"> </span><span class="s2">&quot;--bind /your/home/path:/your/home/path&quot;</span><span class="w"> </span><span class="se">\</span>
+--latency-wait<span class="w"> </span><span class="m">300</span><span class="w"> </span>--use-conda<span class="w"> </span>--conda-frontend<span class="w"> </span>conda<span class="w"> </span>-k<span class="w"> </span>&gt;&gt;<span class="w"> </span>~/projects/MM_RNA/MM_RNA.out<span class="w"> </span><span class="p">&amp;</span>
+</pre></div>
+</div>
+</section>
+<section id="submit-to-hpc-use-slurm">
+<h3><span class="section-number">2.7.2. </span>Submit to HPC use slurm<a class="headerlink" href="#submit-to-hpc-use-slurm" title="Link to this heading">#</a></h3>
+<p>We provide a Slurm <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code> file under the <code class="docutils literal notranslate"><span class="pre">clindet/workflow/config_slurm</span></code> folder.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nohup<span class="w"> </span>snakemake<span class="w"> </span>-c<span class="w"> </span><span class="m">20</span><span class="w"> </span>--config<span class="w"> </span><span class="nv">run_type</span><span class="o">=</span>rna<span class="w"> </span><span class="se">\</span>
+--configfile<span class="w"> </span>~/projects/MM_RNA/MM_RNA.yaml<span class="w"> </span><span class="se">\</span>
+--profile<span class="w"> </span>workflow/config_slurm<span class="w"> </span><span class="se">\</span>
+--rerun-triggers<span class="w"> </span>mtime<span class="w"> </span>--benchmark-extended<span class="w"> </span><span class="se">\</span>
+--use-singularity<span class="w"> </span>--singularity-args<span class="w"> </span><span class="s2">&quot;--bind /your/home/path:/your/home/path&quot;</span><span class="w"> </span><span class="se">\</span>
+--latency-wait<span class="w"> </span><span class="m">300</span><span class="w"> </span>--use-conda<span class="w"> </span>--conda-frontend<span class="w"> </span>conda<span class="w"> </span>-k<span class="w"> </span>&gt;&gt;<span class="w"> </span>~/projects/MM_RNA/MM_RNA.out<span class="w"> </span><span class="p">&amp;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="results">
+<h2><span class="section-number">2.8. </span>Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h2>
+<p>After successful execution, you will see the following directory structure. The fusion folder contains the fusion gene detection results, and the summary folder contains the gene expression quantification results.</p>
+<section id="overview-of-outputs">
+<h3><span class="section-number">2.8.1. </span>Overview of outputs<a class="headerlink" href="#overview-of-outputs" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~/projects/MM_RNA/b37/results
+├──<span class="w"> </span>fusion<span class="w"> </span><span class="c1"># Fusion Gene Detection Results</span>
+├──<span class="w"> </span>mapped<span class="w"> </span><span class="c1"># STAR mapping results</span>
+│<span class="w">   </span>└──<span class="w"> </span>STAR
+├──<span class="w"> </span>mut<span class="w"> </span><span class="c1"># RNA Mutation Detection Results</span>
+│<span class="w">   </span>├──<span class="w"> </span>dedup
+│<span class="w">   </span>├──<span class="w"> </span>maf<span class="w"> </span><span class="c1"># annotated MAF file</span>
+│<span class="w">   </span>├──<span class="w"> </span>STAR
+│<span class="w">   </span>└──<span class="w"> </span>vcf
+├──<span class="w"> </span>IG<span class="w"> </span><span class="c1"># Immune repertoire reconstruction results</span>
+│<span class="w">   </span>└──<span class="w"> </span>TRUST4
+│<span class="w"> </span>
+└──<span class="w"> </span>summary<span class="w"> </span><span class="c1"># Results of Gene Expression Quantification</span>
+<span class="w">    </span>├──<span class="w"> </span>kallisto
+<span class="w">    </span>├──<span class="w"> </span>RSEM
+<span class="w">    </span>└──<span class="w"> </span>salmon
+</pre></div>
+</div>
+</section>
+<section id="what-to-expect">
+<h3><span class="section-number">2.8.2. </span>What to expect<a class="headerlink" href="#what-to-expect" title="Link to this heading">#</a></h3>
+<p>For this case, the most informative outputs are the <code class="docutils literal notranslate"><span class="pre">arriba</span></code> fusion calls, the expression quantification results in the <code class="docutils literal notranslate"><span class="pre">summary</span></code> directory, and the <code class="docutils literal notranslate"><span class="pre">TRUST4</span></code> immune repertoire outputs. Successful completion should allow readers to inspect whether IGH-associated rearrangements are detectable at the transcript level and whether partner-gene overexpression is consistent with the published biology.</p>
+</section>
+</section>
+<section id="common-pitfalls">
+<h2><span class="section-number">2.9. </span>Common pitfalls<a class="headerlink" href="#common-pitfalls" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sample_sheet</span></code> should be an absolute path and must point to files visible inside the Singularity bind mount.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">genome_version</span></code> in the YAML file must match the RNA reference resources configured in the global <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code>.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">arriba</span></code> is enabled, the alignment and fusion resources must be available for the selected reference build.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">trust4</span></code> is enabled, users should expect additional runtime and should verify that the resulting immune repertoire files are produced before interpreting clonality.</p></li>
+</ol>
+<section id="arriba-fusion-genes">
+<h3><span class="section-number">2.9.1. </span>arriba fusion genes<a class="headerlink" href="#arriba-fusion-genes" title="Link to this heading">#</a></h3>
+<p>Within the gene fusion detection analysis, structural variants were identified in patients CD1 (IGH::CCND1) and MS3 (IGH::NSD2). In contrast, no detectable fusion transcript was found in patient MF1. However, all three patients exhibited aberrantly high expression levels of the corresponding partner genes. We hypothesize that the structural variation breakpoint in the IGH locus of patient MF1 may reside upstream of the MAF gene, possibly in a non-coding regulatory region, allowing enhancer-driven overexpression without producing a fusion transcript.
+<em><strong>IGH</strong></em> fusion genes circos plot (see below):</p>
+<a class="bg-primary reference internal image-reference" href="../_images/arriba_fusion.png"><img alt="fusion circos" class="align-left bg-primary" src="../_images/arriba_fusion.png" style="width: 900px;" />
+</a>
+</section>
+<section id="aberrant-expression-of-partner-genes">
+<h3><span class="section-number">2.9.2. </span>Aberrant expression of partner genes<a class="headerlink" href="#aberrant-expression-of-partner-genes" title="Link to this heading">#</a></h3>
+<p>Additionally, if you wish to study gene expression levels, you can download the data for all samples from the original publication and perform quantification. Subsequently, use the Outliner package to analyze genes with aberrant expression within the patient cohort. In this example, we will not include this analysis, but interested readers are encouraged to download the data and explore it on their own, The figure below shows the expected analysis results.</p>
+<a class="bg-primary reference internal image-reference" href="../_images/expression.png"><img alt="fusion expression" class="align-left bg-primary" src="../_images/expression.png" style="width: 900px;" />
+</a>
+</section>
+<section id="immune-repertoire-analysis">
+<h3><span class="section-number">2.9.3. </span>immune repertoire analysis<a class="headerlink" href="#immune-repertoire-analysis" title="Link to this heading">#</a></h3>
+<p>Furthermore, immune repertoire profiling of the three samples revealed that more than 95% of the immunoglobulin sequences originated from a single clone. This finding is consistent with the prevailing hypothesis that multiple myeloma arises from a clonal expansion of a single progenitor B cell.</p>
+<a class="bg-primary reference internal image-reference" href="../_images/BCR.png"><img alt="BCR MM" class="align-center bg-primary" src="../_images/BCR.png" style="width: 300px;" />
+</a>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="case_one.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Use case I: SNV and CNV calling from <strong>Whole exome sequencing</strong> data</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="case_three.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Use case III: Whole genome sequencing of <strong>COLO829 cell line</strong></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background">2.1. Background</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-case-matters">2.2. Why this case matters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-a-project-folder">2.3. Setup a project folder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data-and-setup-a-samplesheet-csv">2.4. Download data and setup a samplesheet.csv</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-yaml-workflow-config">2.5. Prepare the YAML workflow config</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-rationale">2.6. Configuration rationale</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-clindet">2.7. Run ClinDet</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-on-local-node">2.7.1. Run on local node</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#submit-to-hpc-use-slurm">2.7.2. Submit to HPC use slurm</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">2.8. Results</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-outputs">2.8.1. Overview of outputs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-expect">2.8.2. What to expect</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-pitfalls">2.9. Common pitfalls</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#arriba-fusion-genes">2.9.1. arriba fusion genes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aberrant-expression-of-partner-genes">2.9.2. Aberrant expression of partner genes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#immune-repertoire-analysis">2.9.3. immune repertoire analysis</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Yuliang Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Yuliang Zhang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

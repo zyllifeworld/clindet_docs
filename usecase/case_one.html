@@ -1,0 +1,735 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>1. Use case I: SNV and CNV calling from Whole exome sequencing data &#8212; Clindet 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'usecase/case_one';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2. Use case II: Fusion genes detection from multiple myeloma patient RNA-seq" href="case_two.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/Clindet_logo.png" class="logo__image only-light" alt="Clindet 0.1.0 documentation - Home"/>
+    <img src="../_static/Clindet_logo.png" class="logo__image only-dark pst-js-only" alt="Clindet 0.1.0 documentation - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Clindet documentation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Quick/index.html">Quick Start</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/intro.html">1. Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/install.html">2. Setup Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/use_case.html">3. Use case</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../DNAseq/index.html">DNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WES/index.html">1. Whole exome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/workflow.html">1.1. ClinDet WXS workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WGS/index.html">2. Whole genome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/workflow.html">2.1. ClinDet WGS workflow</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../RNAseq/index.html">RNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../RNAseq/workflow.html">1. ClinDet RNA-seq workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Use Case</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">1. Use case I: SNV and CNV calling from <strong>Whole exome sequencing</strong> data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case_two.html">2. Use case II: Fusion genes detection from <strong>multiple myeloma patient</strong> RNA-seq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case_three.html">3. Use case III: Whole genome sequencing of <strong>COLO829 cell line</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="case_four.html">4. Use case IV: Quantifying​​ the contributions of DNA repair defective gene mutations to mutational signatures（<em><strong>C.elegans</strong></em>）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case_five.html">5. Use case V: Switching to different genome version (e.g. hg38)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../GoldStand/index.html">A Gym for Clinical NGS Data Analysis Workflows</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../GoldStand/dataset.html">1. GoldStand Dataset Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../GoldStand/benchmark.html">2. Benchmark</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../CITATIONS.html">snakemake/clindet: Citations</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/usecase/case_one.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Use case I: SNV and CNV calling from Whole exome sequencing data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background">1.1. Background</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-case-matters">1.2. Why this case matters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-a-project-folder">1.3. Setup a project folder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data-and-prepare-the-sample-sheet">1.4. Download data and prepare the sample sheet</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-target-bed-file">1.5. Prepare the target BED file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-yaml-workflow-config">1.6. Prepare the YAML workflow config</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-rationale">1.7. Configuration rationale</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-clindet">1.8. Run clindet</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-on-local-node">1.8.1. Run on local node</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#submit-to-hpc-use-slurm">1.8.2. Submit to HPC use slurm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output">1.8.3. Output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-output">1.8.4. Overview of output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-expect">1.8.5. What to expect</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-pitfalls">1.9. Common pitfalls</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-report">1.9.1. case report</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="use-case-i-snv-and-cnv-calling-from-whole-exome-sequencing-data">
+<h1><span class="section-number">1. </span>Use case I: SNV and CNV calling from <strong>Whole exome sequencing</strong> data<a class="headerlink" href="#use-case-i-snv-and-cnv-calling-from-whole-exome-sequencing-data" title="Link to this heading">#</a></h1>
+<section id="background">
+<h2><span class="section-number">1.1. </span>Background<a class="headerlink" href="#background" title="Link to this heading">#</a></h2>
+<p>Whole-exome sequencing (WES) is widely used in clinical and translational genomics to interrogate coding regions of the genome and identify clinically relevant variants. Key applications include:</p>
+<ol class="arabic simple">
+<li><p>​​Rare Disease Diagnosis​​: Rapid detection of pathogenic variants in undiagnosed genetic disorders, reducing diagnostic odysseys.</p></li>
+<li><p>​​Cancer Genomics​​: Profiling somatic and germline mutations to guide targeted therapy and risk assessment.
+​​3. Carrier Screening​​: Identifying recessive mutations in prospective parents for reproductive planning.
+​​Pharmacogenomics​​: Assessing drug-response variants to optimize treatment regimens.</p></li>
+<li><p>WES improves diagnostic yield while remaining more cost-efficient than whole-genome sequencing in many clinical settings.</p></li>
+</ol>
+<p>The ClinDet WES workflow supports whole-exome, panel, and targeted DNA sequencing data. It performs somatic and germline variant calling, supports both paired tumor-normal and tumor-only analyses, and integrates multiple tools for detecting single nucleotide variants (SNVs), small insertions and deletions (INDELs), copy-number variants (CNVs), and structural variants (SVs), followed by quality control and downstream reporting.</p>
+<p>In this example, we use ClinDet to analyze whole-exome sequencing samples from the publicly available <strong>Chinese Glioma Genome Atlas (CGGA)</strong> dataset. Reads are aligned to the human <code class="docutils literal notranslate"><span class="pre">b37</span></code> reference genome, followed by somatic mutation and copy-number analysis.</p>
+<a class="bg-primary reference internal image-reference" href="../_images/glioma.png"><img alt="glioma" class="align-center bg-primary" src="../_images/glioma.png" style="width: 600px;" />
+</a>
+</section>
+<section id="why-this-case-matters">
+<h2><span class="section-number">1.2. </span>Why this case matters<a class="headerlink" href="#why-this-case-matters" title="Link to this heading">#</a></h2>
+<p>This case serves as a practical paired-WES example for clinical cancer genomics. It demonstrates how ClinDet can combine multiple somatic callers, germline callers, and CNV tools in a single analysis, while still keeping the configuration compact enough for routine project-level use.</p>
+</section>
+<section id="setup-a-project-folder">
+<h2><span class="section-number">1.3. </span>Setup a project folder<a class="headerlink" href="#setup-a-project-folder" title="Link to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Before starting the analysis, please ensure that you have set up the analysis environment using the build_conda_envs.sh script.</p>
+</div>
+<p>Create a folder named project/CGGA_WES in your home directory and activate the Clindet conda environment.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/projects/CGGA_WES
+<span class="nb">cd</span><span class="w"> </span>~/projects/CGGA_WES
+conda<span class="w"> </span>activate<span class="w"> </span>clindet
+</pre></div>
+</div>
+</section>
+<section id="download-data-and-prepare-the-sample-sheet">
+<h2><span class="section-number">1.4. </span>Download data and prepare the sample sheet<a class="headerlink" href="#download-data-and-prepare-the-sample-sheet" title="Link to this heading">#</a></h2>
+<p>Download data from the GSA database using <code class="docutils literal notranslate"><span class="pre">wget</span></code> and prepare the sample information file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~/projects/CGGA_WES
+mkdir<span class="w"> </span>-p<span class="w"> </span>data<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>data
+<span class="c1">## sample CGGA_D14 tumor-sample paired fqs</span>
+wget<span class="w"> </span>-c<span class="w"> </span>--no-check-certificate<span class="w"> </span>-O<span class="w"> </span>T_CGGA_D14_r1.fq.gz<span class="w"> </span>https://download.big.ac.cn/gsa-human/HRA000071/HRR025119/HRR025119_f1.fq.gz
+wget<span class="w"> </span>-c<span class="w"> </span>--no-check-certificate<span class="w"> </span>-O<span class="w"> </span>T_CGGA_D14_r2.fq.gz<span class="w"> </span>https://download.big.ac.cn/gsa-human/HRA000071/HRR025119/HRR025119_r2.fq.gz
+wget<span class="w"> </span>-c<span class="w"> </span>--no-check-certificate<span class="w"> </span>-O<span class="w"> </span>B_CGGA_D14_r1.fq.gz<span class="w"> </span>https://download.big.ac.cn/gsa-human/HRA000071/HRR024833/HRR024833_f1.fq.gz
+wget<span class="w"> </span>-c<span class="w"> </span>--no-check-certificate<span class="w"> </span>-O<span class="w"> </span>B_CGGA_D14_r2.fq.gz<span class="w"> </span>https://download.big.ac.cn/gsa-human/HRA000071/HRR024833/HRR024833_r2.fq.gz
+
+<span class="c1">## sample CGGA_653 tumor-sample paired fqs</span>
+wget<span class="w"> </span>-c<span class="w"> </span>-O<span class="w"> </span>T_CGGA_653_r1.fq.gz<span class="w">	</span>ftp://download.big.ac.cn/gsa-human/HRA000071/HRR025103/HRR025103_f1.fq.gz<span class="w">	</span>wget<span class="w"> </span>-c<span class="w"> </span>-O<span class="w"> </span>T_CGGA_653_r2.fq.gz<span class="w">  </span>ftp://download.big.ac.cn/gsa-human/HRA000071/HRR025103/HRR025103_r2.fq.gz
+wget<span class="w"> </span>-c<span class="w"> </span>-O<span class="w"> </span>B_CGGA_653_r1.fq.gz<span class="w">	</span>ftp://download.big.ac.cn/gsa-human/HRA000071/HRR024817/HRR024817_f1.fq.gz
+wget<span class="w"> </span>-c<span class="w"> </span>-O<span class="w"> </span>B_CGGA_653_r2.fq.gz<span class="w">	</span>ftp://download.big.ac.cn/gsa-human/HRA000071/HRR024817/HRR024817_r2.fq.gz
+</pre></div>
+</div>
+<p>Next, create a CSV file named pipe_wes.csv in the ~/projects/CGGA_WES directory with the following content:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Tumor_R1_file_path</span><span class="p">,</span><span class="n">Tumor_R2_file_path</span><span class="p">,</span><span class="n">Normal_R1_file_path</span><span class="p">,</span><span class="n">Normal_R2_file_path</span><span class="p">,</span><span class="n">Sample_name</span><span class="p">,</span><span class="n">Target_file_bed</span><span class="p">,</span><span class="n">Project</span>
+<span class="o">/</span><span class="n">AbsoPath</span><span class="o">/</span><span class="n">of</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">CGGA_WES</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">T_CGGA_D14_r1</span><span class="o">.</span><span class="n">fq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="o">/</span><span class="n">AbsoPath</span><span class="o">/</span><span class="n">of</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">CGGA_WES</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">T_CGGA_D14_r2</span><span class="o">.</span><span class="n">fq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="o">/</span><span class="n">AbsoPath</span><span class="o">/</span><span class="n">of</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">CGGA_WES</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">B_CGGA_D14_r1</span><span class="o">.</span><span class="n">fq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="o">/</span><span class="n">AbsoPath</span><span class="o">/</span><span class="n">of</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">CGGA_WES</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">B_CGGA_D14_r2</span><span class="o">.</span><span class="n">fq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="n">CGGA_D14</span><span class="p">,</span><span class="o">/</span><span class="n">AbsoPath</span><span class="o">/</span><span class="n">of</span><span class="o">/</span><span class="n">target</span><span class="o">.</span><span class="n">bed</span><span class="p">,</span><span class="n">CGGA_WES</span>
+<span class="o">/</span><span class="n">AbsoPath</span><span class="o">/</span><span class="n">of</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">CGGA_WES</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">T_CGGA_653_r1</span><span class="o">.</span><span class="n">fq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="o">/</span><span class="n">AbsoPath</span><span class="o">/</span><span class="n">of</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">CGGA_WES</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">T_CGGA_653_r2</span><span class="o">.</span><span class="n">fq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="o">/</span><span class="n">AbsoPath</span><span class="o">/</span><span class="n">of</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">CGGA_WES</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">B_CGGA_653_r1</span><span class="o">.</span><span class="n">fq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="o">/</span><span class="n">AbsoPath</span><span class="o">/</span><span class="n">of</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">CGGA_WES</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">B_CGGA_653_r2</span><span class="o">.</span><span class="n">fq</span><span class="o">.</span><span class="n">gz</span><span class="p">,</span><span class="n">CGGA_653</span><span class="p">,</span><span class="o">/</span><span class="n">AbsoPath</span><span class="o">/</span><span class="n">of</span><span class="o">/</span><span class="n">target</span><span class="o">.</span><span class="n">bed</span><span class="p">,</span><span class="n">CGGA_WES</span>
+</pre></div>
+</div>
+</section>
+<section id="prepare-the-target-bed-file">
+<h2><span class="section-number">1.5. </span>Prepare the target BED file<a class="headerlink" href="#prepare-the-target-bed-file" title="Link to this heading">#</a></h2>
+<p>For WES and targeted panel analyses, you must provide a BED file that defines the capture regions and matches the reference genome version (e.g., <code class="docutils literal notranslate"><span class="pre">b37</span></code> or <code class="docutils literal notranslate"><span class="pre">hg38</span></code>). This file is referenced in the <code class="docutils literal notranslate"><span class="pre">Target_file_bed</span></code> column of the sample sheet.</p>
+<ul class="simple">
+<li><p>If a BED file from your capture kit is available, it should be provided by the sequencing company. Make sure it uses the same chromosome naming convention as your reference genome (e.g., <code class="docutils literal notranslate"><span class="pre">1</span></code> for b37, <code class="docutils literal notranslate"><span class="pre">chr1</span></code> for hg38).</p></li>
+<li><p>If no BED file is available, you can generate one from a GTF annotation file using the method described in <a class="reference internal" href="#../Quick/install#generate-a-bed-file-for-wes-analysis"><span class="xref myst">Setup Clindet → Generate a BED File for WES Analysis</span></a>. ClinDet also provides a <a class="reference download internal" download="" href="../_downloads/0f116665acbddf249f380052af46f0fd/b37_gene.bed"><span class="xref download myst">reference BED file</span></a> for the b37 genome and a script <a class="reference download internal" download="" href="../_downloads/188a1086cde078ae86ac03f4dd3a4973/gtf2bed.R"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">gtf2bed.R</span></code></span></a> to create your own.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>An incorrect or mismatched BED file will cause coverage-related downstream steps (e.g., CNV calling) to produce unreliable results. Verify that the BED coordinates match your target regions and genome version before running the analysis.</p>
+</div>
+</section>
+<section id="prepare-the-yaml-workflow-config">
+<h2><span class="section-number">1.6. </span>Prepare the YAML workflow config<a class="headerlink" href="#prepare-the-yaml-workflow-config" title="Link to this heading">#</a></h2>
+<p>In the current workflow, you no longer need to create a project-specific <code class="docutils literal notranslate"><span class="pre">snake_wes.smk</span></code> file. Instead, prepare a YAML configuration file and pass it to Snakemake with <code class="docutils literal notranslate"><span class="pre">--configfile</span></code>.</p>
+<p>For this example, create <code class="docutils literal notranslate"><span class="pre">test/CGGA_config.yaml</span></code> and update the following fields:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">project.output_dir</span></code>: output directory for this analysis.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">project.genome_version</span></code>: reference genome version, such as <code class="docutils literal notranslate"><span class="pre">b37</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">project.recal_BQSR</span></code>: whether to run BQSR. Set <code class="docutils literal notranslate"><span class="pre">False</span></code> to skip it.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">project.vcf2maf</span></code>: VCF-to-MAF mode.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">project.sample_sheet</span></code>: absolute path to the sample sheet CSV file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_params.somatic_caller_list</span></code>: somatic SNV/INDEL callers to run.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_params.stages</span></code>: workflow stages to run, for example <code class="docutils literal notranslate"><span class="pre">conpair</span></code>, <code class="docutils literal notranslate"><span class="pre">call_mut</span></code>, and <code class="docutils literal notranslate"><span class="pre">report</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_params.germ_caller_list</span></code>: germline callers to run.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_params.somatic_cnv_list</span></code>: somatic CNV callers to run.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_params.somatic_sv_list</span></code>: somatic SV callers to run.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_params.tumor_only_caller</span></code> and <code class="docutils literal notranslate"><span class="pre">run_params.tumor_only_cnv_caller</span></code>: callers used for tumor-only samples.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_params.purple_sv</span></code>: SV caller used by PURPLE-related downstream steps.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">project</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">output_dir</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;test&#39;</span>
+<span class="w">  </span><span class="nt">genome_version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;b37&#39;</span>
+<span class="w">  </span><span class="nt">recal_BQSR</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">  </span><span class="nt">vcf2maf</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;raw&#39;</span>
+<span class="w">  </span><span class="nt">sample_sheet</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;/public/ClinicalExam/lj_sih/projects/project_clindet/data/CGGA_primary_sample_info.csv&#39;</span>
+<span class="nt">run_params</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">somatic_caller_list</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HaplotypeCaller</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">strelkasomaticmanta</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cgppindel</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">caveman</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">muse</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Mutect2</span>
+<span class="w">  </span><span class="nt">stages</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">conpair</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">call_mut</span>
+<span class="w">  </span><span class="nt">germ_caller_list</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sage</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">caveman</span>
+<span class="w">  </span><span class="nt">somatic_cnv_list</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">defulet</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ASCAT</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">facets</span>
+<span class="w">  </span><span class="nt">somatic_sv_list</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BRASS</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">delly</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gridss</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">igcaller</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">linx</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">svaba</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Manta</span>
+<span class="w">  </span><span class="nt">tumor_only_caller</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sage</span>
+<span class="w">  </span><span class="nt">tumor_only_cnv_caller</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">freec</span>
+<span class="w">  </span><span class="nt">purple_sv</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gridss&quot;</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="configuration-rationale">
+<h2><span class="section-number">1.7. </span>Configuration rationale<a class="headerlink" href="#configuration-rationale" title="Link to this heading">#</a></h2>
+<p>This YAML configuration is designed for a paired WES cancer cohort. We keep <code class="docutils literal notranslate"><span class="pre">genome_version=b37</span></code>, disable <code class="docutils literal notranslate"><span class="pre">recal_BQSR</span></code> to reduce runtime, and use <code class="docutils literal notranslate"><span class="pre">call_mut</span></code> together with <code class="docutils literal notranslate"><span class="pre">conpair</span></code> so that both somatic calling and sample-pair quality checks are performed. The selected somatic callers provide complementary support for SNV/INDEL discovery, while <code class="docutils literal notranslate"><span class="pre">ASCAT</span></code> and <code class="docutils literal notranslate"><span class="pre">facets</span></code> are retained as CNV methods commonly used in exome-based tumor-normal analyses.</p>
+</section>
+<section id="run-clindet">
+<h2><span class="section-number">1.8. </span>Run clindet<a class="headerlink" href="#run-clindet" title="Link to this heading">#</a></h2>
+<p>There are two ways to run ClinDet in this example:</p>
+<ol class="arabic simple">
+<li><p>run on a local node</p></li>
+<li><p>submit to HPC through slurm</p></li>
+</ol>
+<section id="run-on-local-node">
+<h3><span class="section-number">1.8.1. </span>Run on local node<a class="headerlink" href="#run-on-local-node" title="Link to this heading">#</a></h3>
+<p>After preparing the YAML config, you can run the analysis on a local node with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>snakemake<span class="w"> </span>-c<span class="w"> </span><span class="m">30</span><span class="w"> </span>--config<span class="w"> </span><span class="nv">run_type</span><span class="o">=</span>wes<span class="w"> </span><span class="se">\</span>
+--configfile<span class="w"> </span>test/CGGA_config.yaml<span class="w"> </span><span class="se">\</span>
+--rerun-triggers<span class="w"> </span>mtime<span class="w"> </span>--benchmark-extended<span class="w"> </span><span class="se">\</span>
+--use-singularity<span class="w"> </span>--singularity-args<span class="w"> </span><span class="s2">&quot;--bind /your/home/path:/your/home/path&quot;</span><span class="w"> </span><span class="se">\</span>
+--latency-wait<span class="w"> </span><span class="m">300</span><span class="w"> </span>--use-conda<span class="w"> </span>--conda-frontend<span class="w"> </span>conda<span class="w"> </span>-k
+</pre></div>
+</div>
+</section>
+<section id="submit-to-hpc-use-slurm">
+<h3><span class="section-number">1.8.2. </span>Submit to HPC use slurm<a class="headerlink" href="#submit-to-hpc-use-slurm" title="Link to this heading">#</a></h3>
+<p>We provide a Slurm config.yaml file under the clindet/workflow/config_slurm folder. When submitting jobs, users can specify the <code class="docutils literal notranslate"><span class="pre">partition</span></code> parameter in the YAML file to the desired <strong>node name</strong> according to their needs.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">executor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster-generic</span>
+<span class="nt">cluster-generic-submit-cmd</span><span class="p">:</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">mkdir -p logs/{wildcards.project}/slurm &amp;&amp;</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">sbatch</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">--partition=SVC</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">--cpus-per-task={threads}</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">--job-name={rule}</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">--output=logs/{wildcards.project}/slurm/{wildcards.sample}_{rule}.%N.%j.out</span>
+<span class="nt">default-resources</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">partition=SVC</span>
+<span class="nt">latency-wait</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">60</span>
+<span class="nt">jobs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
+<span class="nt">keep-going</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="nt">rerun-incomplete</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="nt">printshellcmds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="nt">scheduler</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">greedy</span>
+<span class="nt">use-conda</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+</pre></div>
+</div>
+<p>After preparing the YAML config, run the analysis with the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nohup<span class="w"> </span>snakemake<span class="w"> </span>--config<span class="w"> </span><span class="nv">run_type</span><span class="o">=</span>wes<span class="w"> </span><span class="se">\</span>
+--configfile<span class="w"> </span>test/CGGA_config.yaml<span class="w"> </span><span class="se">\</span>
+--profile<span class="w"> </span>workflow/config_slurm<span class="w"> </span><span class="se">\</span>
+-j<span class="w"> </span><span class="m">30</span><span class="w"> </span>--printshellcmds<span class="w"> </span>--rerun-triggers<span class="w"> </span>mtime<span class="w"> </span>--benchmark-extended<span class="w"> </span><span class="se">\</span>
+--use-singularity<span class="w"> </span>--singularity-args<span class="w"> </span><span class="s2">&quot;--bind /your/home/path:/your/home/path&quot;</span><span class="w"> </span><span class="se">\</span>
+--latency-wait<span class="w"> </span><span class="m">300</span><span class="w"> </span>--use-conda<span class="w"> </span>--conda-frontend<span class="w"> </span>conda<span class="w"> </span>-k<span class="w"> </span>&gt;&gt;<span class="w"> </span>CGGA.out<span class="w"> </span><span class="p">&amp;</span>
+</pre></div>
+</div>
+</section>
+<section id="output">
+<h3><span class="section-number">1.8.3. </span>Output<a class="headerlink" href="#output" title="Link to this heading">#</a></h3>
+</section>
+<section id="overview-of-output">
+<h3><span class="section-number">1.8.4. </span>Overview of output<a class="headerlink" href="#overview-of-output" title="Link to this heading">#</a></h3>
+<p>After success run, you will get the all the results under <code class="docutils literal notranslate"><span class="pre">{project}/{genome_version}/results</span></code> folder.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/WES/b37
+├── logs
+│   └── paired
+└── results
+    ├── cnv  **# Copy Number results**
+    ├── dedup **# deduplication BAM files**
+    ├── logs **# Task run logs**
+    ├── maf  **# annotation somatic mutation MAF files**
+    ├── maf_germline  **# annotation germline mutation MAF files**
+    ├── mapped  **# annotation somatic mutation MAF files**
+    ├── multiqc  **# annotation somatic mutation MAF files**
+    ├── multiqc_data
+    ├── multiqc_report_data
+    ├── multiqc_report.html
+    ├── qc  **# QC results for fastp conpair and so on**
+    ├── recal **# BAM files after base recalibration**
+    ├── report **# Case report files**
+    ├── stats  **# BAM statistics info**
+    ├── trimmed  **#temporary trimmed fastq and fastp output**
+    ├── vcf **# RAW somatic mutation VCF files**
+    └── vcf_germline **# RAW germline mutation VCF files**
+</pre></div>
+</div>
+</section>
+<section id="what-to-expect">
+<h3><span class="section-number">1.8.5. </span>What to expect<a class="headerlink" href="#what-to-expect" title="Link to this heading">#</a></h3>
+<p>For this case, the most informative outputs are the merged somatic MAF files, the CNV results from <code class="docutils literal notranslate"><span class="pre">ASCAT</span></code> and <code class="docutils literal notranslate"><span class="pre">facets</span></code>, and the QC outputs produced during paired-sample processing. Successful completion should allow readers to compare somatic calls across samples, inspect broad copy-number patterns, and confirm that the tumor-normal pairing behaves as expected.</p>
+</section>
+</section>
+<section id="common-pitfalls">
+<h2><span class="section-number">1.9. </span>Common pitfalls<a class="headerlink" href="#common-pitfalls" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sample_sheet</span></code> should be an absolute path and must point to files visible inside the Singularity bind mount.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">genome_version</span></code> in the YAML file must match the reference resources configured in the global <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Target_file_bed</span></code> should be set correctly for each WES sample, otherwise coverage-aware downstream steps may not behave as expected.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">conpair</span></code> is enabled, tumor and matched normal samples must be correctly paired in the sample sheet.</p></li>
+</ol>
+<section id="case-report">
+<h3><span class="section-number">1.9.1. </span>case report<a class="headerlink" href="#case-report" title="Link to this heading">#</a></h3>
+<p>There is a example case report of CGGA_P438
+<a href="../_static/CGGA_P438_cancer_report.html">example report HTML</a></p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">&lt;no title&gt;</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="case_two.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>Use case II: Fusion genes detection from <strong>multiple myeloma patient</strong> RNA-seq</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background">1.1. Background</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-case-matters">1.2. Why this case matters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-a-project-folder">1.3. Setup a project folder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-data-and-prepare-the-sample-sheet">1.4. Download data and prepare the sample sheet</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-target-bed-file">1.5. Prepare the target BED file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-the-yaml-workflow-config">1.6. Prepare the YAML workflow config</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-rationale">1.7. Configuration rationale</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-clindet">1.8. Run clindet</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-on-local-node">1.8.1. Run on local node</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#submit-to-hpc-use-slurm">1.8.2. Submit to HPC use slurm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output">1.8.3. Output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-output">1.8.4. Overview of output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-expect">1.8.5. What to expect</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-pitfalls">1.9. Common pitfalls</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#case-report">1.9.1. case report</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Yuliang Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Yuliang Zhang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1187 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Capability-Driven Benchmark Matrix &#8212; Clindet 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'GoldStand/wes';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/Clindet_logo.png" class="logo__image only-light" alt="Clindet 0.1.0 documentation - Home"/>
+    <img src="../_static/Clindet_logo.png" class="logo__image only-dark pst-js-only" alt="Clindet 0.1.0 documentation - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Clindet documentation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Quick/index.html">Quick Start</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/intro.html">1. Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/install.html">2. Setup Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/use_case.html">3. Use case</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../DNAseq/index.html">DNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WES/index.html">1. Whole exome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/workflow.html">1.1. ClinDet WXS workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WGS/index.html">2. Whole genome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/workflow.html">2.1. ClinDet WGS workflow</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../RNAseq/index.html">RNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../RNAseq/workflow.html">1. ClinDet RNA-seq workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../usecase/index.html">Use Case</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_one.html">1. Use case I: SNV and CNV calling from <strong>Whole exome sequencing</strong> data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_two.html">2. Use case II: Fusion genes detection from <strong>multiple myeloma patient</strong> RNA-seq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_three.html">3. Use case III: Whole genome sequencing of <strong>COLO829 cell line</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_four.html">4. Use case IV: Quantifying​​ the contributions of DNA repair defective gene mutations to mutational signatures（<em><strong>C.elegans</strong></em>）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_five.html">5. Use case V: Switching to different genome version (e.g. hg38)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="index.html">A Gym for Clinical NGS Data Analysis Workflows</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="dataset.html">1. GoldStand Dataset Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="benchmark.html">2. Benchmark</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../CITATIONS.html">snakemake/clindet: Citations</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/GoldStand/wes.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Capability-Driven Benchmark Matrix</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-read-this-matrix">How to read this matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#capability-categories">Capability categories</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wes-somatic-snv-indel">WES - Somatic SNV / Indel</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#capability">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-datasets">Recommended datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-focus">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wes-cnv">WES - CNV</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Recommended datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wgs-germline-snv-indel">WGS - Germline SNV / Indel</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Recommended datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wgs-somatic-snv-indel">WGS - Somatic SNV / Indel</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Recommended datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wgs-structural-variants">WGS - Structural Variants</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Recommended datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wgs-cnv">WGS - CNV</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Recommended datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-seq-fusion-detection">RNA-seq - Fusion Detection</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">Recommended datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-seq-expression-quantification">RNA-seq - Expression Quantification</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">Recommended datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-seq-immune-repertoire-transcript-derived-features">RNA-seq - Immune Repertoire / Transcript-derived Features</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id22">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id23">Recommended datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id24">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#synthetic-and-spike-in-validation">Synthetic and Spike-in Validation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id25">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-datasets-and-tools">Recommended datasets and tools</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id26">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-selection-rules">Dataset selection rules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#template-for-new-benchmark-entries">Template for new benchmark entries</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="capability-driven-benchmark-matrix">
+<h1>Capability-Driven Benchmark Matrix<a class="headerlink" href="#capability-driven-benchmark-matrix" title="Link to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>This document organizes benchmark resources by analytical capability rather than by dataset name alone. It is intended to function as the task matrix of the GoldStand benchmark gym: each section links a workflow capability to one or more recommended datasets, the strength of available truth, the expected outputs, and the main evaluation purpose.</p>
+<p>This matrix is useful for:</p>
+<ul class="simple">
+<li><p>selecting datasets for a specific workflow function</p></li>
+<li><p>planning smoke, standard, gold, or stress tests</p></li>
+<li><p>comparing tool behavior across omics tasks</p></li>
+<li><p>tracking which ClinDet modules are already covered and which still need reference data</p></li>
+</ul>
+</section>
+<section id="how-to-read-this-matrix">
+<h2>How to read this matrix<a class="headerlink" href="#how-to-read-this-matrix" title="Link to this heading">#</a></h2>
+<p>Each benchmark category should be interpreted through four questions:</p>
+<ol class="arabic simple">
+<li><p>What capability is being tested?</p></li>
+<li><p>What kind of truth or expectation is available?</p></li>
+<li><p>What outputs should be inspected after a successful run?</p></li>
+<li><p>Is the dataset best suited for smoke testing, routine validation, or rigorous benchmarking?</p></li>
+</ol>
+</section>
+<section id="capability-categories">
+<h2>Capability categories<a class="headerlink" href="#capability-categories" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#wes---somatic-snv--indel"><span class="xref myst">WES - Somatic SNV / Indel</span></a></p></li>
+<li><p><a class="reference internal" href="#wes---cnv"><span class="xref myst">WES - CNV</span></a></p></li>
+<li><p><a class="reference internal" href="#wgs---germline-snv--indel"><span class="xref myst">WGS - Germline SNV / Indel</span></a></p></li>
+<li><p><a class="reference internal" href="#wgs---somatic-snv--indel"><span class="xref myst">WGS - Somatic SNV / Indel</span></a></p></li>
+<li><p><a class="reference internal" href="#wgs---structural-variants"><span class="xref myst">WGS - Structural Variants</span></a></p></li>
+<li><p><a class="reference internal" href="#wgs---cnv"><span class="xref myst">WGS - CNV</span></a></p></li>
+<li><p><a class="reference internal" href="#rna-seq---fusion-detection"><span class="xref myst">RNA-seq - Fusion Detection</span></a></p></li>
+<li><p><a class="reference internal" href="#rna-seq---expression-quantification"><span class="xref myst">RNA-seq - Expression Quantification</span></a></p></li>
+<li><p><a class="reference internal" href="#rna-seq---immune-repertoire--transcript-derived-features"><span class="xref myst">RNA-seq - Immune Repertoire / Transcript-derived Features</span></a></p></li>
+<li><p><a class="reference internal" href="#synthetic-and-spike-in-validation"><span class="xref myst">Synthetic and Spike-in Validation</span></a></p></li>
+</ul>
+</section>
+<section id="wes-somatic-snv-indel">
+<h2>WES - Somatic SNV / Indel<a class="headerlink" href="#wes-somatic-snv-indel" title="Link to this heading">#</a></h2>
+<section id="capability">
+<h3>Capability<a class="headerlink" href="#capability" title="Link to this heading">#</a></h3>
+<p>Benchmark somatic SNV and small Indel detection in tumor-normal or synthetic exome settings.</p>
+</section>
+<section id="recommended-datasets">
+<h3>Recommended datasets<a class="headerlink" href="#recommended-datasets" title="Link to this heading">#</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Sample Type</th>
+<th>Truth Strength</th>
+<th>Access</th>
+<th>Recommended Level</th>
+<th>Expected Outputs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SEQC2 / MAQC</td>
+<td>Synthetic / mixture</td>
+<td>Known spike-in</td>
+<td>Open</td>
+<td>Gold</td>
+<td>VCF, MAF</td>
+</tr>
+<tr>
+<td>TCGA</td>
+<td>Tumor / Normal</td>
+<td>Partial</td>
+<td>Controlled</td>
+<td>Standard</td>
+<td>VCF, MAF</td>
+</tr>
+<tr>
+<td>BostonGene reference standards</td>
+<td>Cell line / reference</td>
+<td>Partial</td>
+<td>Open</td>
+<td>Standard</td>
+<td>VCF, MAF</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="evaluation-focus">
+<h3>Evaluation focus<a class="headerlink" href="#evaluation-focus" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>sensitivity at low VAF</p></li>
+<li><p>precision / recall across callers</p></li>
+<li><p>concordance between somatic callers</p></li>
+<li><p>impact of filtering strategy on final MAF output</p></li>
+</ul>
+</section>
+</section>
+<section id="wes-cnv">
+<h2>WES - CNV<a class="headerlink" href="#wes-cnv" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h3>Capability<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>Benchmark exome-based copy-number recovery from targeted coverage profiles.</p>
+</section>
+<section id="id2">
+<h3>Recommended datasets<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Sample Type</th>
+<th>Truth Strength</th>
+<th>Access</th>
+<th>Recommended Level</th>
+<th>Expected Outputs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCGA</td>
+<td>Tumor</td>
+<td>Partial</td>
+<td>Controlled</td>
+<td>Standard</td>
+<td>CNV segments, plots</td>
+</tr>
+<tr>
+<td>CCLE</td>
+<td>Cell line</td>
+<td>Partial</td>
+<td>Open</td>
+<td>Standard</td>
+<td>CNV segments, plots</td>
+</tr>
+<tr>
+<td>COLO829 WES subsets</td>
+<td>Tumor / Normal</td>
+<td>Partial</td>
+<td>Open</td>
+<td>Stress</td>
+<td>CNV segments, purity/ploidy</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id3">
+<h3>Evaluation focus<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>exon-level CNV recovery</p></li>
+<li><p>stability under noisy coverage</p></li>
+<li><p>agreement between CNV callers</p></li>
+<li><p>large-scale amplification and deletion detection</p></li>
+</ul>
+</section>
+</section>
+<section id="wgs-germline-snv-indel">
+<h2>WGS - Germline SNV / Indel<a class="headerlink" href="#wgs-germline-snv-indel" title="Link to this heading">#</a></h2>
+<section id="id4">
+<h3>Capability<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>Benchmark high-confidence germline small-variant calling.</p>
+</section>
+<section id="id5">
+<h3>Recommended datasets<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Sample Type</th>
+<th>Truth Strength</th>
+<th>Access</th>
+<th>Recommended Level</th>
+<th>Expected Outputs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GIAB</td>
+<td>Germline reference</td>
+<td>High-confidence</td>
+<td>Open</td>
+<td>Gold</td>
+<td>VCF</td>
+</tr>
+<tr>
+<td>Cancer Genome in a Bottle normal samples</td>
+<td>Germline / matched normal</td>
+<td>High-confidence subset</td>
+<td>Open</td>
+<td>Gold</td>
+<td>VCF</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id6">
+<h3>Evaluation focus<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>precision / recall in confident regions</p></li>
+<li><p>consistency across versions</p></li>
+<li><p>difficult-region behavior</p></li>
+</ul>
+</section>
+</section>
+<section id="wgs-somatic-snv-indel">
+<h2>WGS - Somatic SNV / Indel<a class="headerlink" href="#wgs-somatic-snv-indel" title="Link to this heading">#</a></h2>
+<section id="id7">
+<h3>Capability<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<p>Benchmark somatic small-variant detection in tumor-normal whole-genome data.</p>
+</section>
+<section id="id8">
+<h3>Recommended datasets<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Sample Type</th>
+<th>Truth Strength</th>
+<th>Access</th>
+<th>Recommended Level</th>
+<th>Expected Outputs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cancer Genome in a Bottle</td>
+<td>Tumor / Normal</td>
+<td>High-confidence subset</td>
+<td>Open</td>
+<td>Gold</td>
+<td>VCF, MAF</td>
+</tr>
+<tr>
+<td>PCAWG</td>
+<td>Tumor / Normal</td>
+<td>Consensus</td>
+<td>Controlled</td>
+<td>Gold</td>
+<td>VCF, MAF</td>
+</tr>
+<tr>
+<td>COLO829</td>
+<td>Tumor / Normal</td>
+<td>Partial to strong, task-dependent</td>
+<td>Open</td>
+<td>Standard</td>
+<td>VCF, MAF</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id9">
+<h3>Evaluation focus<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>genome-wide somatic accuracy</p></li>
+<li><p>low-frequency mutation sensitivity</p></li>
+<li><p>caller agreement and post-filtering stability</p></li>
+</ul>
+</section>
+</section>
+<section id="wgs-structural-variants">
+<h2>WGS - Structural Variants<a class="headerlink" href="#wgs-structural-variants" title="Link to this heading">#</a></h2>
+<section id="id10">
+<h3>Capability<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<p>Benchmark somatic structural-variant detection and breakpoint recovery.</p>
+</section>
+<section id="id11">
+<h3>Recommended datasets<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Sample Type</th>
+<th>Truth Strength</th>
+<th>Access</th>
+<th>Recommended Level</th>
+<th>Expected Outputs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PCAWG</td>
+<td>Tumor / Normal</td>
+<td>Consensus</td>
+<td>Controlled</td>
+<td>Gold</td>
+<td>SV VCF, merged SV set</td>
+</tr>
+<tr>
+<td>ICGC</td>
+<td>Tumor</td>
+<td>Curated</td>
+<td>Controlled</td>
+<td>Gold</td>
+<td>SV VCF</td>
+</tr>
+<tr>
+<td>COLO829</td>
+<td>Tumor / Normal</td>
+<td>Partial / benchmark-like</td>
+<td>Open</td>
+<td>Standard</td>
+<td>SV VCF, merged SV set</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id12">
+<h3>Evaluation focus<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>breakpoint resolution</p></li>
+<li><p>event class coverage</p></li>
+<li><p>false-positive burden by caller</p></li>
+<li><p>benefit of multi-caller integration</p></li>
+</ul>
+</section>
+</section>
+<section id="wgs-cnv">
+<h2>WGS - CNV<a class="headerlink" href="#wgs-cnv" title="Link to this heading">#</a></h2>
+<section id="id13">
+<h3>Capability<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<p>Benchmark whole-genome copy-number analysis, including broad arm-level and focal events.</p>
+</section>
+<section id="id14">
+<h3>Recommended datasets<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Sample Type</th>
+<th>Truth Strength</th>
+<th>Access</th>
+<th>Recommended Level</th>
+<th>Expected Outputs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PCAWG</td>
+<td>Tumor / Normal</td>
+<td>Consensus</td>
+<td>Controlled</td>
+<td>Gold</td>
+<td>segments, purity/ploidy</td>
+</tr>
+<tr>
+<td>COLO829</td>
+<td>Tumor / Normal</td>
+<td>Partial / benchmark-like</td>
+<td>Open</td>
+<td>Standard</td>
+<td>segments, purity/ploidy</td>
+</tr>
+<tr>
+<td>TCGA selected WGS subsets</td>
+<td>Tumor</td>
+<td>Partial</td>
+<td>Controlled</td>
+<td>Stress</td>
+<td>segments, plots</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id15">
+<h3>Evaluation focus<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>genome-wide CNV structure</p></li>
+<li><p>purity and ploidy estimation</p></li>
+<li><p>reproducibility across CNV callers</p></li>
+</ul>
+</section>
+</section>
+<section id="rna-seq-fusion-detection">
+<h2>RNA-seq - Fusion Detection<a class="headerlink" href="#rna-seq-fusion-detection" title="Link to this heading">#</a></h2>
+<section id="id16">
+<h3>Capability<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
+<p>Benchmark fusion transcript detection in RNA-seq.</p>
+</section>
+<section id="id17">
+<h3>Recommended datasets<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Sample Type</th>
+<th>Truth Strength</th>
+<th>Access</th>
+<th>Recommended Level</th>
+<th>Expected Outputs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CCLE</td>
+<td>Cell line</td>
+<td>Partial</td>
+<td>Open</td>
+<td>Standard</td>
+<td>fusion TSV</td>
+</tr>
+<tr>
+<td>TCGA</td>
+<td>Tumor</td>
+<td>Partial</td>
+<td>Controlled</td>
+<td>Standard</td>
+<td>fusion TSV</td>
+</tr>
+<tr>
+<td>curated MM / leukemia case datasets</td>
+<td>Tumor</td>
+<td>Partial / orthogonal</td>
+<td>Mixed</td>
+<td>Standard</td>
+<td>fusion TSV, supporting reads</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id18">
+<h3>Evaluation focus<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>fusion sensitivity</p></li>
+<li><p>false-positive burden</p></li>
+<li><p>reproducibility across tools</p></li>
+<li><p>consistency with orthogonal biology</p></li>
+</ul>
+</section>
+</section>
+<section id="rna-seq-expression-quantification">
+<h2>RNA-seq - Expression Quantification<a class="headerlink" href="#rna-seq-expression-quantification" title="Link to this heading">#</a></h2>
+<section id="id19">
+<h3>Capability<a class="headerlink" href="#id19" title="Link to this heading">#</a></h3>
+<p>Benchmark transcript and gene-level quantification.</p>
+</section>
+<section id="id20">
+<h3>Recommended datasets<a class="headerlink" href="#id20" title="Link to this heading">#</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Sample Type</th>
+<th>Truth Strength</th>
+<th>Access</th>
+<th>Recommended Level</th>
+<th>Expected Outputs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCGA</td>
+<td>Tumor</td>
+<td>Relative expectation</td>
+<td>Controlled</td>
+<td>Standard</td>
+<td>counts, TPM</td>
+</tr>
+<tr>
+<td>CCLE</td>
+<td>Cell line</td>
+<td>Relative expectation</td>
+<td>Open</td>
+<td>Standard</td>
+<td>counts, TPM</td>
+</tr>
+<tr>
+<td>curated multiple myeloma or cohort RNA cases</td>
+<td>Tumor</td>
+<td>Biological expectation</td>
+<td>Mixed</td>
+<td>Smoke, Standard</td>
+<td>counts, TPM</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id21">
+<h3>Evaluation focus<a class="headerlink" href="#id21" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>consistency across quantification methods</p></li>
+<li><p>expression ranking stability</p></li>
+<li><p>expected overexpression of known marker genes</p></li>
+</ul>
+</section>
+</section>
+<section id="rna-seq-immune-repertoire-transcript-derived-features">
+<h2>RNA-seq - Immune Repertoire / Transcript-derived Features<a class="headerlink" href="#rna-seq-immune-repertoire-transcript-derived-features" title="Link to this heading">#</a></h2>
+<section id="id22">
+<h3>Capability<a class="headerlink" href="#id22" title="Link to this heading">#</a></h3>
+<p>Benchmark repertoire reconstruction and related RNA-derived immunologic readouts.</p>
+</section>
+<section id="id23">
+<h3>Recommended datasets<a class="headerlink" href="#id23" title="Link to this heading">#</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Sample Type</th>
+<th>Truth Strength</th>
+<th>Access</th>
+<th>Recommended Level</th>
+<th>Expected Outputs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>multiple myeloma RNA cohorts</td>
+<td>Tumor</td>
+<td>Biological expectation</td>
+<td>Mixed</td>
+<td>Standard</td>
+<td>clonotype reports</td>
+</tr>
+<tr>
+<td>TCGA immune-rich cohorts</td>
+<td>Tumor</td>
+<td>Partial</td>
+<td>Controlled</td>
+<td>Stress</td>
+<td>clonotype reports, summary tables</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id24">
+<h3>Evaluation focus<a class="headerlink" href="#id24" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>clonality signal recovery</p></li>
+<li><p>consistency with disease biology</p></li>
+<li><p>robustness across sample quality and depth</p></li>
+</ul>
+</section>
+</section>
+<section id="synthetic-and-spike-in-validation">
+<h2>Synthetic and Spike-in Validation<a class="headerlink" href="#synthetic-and-spike-in-validation" title="Link to this heading">#</a></h2>
+<section id="id25">
+<h3>Capability<a class="headerlink" href="#id25" title="Link to this heading">#</a></h3>
+<p>Test pipeline behavior in fully controlled or edge-case scenarios.</p>
+</section>
+<section id="recommended-datasets-and-tools">
+<h3>Recommended datasets and tools<a class="headerlink" href="#recommended-datasets-and-tools" title="Link to this heading">#</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Dataset / Tool</th>
+<th>Use Case</th>
+<th>Truth Strength</th>
+<th>Recommended Level</th>
+<th>Expected Outputs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BAMSurgeon</td>
+<td>Spike-in somatic mutation benchmarking</td>
+<td>Exact</td>
+<td>Gold</td>
+<td>VCF, MAF</td>
+</tr>
+<tr>
+<td>VarSim</td>
+<td>Simulated variant benchmarking</td>
+<td>Exact</td>
+<td>Gold</td>
+<td>VCF</td>
+</tr>
+<tr>
+<td>custom spike-in RNA controls</td>
+<td>Fusion / expression stress tests</td>
+<td>Exact or designed</td>
+<td>Stress</td>
+<td>fusion TSV, counts</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id26">
+<h3>Evaluation focus<a class="headerlink" href="#id26" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>low-frequency sensitivity</p></li>
+<li><p>controlled failure analysis</p></li>
+<li><p>edge-case regression testing</p></li>
+</ul>
+</section>
+</section>
+<section id="dataset-selection-rules">
+<h2>Dataset selection rules<a class="headerlink" href="#dataset-selection-rules" title="Link to this heading">#</a></h2>
+<p>When choosing a dataset for the benchmark gym, prefer the smallest dataset that still answers the validation question:</p>
+<ol class="arabic simple">
+<li><p>use smoke datasets to test whether the pipeline can run</p></li>
+<li><p>use standard datasets to validate everyday workflow behavior</p></li>
+<li><p>use gold datasets for regression tracking and tool comparison</p></li>
+<li><p>use stress datasets for robustness and edge-case evaluation</p></li>
+</ol>
+</section>
+<section id="template-for-new-benchmark-entries">
+<h2>Template for new benchmark entries<a class="headerlink" href="#template-for-new-benchmark-entries" title="Link to this heading">#</a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">Capability</span><span class="p">:</span>
+<span class="nt">Omics Type</span><span class="p">:</span>
+<span class="nt">Dataset Name</span><span class="p">:</span>
+<span class="nt">Biological Context</span><span class="p">:</span>
+<span class="nt">Supported Tasks</span><span class="p">:</span>
+<span class="nt">Expected Outputs</span><span class="p">:</span>
+<span class="nt">Truth Strength</span><span class="p">:</span>
+<span class="nt">Benchmark Level</span><span class="p">:</span>
+<span class="nt">Access</span><span class="p">:</span>
+<span class="nt">Download Link</span><span class="p">:</span>
+<span class="nt">Evaluation Focus</span><span class="p">:</span>
+<span class="nt">Known Caveats</span><span class="p">:</span>
+<span class="nt">Recommended Usage</span><span class="p">:</span>
+<span class="nt">Contributor</span><span class="p">:</span>
+<span class="nt">Last Updated</span><span class="p">:</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-read-this-matrix">How to read this matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#capability-categories">Capability categories</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wes-somatic-snv-indel">WES - Somatic SNV / Indel</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#capability">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-datasets">Recommended datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-focus">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wes-cnv">WES - CNV</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Recommended datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wgs-germline-snv-indel">WGS - Germline SNV / Indel</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Recommended datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wgs-somatic-snv-indel">WGS - Somatic SNV / Indel</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Recommended datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wgs-structural-variants">WGS - Structural Variants</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Recommended datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wgs-cnv">WGS - CNV</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Recommended datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-seq-fusion-detection">RNA-seq - Fusion Detection</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">Recommended datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-seq-expression-quantification">RNA-seq - Expression Quantification</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">Recommended datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-seq-immune-repertoire-transcript-derived-features">RNA-seq - Immune Repertoire / Transcript-derived Features</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id22">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id23">Recommended datasets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id24">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#synthetic-and-spike-in-validation">Synthetic and Spike-in Validation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id25">Capability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-datasets-and-tools">Recommended datasets and tools</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id26">Evaluation focus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-selection-rules">Dataset selection rules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#template-for-new-benchmark-entries">Template for new benchmark entries</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Yuliang Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Yuliang Zhang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

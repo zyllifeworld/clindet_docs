@@ -1,0 +1,762 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2. Setup Clindet &#8212; Clindet 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Quick/install';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Use case" href="use_case.html" />
+    <link rel="prev" title="1. Clindet" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/Clindet_logo.png" class="logo__image only-light" alt="Clindet 0.1.0 documentation - Home"/>
+    <img src="../_static/Clindet_logo.png" class="logo__image only-dark pst-js-only" alt="Clindet 0.1.0 documentation - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Clindet documentation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Quick Start</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="intro.html">1. Clindet</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">2. Setup Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="use_case.html">3. Use case</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../DNAseq/index.html">DNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WES/index.html">1. Whole exome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/workflow.html">1.1. ClinDet WXS workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WGS/index.html">2. Whole genome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/workflow.html">2.1. ClinDet WGS workflow</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../RNAseq/index.html">RNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../RNAseq/workflow.html">1. ClinDet RNA-seq workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../usecase/index.html">Use Case</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_one.html">1. Use case I: SNV and CNV calling from <strong>Whole exome sequencing</strong> data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_two.html">2. Use case II: Fusion genes detection from <strong>multiple myeloma patient</strong> RNA-seq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_three.html">3. Use case III: Whole genome sequencing of <strong>COLO829 cell line</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_four.html">4. Use case IV: Quantifying​​ the contributions of DNA repair defective gene mutations to mutational signatures（<em><strong>C.elegans</strong></em>）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_five.html">5. Use case V: Switching to different genome version (e.g. hg38)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../GoldStand/index.html">A Gym for Clinical NGS Data Analysis Workflows</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../GoldStand/dataset.html">1. GoldStand Dataset Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../GoldStand/benchmark.html">2. Benchmark</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../CITATIONS.html">snakemake/clindet: Citations</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Quick/install.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Setup Clindet</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">2.1. Prerequisites</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#system-requirements">2.1.1. System Requirements</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#software">2.1.2. Software</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-the-repository">2.2. Clone the Repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-test">2.3. Quick Test</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-the-conda-environment">2.3.1. Install the Conda Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-environment-reuse">2.3.2. Configure Environment Reuse</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-built-container-images">2.3.3. Pre-built Container Images</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-temporary-directory">2.3.4. Configure Temporary Directory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-singularity-bind-path">2.3.5. Configure Singularity Bind Path</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-the-quick-test">2.3.6. Run the Quick Test</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-outputs">2.3.6.1. Expected Outputs</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#note-for-experienced-users">2.3.7. Note for Experienced Users</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-genome-setup">2.4. Reference Genome Setup</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#legacy-script-deprecated">2.4.1. Legacy Script (Deprecated)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-a-bed-file-for-wes-analysis">2.4.2. Generate a BED File for WES Analysis</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slurm-cluster-submission">2.5. Slurm Cluster Submission</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">2.6. Next Steps</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="setup-clindet">
+<span id="install"></span><h1><span class="section-number">2. </span>Setup Clindet<a class="headerlink" href="#setup-clindet" title="Link to this heading">#</a></h1>
+<section id="prerequisites">
+<h2><span class="section-number">2.1. </span>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h2>
+<section id="system-requirements">
+<h3><span class="section-number">2.1.1. </span>System Requirements<a class="headerlink" href="#system-requirements" title="Link to this heading">#</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Resource</th>
+<th>Minimum</th>
+<th>Recommended</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Disk space</td>
+<td>~200 GB</td>
+<td>500 GB+</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>32 GB</td>
+<td>64 GB+</td>
+</tr>
+<tr>
+<td>CPU cores</td>
+<td>8</td>
+<td>20+</td>
+</tr>
+<tr>
+<td>OS</td>
+<td>Linux</td>
+<td>Linux</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div><p><strong>Disk space note:</strong> The reference genome setup alone downloads approximately <strong>170 GB</strong> of files. Ensure you have sufficient free space before starting.</p>
+</div></blockquote>
+</section>
+<section id="software">
+<h3><span class="section-number">2.1.2. </span>Software<a class="headerlink" href="#software" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong><a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">Conda</a></strong> — environment and package management</p></li>
+<li><p><strong><a class="reference external" href="https://sylabs.io/docs/">SingularityCE</a></strong> — containerized tool execution</p></li>
+<li><p><strong>Git</strong> — to clone the repository</p></li>
+</ul>
+<p>Verify your installations:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>--version
+singularity<span class="w"> </span>--version
+git<span class="w"> </span>--version
+</pre></div>
+</div>
+</section>
+</section>
+<section id="clone-the-repository">
+<h2><span class="section-number">2.2. </span>Clone the Repository<a class="headerlink" href="#clone-the-repository" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/zyllifeworld/clindet.git
+<span class="nb">cd</span><span class="w"> </span>clindet
+</pre></div>
+</div>
+</section>
+<section id="quick-test">
+<h2><span class="section-number">2.3. </span>Quick Test<a class="headerlink" href="#quick-test" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">mini_test_data/</span></code> folder contains a reduced dataset (chromosome 21 only) for a fast end-to-end test. Run this first to verify your environment is correctly configured before moving on to full-scale analyses.</p>
+<blockquote>
+<div><p><strong>Note:</strong> Running Clindet requires reference annotation files (e.g., dbSNP, tool-specific configuration files) downloaded during the reference genome setup step below. The default configuration has been validated across a wide range of cancer datasets and handles cross-tool compatibility issues — such as chromosome naming conventions (<code class="docutils literal notranslate"><span class="pre">chr</span></code> prefix vs. no prefix in the reference FASTA). <strong>Beginners should stick with the default setup.</strong> Experienced users may customize as needed.</p>
+</div></blockquote>
+<section id="install-the-conda-environment">
+<h3><span class="section-number">2.3.1. </span>Install the Conda Environment<a class="headerlink" href="#install-the-conda-environment" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>envs/clindet.yaml
+conda<span class="w"> </span>activate<span class="w"> </span>clindet
+</pre></div>
+</div>
+</section>
+<section id="configure-environment-reuse">
+<h3><span class="section-number">2.3.2. </span>Configure Environment Reuse<a class="headerlink" href="#configure-environment-reuse" title="Link to this heading">#</a></h3>
+<p>By default, Snakemake rebuilds Conda environments on every run. To install environments once and reuse them, first create all the required Conda environments:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>envs/clindet.yaml
+conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>envs/rsem.yaml
+conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>envs/clindet_vep.yaml
+conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>envs/strelka.yaml
+conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>envs/hmftools.yaml
+</pre></div>
+</div>
+<p>Then edit <strong><code class="docutils literal notranslate"><span class="pre">workflow/config/conf/softwares.yaml</span></code></strong> and set each tool to its installed environment name:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">conda</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">clindet_main</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;clindet&#39;</span>
+<span class="w">    </span><span class="nt">multiqc</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;clindet&#39;</span>
+<span class="w">    </span><span class="nt">clindet_rsem</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;clindet_rsem&#39;</span>
+<span class="w">    </span><span class="nt">clindet_vep</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;clindet_vep&#39;</span>
+<span class="w">    </span><span class="nt">facets</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">hmftools</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;hmftools&#39;</span>
+<span class="w">    </span><span class="nt">strelka</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;strelka&#39;</span>
+<span class="w">    </span><span class="nt">trust4</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;clindet_rsem&#39;</span>
+<span class="w">    </span><span class="nt">rna</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;clindet_rsem&#39;</span>
+<span class="w">    </span><span class="nt">clindet_mut</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;clindet_mutflag&quot;</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p><strong>If you prefer Snakemake to rebuild environments on every run, leave all values above empty.</strong></p>
+</div></blockquote>
+</section>
+<section id="pre-built-container-images">
+<h3><span class="section-number">2.3.3. </span>Pre-built Container Images<a class="headerlink" href="#pre-built-container-images" title="Link to this heading">#</a></h3>
+<p>By default, Clindet pulls Singularity container images from Docker Hub at runtime. If your remote HPC has network access, you can pre-download all required images at once using the built-in <code class="docutils literal notranslate"><span class="pre">pull_zenodo</span></code> target:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>snakemake<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--config<span class="w"> </span><span class="nv">run_type</span><span class="o">=</span>pull_zenodo<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cores<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--use-conda<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--conda-frontend<span class="w"> </span>conda<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--rerun-incomplete<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--latency-wait<span class="w"> </span><span class="m">300</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--retries<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span>-p
+</pre></div>
+</div>
+<p>If the HPC cannot access external networks, download the pre-built containers from a local machine with internet access at:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://zenodo.org/records/20783116">Zenodo</a></p></li>
+<li><p><a class="reference external" href="https://www.scidb.cn/s/FRBb6n">ScienceDB</a></p></li>
+</ul>
+<p>Then transfer the images via hard drive to the <code class="docutils literal notranslate"><span class="pre">clindet/resources/containers</span></code> folder on the HPC. Clindet will pick them up from this location automatically.</p>
+</section>
+<section id="configure-temporary-directory">
+<h3><span class="section-number">2.3.4. </span>Configure Temporary Directory<a class="headerlink" href="#configure-temporary-directory" title="Link to this heading">#</a></h3>
+<p>GATK tools can fail when the default temporary directory runs out of space. Set a custom <code class="docutils literal notranslate"><span class="pre">temp_directory</span></code> with sufficient disk space in <strong><code class="docutils literal notranslate"><span class="pre">workflow/config/conf/softwares.yaml</span></code></strong>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">params</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">java</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">temp_directory</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/your/tmp&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="configure-singularity-bind-path">
+<h3><span class="section-number">2.3.5. </span>Configure Singularity Bind Path<a class="headerlink" href="#configure-singularity-bind-path" title="Link to this heading">#</a></h3>
+<p>When using Singularity, you must bind your home directory (or the directory containing your data and reference files) so the container can access them. The bind path is passed via <code class="docutils literal notranslate"><span class="pre">--singularity-args</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">singularity</span><span class="o">-</span><span class="n">args</span> <span class="s2">&quot;--bind /your/home/path:/your/home/path&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="run-the-quick-test">
+<h3><span class="section-number">2.3.6. </span>Run the Quick Test<a class="headerlink" href="#run-the-quick-test" title="Link to this heading">#</a></h3>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">/your/home/path</span></code> below with your actual home directory, then choose the command for your data type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># DNA (WES)</span>
+snakemake<span class="w"> </span>-c<span class="w"> </span><span class="m">20</span><span class="w"> </span>--config<span class="w"> </span><span class="nv">run_type</span><span class="o">=</span>wes<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--configfile<span class="w"> </span>mini_test_data/dna/data/test_config.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--rerun-triggers<span class="w"> </span>mtime<span class="w"> </span>--benchmark-extended<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--use-singularity<span class="w"> </span>--singularity-args<span class="w"> </span><span class="s2">&quot;--bind /your/home/path:/your/home/path&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--latency-wait<span class="w"> </span><span class="m">300</span><span class="w"> </span>--use-conda<span class="w"> </span>--conda-frontend<span class="w"> </span>conda<span class="w"> </span>-k
+
+<span class="c1"># RNA</span>
+snakemake<span class="w"> </span>-c<span class="w"> </span><span class="m">20</span><span class="w"> </span>--config<span class="w"> </span><span class="nv">run_type</span><span class="o">=</span>rna<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--configfile<span class="w"> </span>mini_test_data/rna/fusion/data/test_rna.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--rerun-triggers<span class="w"> </span>mtime<span class="w"> </span>--benchmark-extended<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--use-singularity<span class="w"> </span>--singularity-args<span class="w"> </span><span class="s2">&quot;--bind /your/home/path:/your/home/path&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--latency-wait<span class="w"> </span><span class="m">300</span><span class="w"> </span>--use-conda<span class="w"> </span>--conda-frontend<span class="w"> </span>conda<span class="w"> </span>-k
+</pre></div>
+</div>
+<section id="expected-outputs">
+<h4><span class="section-number">2.3.6.1. </span>Expected Outputs<a class="headerlink" href="#expected-outputs" title="Link to this heading">#</a></h4>
+<p>After a successful RNA run, the results directory should look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mini_test/rna/hg38_chr21/results
+├── benchmarks
+│   └── fusion
+│       ├── mini.star_arriba_map_1.benchmark.txt
+│       └── mini.star_arriba_map.benchmark.txt
+├── fusion
+│   └── mini_arriba_fusion.tsv          # contains TMPRSS2-ERG fusion
+└── mapped
+    └── STAR
+        └── mini
+            ├── Aligned.out.bam
+            ├── Log.final.out
+            ├── Log.out
+            ├── Log.progress.out
+            ├── mini_pass1.log
+            ├── mini.sorted.bam.bai
+            ├── mini_star.log
+            ├── mini_unmapped_R1.fq
+            ├── mini_unmapped_R2.fq
+            ├── SJ.out.tab
+            └── _STARgenome/ ...
+</pre></div>
+</div>
+<p>The key output file is <code class="docutils literal notranslate"><span class="pre">fusion/mini_arriba_fusion.tsv</span></code>, which should detect the <strong>TMPRSS2-ERG</strong> fusion — a known driver event in the test dataset.</p>
+<blockquote>
+<div><p><strong>If the quick test completes successfully,</strong> proceed to the Reference Genome Setup below. Otherwise, double-check your Conda environment and Singularity bind path configuration.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="note-for-experienced-users">
+<h3><span class="section-number">2.3.7. </span>Note for Experienced Users<a class="headerlink" href="#note-for-experienced-users" title="Link to this heading">#</a></h3>
+<p>If you already have reference files (human genome FASTA, GTF, dbSNP, etc.) on your cluster, you can skip the download step and point directly to your existing files. Edit the reference paths under the <code class="docutils literal notranslate"><span class="pre">resources</span></code> section in your workflow config file (e.g., <code class="docutils literal notranslate"><span class="pre">workflow/config/config.yaml</span></code>). See <a class="reference internal" href="config.html"><span class="doc std std-doc">Configuring the Workflow</span></a> for details.</p>
+</section>
+</section>
+<section id="reference-genome-setup">
+<h2><span class="section-number">2.4. </span>Reference Genome Setup<a class="headerlink" href="#reference-genome-setup" title="Link to this heading">#</a></h2>
+<p>Once the quick test passes, download and configure the full human reference genome. The <code class="docutils literal notranslate"><span class="pre">run_type</span></code> parameter specifies which reference to build — <code class="docutils literal notranslate"><span class="pre">build_b37</span></code> downloads the human b37 (GRCh37) reference files including the genome FASTA, dbSNP, GTF annotation, and tool-specific resource files. This step downloads approximately <strong>170 GB</strong> of data, so ensure you have sufficient disk space before running the command below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>snakemake<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--config<span class="w"> </span><span class="nv">run_type</span><span class="o">=</span>build_b37<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cores<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--use-conda<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--conda-frontend<span class="w"> </span>conda<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--rerun-incomplete<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--latency-wait<span class="w"> </span><span class="m">300</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--retries<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span>-p
+</pre></div>
+</div>
+<blockquote>
+<div><p><strong>For the hg38 reference genome:</strong> replace <code class="docutils literal notranslate"><span class="pre">run_type=build_b37</span></code> with <code class="docutils literal notranslate"><span class="pre">run_type=build_hg38</span></code> in the command above.</p>
+</div></blockquote>
+<section id="legacy-script-deprecated">
+<h3><span class="section-number">2.4.1. </span>Legacy Script (Deprecated)<a class="headerlink" href="#legacy-script-deprecated" title="Link to this heading">#</a></h3>
+<p>The shell script <code class="docutils literal notranslate"><span class="pre">build_conda_envs.sh</span></code> is no longer recommended. It downloads the same ~170 GB of reference files but is not integrated with the current Snakemake workflow. Use <code class="docutils literal notranslate"><span class="pre">snakemake</span> <span class="pre">--config</span> <span class="pre">run_type=build_b37</span></code> instead.</p>
+</section>
+<section id="generate-a-bed-file-for-wes-analysis">
+<h3><span class="section-number">2.4.2. </span>Generate a BED File for WES Analysis<a class="headerlink" href="#generate-a-bed-file-for-wes-analysis" title="Link to this heading">#</a></h3>
+<p>Create a BED file from a GTF annotation to define exome capture regions. The BED file should contain four columns: <strong>chr</strong>, <strong>start</strong>, <strong>end</strong>, <strong>gene_name</strong> (<em>optional</em>). Example:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>1       11858   12237   DDX11L1
+1       12602   12731   DDX11L1
+1       12964   13062   DDX11L1
+1       13210   14511   DDX11L1;WASH7P
+</pre></div>
+</div>
+<p>ClinDet provides a <a class="reference download internal" download="" href="../_downloads/0f116665acbddf249f380052af46f0fd/b37_gene.bed"><span class="xref download myst">reference BED file</span></a> for the b37 genome (used in Use Case I). You can also generate your own using the provided script <a class="reference download internal" download="" href="../_downloads/188a1086cde078ae86ac03f4dd3a4973/gtf2bed.R"><span class="xref download myst"><code class="docutils literal notranslate"><span class="pre">gtf2bed.R</span></code></span></a>.</p>
+</section>
+</section>
+<section id="slurm-cluster-submission">
+<h2><span class="section-number">2.5. </span>Slurm Cluster Submission<a class="headerlink" href="#slurm-cluster-submission" title="Link to this heading">#</a></h2>
+<p>To submit Clindet jobs to a Slurm-managed HPC cluster, edit <strong><code class="docutils literal notranslate"><span class="pre">workflow/config_slurm/config.v8+.yaml</span></code></strong> and update the <code class="docutils literal notranslate"><span class="pre">partition</span></code> parameter to match your cluster’s partition name:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">default-resources</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">partition=SVC</span><span class="w">   </span><span class="c1"># change &#39;SVC&#39; to your cluster&#39;s partition name</span>
+</pre></div>
+</div>
+<p>Run <code class="docutils literal notranslate"><span class="pre">sinfo</span></code> on the cluster to list available partitions. Replace <code class="docutils literal notranslate"><span class="pre">SVC</span></code> with the appropriate partition for your system.</p>
+</section>
+<section id="next-steps">
+<h2><span class="section-number">2.6. </span>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="config.html"><span class="doc std std-doc">Configure your workflow parameters</span></a> — set up <code class="docutils literal notranslate"><span class="pre">config.yaml</span></code> and <code class="docutils literal notranslate"><span class="pre">samples.tsv</span></code> for your project</p></li>
+<li><p><a class="reference internal" href="../usecase/index.html"><span class="doc std std-doc">Browse use cases</span></a> — see real-world analysis examples</p></li>
+<li><p><a class="reference internal" href="../DNAseq/index.html"><span class="doc std std-doc">DNA-seq workflow details</span></a> — in-depth documentation for DNA analysis</p></li>
+<li><p><a class="reference internal" href="../RNAseq/index.html"><span class="doc std std-doc">RNA-seq workflow details</span></a> — in-depth documentation for RNA analysis</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Clindet</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="use_case.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Use case</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">2.1. Prerequisites</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#system-requirements">2.1.1. System Requirements</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#software">2.1.2. Software</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-the-repository">2.2. Clone the Repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-test">2.3. Quick Test</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-the-conda-environment">2.3.1. Install the Conda Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-environment-reuse">2.3.2. Configure Environment Reuse</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-built-container-images">2.3.3. Pre-built Container Images</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-temporary-directory">2.3.4. Configure Temporary Directory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-singularity-bind-path">2.3.5. Configure Singularity Bind Path</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-the-quick-test">2.3.6. Run the Quick Test</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-outputs">2.3.6.1. Expected Outputs</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#note-for-experienced-users">2.3.7. Note for Experienced Users</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-genome-setup">2.4. Reference Genome Setup</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#legacy-script-deprecated">2.4.1. Legacy Script (Deprecated)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-a-bed-file-for-wes-analysis">2.4.2. Generate a BED File for WES Analysis</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slurm-cluster-submission">2.5. Slurm Cluster Submission</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">2.6. Next Steps</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Yuliang Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Yuliang Zhang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

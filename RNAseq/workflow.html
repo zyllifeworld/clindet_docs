@@ -1,0 +1,543 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>1. ClinDet RNA-seq workflow &#8212; Clindet 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'RNAseq/workflow';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Use Case" href="../usecase/index.html" />
+    <link rel="prev" title="RNAseq analysis" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/Clindet_logo.png" class="logo__image only-light" alt="Clindet 0.1.0 documentation - Home"/>
+    <img src="../_static/Clindet_logo.png" class="logo__image only-dark pst-js-only" alt="Clindet 0.1.0 documentation - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    Clindet documentation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Quick/index.html">Quick Start</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/intro.html">1. Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/install.html">2. Setup Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quick/use_case.html">3. Use case</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../DNAseq/index.html">DNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WES/index.html">1. Whole exome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WES/workflow.html">1.1. ClinDet WXS workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../DNAseq/WGS/index.html">2. Whole genome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../DNAseq/WGS/workflow.html">2.1. ClinDet WGS workflow</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">RNAseq analysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">1. ClinDet RNA-seq workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../usecase/index.html">Use Case</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_one.html">1. Use case I: SNV and CNV calling from <strong>Whole exome sequencing</strong> data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_two.html">2. Use case II: Fusion genes detection from <strong>multiple myeloma patient</strong> RNA-seq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_three.html">3. Use case III: Whole genome sequencing of <strong>COLO829 cell line</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_four.html">4. Use case IV: Quantifying​​ the contributions of DNA repair defective gene mutations to mutational signatures（<em><strong>C.elegans</strong></em>）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../usecase/case_five.html">5. Use case V: Switching to different genome version (e.g. hg38)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../GoldStand/index.html">A Gym for Clinical NGS Data Analysis Workflows</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../GoldStand/dataset.html">1. GoldStand Dataset Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../GoldStand/benchmark.html">2. Benchmark</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../CITATIONS.html">snakemake/clindet: Citations</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/RNAseq/workflow.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>ClinDet RNA-seq workflow</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qc-and-preprocess">1.1. QC and preprocess</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-seq-gene-expression">1.2. RNA-seq （Gene expression）</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-seq-fusion-gene-detection">1.3. RNA-seq （Fusion gene detection）</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-seq-based-variants-calling-snvs-indels">1.4. RNA-seq based variants calling (SNVs/Indels)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gatk-processing">1.4.1. GATK processing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#snv-mnv-indel-calling">1.4.2. SNV, MNV, INDEL calling:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#annotation-of-mutations">1.4.3. Annotation of mutations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consensus-results-from-multiple-softwares">1.4.4. Consensus results from Multiple softwares</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="clindet-rna-seq-workflow">
+<span id="id1"></span><h1><span class="section-number">1. </span>ClinDet RNA-seq workflow<a class="headerlink" href="#clindet-rna-seq-workflow" title="Link to this heading">#</a></h1>
+<p>ClinDet RNA data analysis module of ClinDet primarily comprises three key components: (1) quantification of gene expression levels or transcript isoform expression levels; (2) detection of fusion genes and immune repertoire analysis; and (3) RNA-based mutation detection.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#clindet-rna-seq-workflow">ClinDet RNA-seq workflow</a></p>
+<ul>
+<li><p><a class="reference internal" href="#qc-and-preprocess">QC and preprocess</a></p></li>
+<li><p><a class="reference internal" href="#id3">RNA-seq （Gene expression）</a></p></li>
+<li><p><a class="reference internal" href="#rna-seq-fusion-gene-detection"><span class="xref myst">RNA-seq （Fusion gene detection）</span></a></p></li>
+<li><p><a class="reference internal" href="#rna-seq-based-variants-calling-snvsindels">RNA-seq based variants calling (SNVs/Indels)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#gatk-processing"><span class="xref myst">GATK processing</span></a></p></li>
+<li><p><a class="reference internal" href="#snv-mnv-indel-calling"><span class="xref myst">SNV, MNV, INDEL calling:</span></a></p></li>
+<li><p><a class="reference internal" href="#annotation-of-mutations"><span class="xref myst">Annotation of mutations</span></a></p></li>
+<li><p><a class="reference internal" href="#consensus-results-from-multiple-softwares"><span class="xref myst">Consensus results from Multiple softwares</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<section id="qc-and-preprocess">
+<span id="id2"></span><h2><span class="section-number">1.1. </span>QC and preprocess<a class="headerlink" href="#qc-and-preprocess" title="Link to this heading">#</a></h2>
+<p>In the pre-processing step, ClinDet processes FASTQ files in accordance with GATK best practices.Fastp were used to trim adapter and generate sequencing report of each fastq file. Then trimmed sequence reads were aligned to the reference genome using BWA-MEM, followed by deduplication and recalibration with GATK. Specifically, for tumor-normal paired samples, ConPair is employed to verify whether the samples originate from the same individual, and quality control statistics files are generated via GATK.</p>
+</section>
+<section id="rna-seq-gene-expression">
+<h2><span class="section-number">1.2. </span>RNA-seq （Gene expression）<a class="headerlink" href="#rna-seq-gene-expression" title="Link to this heading">#</a></h2>
+<p>ClinDet employed three software tools based on distinct algorithms for the quantification of gene and transcript expression levels. Among these, Kallisto and Salmon offer rapid processing speeds, whereas <a class="reference external" href="https://github.com/deweylab/RSEM">RSEM</a> is comparatively slower but yields more accurate results; users may select the appropriate strategy based on their specific requirements.</p>
+</section>
+<section id="rna-seq-fusion-gene-detection">
+<span id="id3"></span><h2><span class="section-number">1.3. </span>RNA-seq （Fusion gene detection）<a class="headerlink" href="#rna-seq-fusion-gene-detection" title="Link to this heading">#</a></h2>
+<p>For fusion gene detection in tumor samples, we selected <a class="reference external" href="https://github.com/suhrig/arriba">Arriba</a>, which demonstrated the highest accuracy in the DREAM SMC-RNA Challenge. To enhance computational efficiency, ClinDet optimizes the two-pass mode of STAR to reduce sequence alignment runtime by manually removing rare junctions. Additionally, ClinDet utilizes TRUST4 to analyze the clonality of immune cells (T cells and B cells) in RNA-seq data; this approach facilitates the identification of monoclonality in certain tumor samples, such as those from multiple myeloma, thereby enabling assessments of tumor purity.</p>
+</section>
+<section id="rna-seq-based-variants-calling-snvs-indels">
+<span id="rna-seq-based-variants-calling-snvsindels"></span><h2><span class="section-number">1.4. </span>RNA-seq based variants calling (SNVs/Indels)<a class="headerlink" href="#rna-seq-based-variants-calling-snvs-indels" title="Link to this heading">#</a></h2>
+<p>In the mutation detection module, we aligned FASTQ files to the reference genome using STAR with parameters adapted from the published paper. Subsequent preprocessing followed GATK best practices for RNA mutations (with optional acceleration via Sentieon). Mutations were then detected from the BAM files generated by STAR using three software in tumor-only mode. ClinDet annotates all RNA editing sites cataloged in relevant databases., allowing users to decide whether to exclude them in downstream analyses. Ultimately, ClinDet employs vcf2maf for variant annotation, producing a consensus mutation detection MAF file. Although numerous studies have explored mutation detection using RNA-seq, controversies persist regarding its standalone utility due to potential false positives introduced by RNA editing, post-transcriptional modifications, and elevated reverse transcription errors. Therefore, we recommend that users integrate sample DNA-seq results for joint mutation analysis or prioritize candidate variants within hotspot mutations of cancer driver genes.</p>
+<section id="gatk-processing">
+<h3><span class="section-number">1.4.1. </span>GATK processing<a class="headerlink" href="#gatk-processing" title="Link to this heading">#</a></h3>
+</section>
+<section id="snv-mnv-indel-calling">
+<h3><span class="section-number">1.4.2. </span>SNV, MNV, INDEL calling:<a class="headerlink" href="#snv-mnv-indel-calling" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://github.com/broadinstitute/gatk">HaplotypeCaller</a>, <a class="reference external" href="https://github.com/broadinstitute/gatk">Mutect2</a>, <a class="reference external" href="https://github.com/Illumina/strelka">Strelka</a>,  <a class="reference external" href="https://varscan.sourceforge.net/">Varscan</a>,  <a class="reference external" href="https://github.com/cancerit/cgpPindel">Pindel</a>, <a class="reference external" href="https://csb5.github.io/lofreq/">Lofreq</a></p>
+<ul class="simple">
+<li><p><strong>HaplotypeCaller</strong>, part of the Genome Analysis Toolkit (GATK), is utilized for variant calling to identify single-nucleotide polymorphisms (SNPs) and indels through local de-novo assembly of haplotypes in active genomic regions. It processes aligned reads in BAM or CRAM formats to produce VCF files, often as part of best-practice workflows following base quality score recalibration and prior to variant filtration, emphasizing accuracy in complex variation regions.</p></li>
+<li><p><strong>Mutect2</strong>, integrated within the Genome Analysis Toolkit (GATK) version 4 and later, serves as a somatic variant caller to detect mutations in tumor samples by comparing them to matched normal samples using a Bayesian model. It focuses on identifying SNPs and small indels with high sensitivity and specificity for cancer genomics, supporting scalable processing in local or cloud environments via Apache Spark.</p></li>
+<li><p><strong>Strelka2</strong> is a small variant caller optimized for detecting germline and somatic variations in small cohorts and somatic variations in tumor-normal pairs, employing tiered haplotype models and mixture-model indel error estimation for improved accuracy. It accepts BAM or CRAM inputs and outputs VCF 4.1 files, with features like read-backed phasing and empirical variant re-scoring; for best somatic indel performance, it is recommended to pair it with the Manta structural variant caller.</p></li>
+<li><p><strong>VarScan</strong> is a platform-independent tool for variant detection in next-generation sequencing data, compatible with platforms like Illumina and Roche/454, for targeted, exome, or whole-genome resequencing. It applies heuristic and statistical thresholds for read depth, base quality, and allele frequency to identify variants in complex samples, including those with contamination, and is developed in Java for broad operating system compatibility.</p></li>
+<li><p><strong>Pindel</strong>, within the Cancer Genome Project’s cgpPindel pipeline, is designed for detecting insertions, deletions, and structural variants from tumor and normal BAM alignments. It converts Pindel text outputs to VCF formats and applies filters, with CGP-specific modifications for enhanced analysis.</p></li>
+<li><p><strong>LoFreq</strong> is a sensitive and fast variant caller designed for detecting low-frequency single-nucleotide variants (SNVs) and indels in heterogeneous samples, such as viral populations or cancer genomes, using a Poisson-binomial distribution to model sequencing errors. It excels in identifying rare variants below typical detection thresholds, processes BAM files efficiently without requiring matched normals, and includes features like strand-bias filtering and parallelization for scalability in high-throughput analyses.</p></li>
+<li><p><strong>VarDict</strong> is a variant discovery program, initially developed in Perl and ported to Java, designed for sensitive variant calling from BAM files in next-generation sequencing, particularly for cancer genomics. Its primary purpose is to detect single nucleotide variants (SNVs), insertions, deletions, and structural variants in both single and paired sample analyses. Key features include amplicon bias awareness for targeted sequencing, rescue of long indels through realignment of soft-clipped reads, and improved scalability, with the Java port being approximately 10x faster than the original Perl implementation. It supports various modes such as single sample, paired sample, and amplicon-based calling, utilizing inputs like reference genomes in FASTA format, aligned reads in BAM format, and target regions in BED format. Applications are prominent in cancer research, facilitating the identification of somatic mutations and other genomic alterations.</p></li>
+</ul>
+</section>
+<section id="annotation-of-mutations">
+<h3><span class="section-number">1.4.3. </span>Annotation of mutations<a class="headerlink" href="#annotation-of-mutations" title="Link to this heading">#</a></h3>
+<p>The called results (in VCF format) are filtered and annotated using the vcf2maf software to produce MAF files. This tool is based on VEP, so user can add some VEP plugins.</p>
+</section>
+<section id="consensus-results-from-multiple-softwares">
+<h3><span class="section-number">1.4.4. </span>Consensus results from Multiple softwares<a class="headerlink" href="#consensus-results-from-multiple-softwares" title="Link to this heading">#</a></h3>
+<p>Subsequently, all MAF-format outputs from all SNV callers are processed through a custom R script to generate consensus mutation detection results. For somatic structural variations, ClinDet employs five software tools for detection; to achieve consensus results, Jasmine software is used to merge structural variation events sharing the same orientation and breakpoint positions within 500bp. For copy number variations, ClinDet utilizes seven software tools for detection and organizes the final results into segment-format files. Users can select specific software for subsequent analyses according to their requirements.</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">RNAseq analysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../usecase/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Use Case</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qc-and-preprocess">1.1. QC and preprocess</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-seq-gene-expression">1.2. RNA-seq （Gene expression）</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-seq-fusion-gene-detection">1.3. RNA-seq （Fusion gene detection）</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rna-seq-based-variants-calling-snvs-indels">1.4. RNA-seq based variants calling (SNVs/Indels)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gatk-processing">1.4.1. GATK processing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#snv-mnv-indel-calling">1.4.2. SNV, MNV, INDEL calling:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#annotation-of-mutations">1.4.3. Annotation of mutations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consensus-results-from-multiple-softwares">1.4.4. Consensus results from Multiple softwares</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Yuliang Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Yuliang Zhang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

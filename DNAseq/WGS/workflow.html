@@ -1,0 +1,777 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2.1. ClinDet WGS workflow &#8212; Clindet 0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=a1637f0b"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'DNAseq/WGS/workflow';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="RNAseq analysis" href="../../RNAseq/index.html" />
+    <link rel="prev" title="2. Whole genome sequence data analysis" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/Clindet_logo.png" class="logo__image only-light" alt="Clindet 0.1.0 documentation - Home"/>
+    <img src="../../_static/Clindet_logo.png" class="logo__image only-dark pst-js-only" alt="Clindet 0.1.0 documentation - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../index.html">
+                    Clindet documentation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../Quick/index.html">Quick Start</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Quick/intro.html">1. Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Quick/install.html">2. Setup Clindet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Quick/use_case.html">3. Use case</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">DNAseq analysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../WES/index.html">1. Whole exome sequence data analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../WES/workflow.html">1.1. ClinDet WXS workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">2. Whole genome sequence data analysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">2.1. ClinDet WGS workflow</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../RNAseq/index.html">RNAseq analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../RNAseq/workflow.html">1. ClinDet RNA-seq workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../usecase/index.html">Use Case</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../usecase/case_one.html">1. Use case I: SNV and CNV calling from <strong>Whole exome sequencing</strong> data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usecase/case_two.html">2. Use case II: Fusion genes detection from <strong>multiple myeloma patient</strong> RNA-seq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usecase/case_three.html">3. Use case III: Whole genome sequencing of <strong>COLO829 cell line</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usecase/case_four.html">4. Use case IV: Quantifying​​ the contributions of DNA repair defective gene mutations to mutational signatures（<em><strong>C.elegans</strong></em>）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../usecase/case_five.html">5. Use case V: Switching to different genome version (e.g. hg38)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../GoldStand/index.html">A Gym for Clinical NGS Data Analysis Workflows</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../GoldStand/dataset.html">1. GoldStand Dataset Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../GoldStand/benchmark.html">2. Benchmark</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CITATIONS.html">snakemake/clindet: Citations</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/DNAseq/WGS/workflow.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>ClinDet WGS workflow</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qc-and-preprocess">2.1.1. QC and preprocess</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#small-variants-snvs-indels">2.1.2. Small variants (SNVs/Indels)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#small-variants-snvs-indels-somatic">2.1.2.1. Small variants (SNVs/Indels) (Somatic)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">2.1.2.1.1. Summary</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#details">2.1.2.1.2. Details</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#runsnv-mnv-indel-calling">2.1.2.1.2.1. RunSNV, MNV, INDEL calling:</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#annotation-of-mutations">2.1.2.1.2.2. Annotation of mutations</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#consensus-results-from-multiple-softwares">2.1.2.1.2.3. Consensus results from Multiple softwares</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#snps-and-small-indels-germline">2.1.2.2. SNPs and small indels (Germline)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structural-variants">2.1.3. Structural variants</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sv-calling-esvee-manta-delly-svaba-gridss">2.1.3.1. SV calling: ESVEE, Manta, Delly, svaba, gridss</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consensus-results-by-jasmine">2.1.3.2. consensus results by jasmine</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-number-variants">2.1.4. Copy Number Variants</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">2.1.4.1. Summary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-baf-and-coverage-log2ration">2.1.4.2. Calculate BAF and coverage log2ration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#call-segment-from-baf-and-log-ratio">2.1.4.3. call segment from BAF and log ratio</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cnv-segment-calling-amber-cobalt-purple-ascat-free-c-battebberg-sequenza-facets">2.1.4.3.1. CNV segment calling: AMBER,  COBALT,  PURPLE, ASCAT,  free-C,  Battebberg, sequenza, Facets</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-segment-results">2.1.4.3.2. Plot the segment results</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiqc">2.1.5. MultiQC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-reports">2.1.6. Case Reports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">2.1.7. Implementation</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="clindet-wgs-workflow">
+<span id="id1"></span><h1><span class="section-number">2.1. </span>ClinDet WGS workflow<a class="headerlink" href="#clindet-wgs-workflow" title="Link to this heading">#</a></h1>
+<p>For better reproducibility, ClinDet incorporates best practices from leading international research institutions, including the <a class="reference external" href="https://github.com/hartwigmedical/hmftools">Hartwig Medical Foundation (HMF)</a>, the <a class="reference external" href="https://www.dkfz.de/en/">German Cancer Research Center (DKFZ)</a>, the <a class="reference external" href="https://www.nygenome.org/">New York Genome Center (NYGC)</a>, the <a class="reference external" href="https://github.com/ICGC-TCGA-PanCancer">ICGC-TCGA-PanCancer project</a>, the <a class="reference external" href="https://www.sanger.ac.uk/programme/cancer-ageing-and-somatic-mutation/">Wellcome Sanger Institute</a>, and the Broad Institute <a class="reference external" href="https://gatk.broadinstitute.org/hc/en-us/sections/360007226651-Best-Practices-Workflows">GATK best practice</a>.</p>
+<p>ClinDet provides two mutation detection modes for tumor samples: tumor-normal paired sample mode and tumor-only mode, to accommodate the testing needs of different clinical cohorts.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#clindet-wgs-workflow">ClinDet WGS workflow</a></p>
+<ul>
+<li><p><a class="reference internal" href="#qc-and-preprocess">QC and preprocess</a></p></li>
+<li><p><a class="reference internal" href="#small-variants-snvsindels">Small variants (SNVs/Indels)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#small-variants-snvsindels-somatic">Small variants (SNVs/Indels) (Somatic)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#summary">Summary</a></p></li>
+<li><p><a class="reference internal" href="#details">Details</a></p>
+<ul>
+<li><p><a class="reference internal" href="#runsnv-mnv-indel-calling"><span class="xref myst">RunSNV, MNV, INDEL calling:</span></a></p></li>
+<li><p><a class="reference internal" href="#annotation-of-mutations"><span class="xref myst">Annotation of mutations</span></a></p></li>
+<li><p><a class="reference internal" href="#consensus-results-from-multiple-softwares"><span class="xref myst">Consensus results from Multiple softwares</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#snps-and-small-indels-germline">SNPs and small indels (Germline)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#structural-variants"><span class="xref myst">Structural variants</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#sv-calling-esvee-manta-delly-svaba-gridss"><span class="xref myst">SV calling: ESVEE, Manta, Delly, svaba, gridss</span></a></p></li>
+<li><p><a class="reference internal" href="#consensus-results-by-jasmine"><span class="xref myst">consensus results by jasmine</span></a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#copy-number-variants"><span class="xref myst">Copy Number Variants</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#summary-1"><span class="xref myst">Summary</span></a></p></li>
+<li><p><a class="reference internal" href="#calculate-baf-and-coverage-log2ration"><span class="xref myst">Calculate BAF and coverage log2ration</span></a></p></li>
+<li><p><a class="reference internal" href="#call-segment-from-baf-and-log-ratio"><span class="xref myst">call segment from BAF and log ratio</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="#cnv-segment-calling-amber--cobalt--purple-ascat--free-c--battebberg-sequenza-facets"><span class="xref myst">CNV segment calling: AMBER,  COBALT,  PURPLE, ASCAT,  free-C,  Battebberg, sequenza, Facets</span></a></p></li>
+<li><p><a class="reference internal" href="#plot-the-segment-results"><span class="xref myst">Plot the segment results</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#multiqc"><span class="xref myst">MultiQC</span></a></p></li>
+<li><p><a class="reference internal" href="#case-reports"><span class="xref myst">Case Reports</span></a></p></li>
+<li><p><a class="reference internal" href="#implementation"><span class="xref myst">Implementation</span></a></p></li>
+</ul>
+</li>
+</ul>
+<p>ClinDet post-processess outputs of cancer variant calling analysis pipelines
+from <strong>BAM</strong> from Tumor-Normal paired (Tumor-only model)
+and generates reports for researchers and curators at UMCCR.</p>
+<p>It takes as input results from the UMCCR DRAGEN Tumor/Normal and DRAGEN Germline
+variant calling workflows:</p>
+<ul class="simple">
+<li><p>BAM files from both samples</p></li>
+<li><p>somatic small variant calls</p></li>
+<li><p>germline small variant calls</p></li>
+<li><p>somatic structural variant calls</p></li>
+</ul>
+<section id="qc-and-preprocess">
+<span id="id2"></span><h2><span class="section-number">2.1.1. </span>QC and preprocess<a class="headerlink" href="#qc-and-preprocess" title="Link to this heading">#</a></h2>
+<p>In the pre-processing step, ClinDet processes FASTQ files in accordance with GATK best practices.Fastp were used to trim adapter and generate sequencing report of each fastq file. Then trimmed sequence reads were aligned to the reference genome using BWA-MEM, followed by deduplication and recalibration with GATK. Specifically, for tumor-normal paired samples, ConPair is employed to verify whether the samples originate from the same individual, and quality control statistics files are generated via GATK.</p>
+<p>fastp is a tool designed to provide ultrafast all-in-one preprocessing and quality control for FastQ data.</p>
+<p><a class="reference external" href="https://github.com/nygenome/conpair">Conpair</a> is a fast and robust method dedicated for human tumor-normal studies to perform concordance verification (i.e. samples coming from the same individual), as well as cross-individual contamination level estimation in whole-genome and whole-exome sequencing experiments.</p>
+</section>
+<section id="small-variants-snvs-indels">
+<span id="small-variants-snvsindels"></span><h2><span class="section-number">2.1.2. </span>Small variants (SNVs/Indels)<a class="headerlink" href="#small-variants-snvs-indels" title="Link to this heading">#</a></h2>
+<section id="small-variants-snvs-indels-somatic">
+<span id="small-variants-snvsindels-somatic"></span><h3><span class="section-number">2.1.2.1. </span>Small variants (SNVs/Indels) (Somatic)<a class="headerlink" href="#small-variants-snvs-indels-somatic" title="Link to this heading">#</a></h3>
+<p>Post-preprocessing BAM files are analyzed using various software tools. For somatic mutations, 11 software tools are utilized for detection. To exclude germline mutations and sequencing artifacts from the final results as comprehensively as possible (particularly for tumor-only samples), ClinDet supports a <a class="reference external" href="https://github.com/umccr/vcf_stuff/blob/master/vcf_stuff/panel_of_normals/story/panel_of_normals.md">panel of normals</a> strategy to mark and filter variants, which has been demonstrated to effectively remove germline variants and recurrent technical artifacts. Users may specify pre-built VCF files or employ ClinDet to construct them de-novo based on normal sample data from the cohort. The remaining detected results (in VCF format) are filtered and annotated using the <a class="reference external" href="https://github.com/mskcc/vcf2maf">vcf2maf</a> software to produce MAF files. Subsequently, these MAF-format outputs from all SNV callers are processed through a custom R script to generate consensus mutation detection results. For somatic structural variations, ClinDet employs five software tools for detection; to achieve consensus results, <a class="reference external" href="https://github.com/mkirsche/Jasmine">Jasmine</a> software is used to merge structural variation events sharing the same orientation and breakpoint positions within 500bp. For copy number variations, ClinDet utilizes seven software tools for detection and organizes the final results into segment-format files. Users can select specific software for subsequent analyses according to their requirements.</p>
+<section id="summary">
+<span id="id3"></span><h4><span class="section-number">2.1.2.1.1. </span>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>Call</strong> candidate variants using multiple softwares.</p></li>
+<li><p><strong>Keep</strong> variants with FILTER==‘PASS’ in vcf.</p></li>
+<li><p><strong>Keep</strong> variants that are in the auto/sex/mito chromosomes (1-22, X, Y, M).</p></li>
+<li><p><strong>Annotate</strong> variants with info from databases/files.</p></li>
+<li><p><strong>Consensus</strong> results from multiple softwares.</p></li>
+</ol>
+</section>
+<section id="details">
+<span id="id4"></span><h4><span class="section-number">2.1.2.1.2. </span>Details<a class="headerlink" href="#details" title="Link to this heading">#</a></h4>
+<p>Steps are:</p>
+<section id="runsnv-mnv-indel-calling">
+<h5><span class="section-number">2.1.2.1.2.1. </span>RunSNV, MNV, INDEL calling:<a class="headerlink" href="#runsnv-mnv-indel-calling" title="Link to this heading">#</a></h5>
+<p><a class="reference external" href="https://github.com/hartwigmedical/hmftools/tree/master/sage">SAGE</a>, <a class="reference external" href="https://github.com/broadinstitute/gatk">HaplotypeCaller</a>, <a class="reference external" href="https://github.com/broadinstitute/gatk">Mutect2</a>, <a class="reference external" href="https://github.com/Illumina/strelka">Strelka</a>, <a class="reference external" href="https://github.com/cancerit/CaVEMan">CaVEMan</a>, <a class="reference external" href="https://varscan.sourceforge.net/">Varscan</a>, <a class="reference external" href="https://bioinformatics.mdanderson.org/public-software/muse/">Muse</a>, <a class="reference external" href="https://github.com/cancerit/cgpPindel">Pindel</a>, <a class="reference external" href="https://github.com/google/deepsomatic">DeepVariant</a>, <a class="reference external" href="https://csb5.github.io/lofreq/">Lofreq</a></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/hartwigmedical/hmftools/tree/master/sage"><strong>SAGE</strong></a> is an in-house tool (java) developed by the Hartwig Medical Foundation for somatic variant calling, specifically designed to identify somatic variants such as multi-nucleotide variants (MNVs), single-nucleotide variants (SNVs), and indels by comparing tumor and reference samples. sage called variants can be annotated by <a class="reference external" href="https://github.com/hartwigmedical/hmftools/tree/master/pave">pave</a> or generated report by purple. This tool only support <em>human</em> genome (b37 nochr prefix, hg38 with chr prefix).</p></li>
+<li><p><strong>HaplotypeCaller</strong>, part of the Genome Analysis Toolkit (GATK), is utilized for variant calling to identify single-nucleotide polymorphisms (SNPs) and indels through local de-novo assembly of haplotypes in active genomic regions. It processes aligned reads in BAM or CRAM formats to produce VCF files, often as part of best-practice workflows following base quality score recalibration and prior to variant filtration, emphasizing accuracy in complex variation regions.</p></li>
+<li><p><strong>Mutect2</strong>, integrated within the Genome Analysis Toolkit (GATK) version 4 and later, serves as a somatic variant caller to detect mutations in tumor samples by comparing them to matched normal samples using a Bayesian model. It focuses on identifying SNPs and small indels with high sensitivity and specificity for cancer genomics, supporting scalable processing in local or cloud environments via Apache Spark.</p></li>
+<li><p><strong>Strelka2</strong> is a small variant caller optimized for detecting germline and somatic variations in small cohorts and somatic variations in tumor-normal pairs, employing tiered haplotype models and mixture-model indel error estimation for improved accuracy. It accepts BAM or CRAM inputs and outputs VCF 4.1 files, with features like read-backed phasing and empirical variant re-scoring; for best somatic indel performance, it is recommended to pair it with the Manta structural variant caller.</p></li>
+<li><p><strong>CaVEMan</strong> is a somatic mutation detection algorithm tailored for paired tumor-normal cancer samples, using an expectation maximization approach to call single-nucleotide variants (SNVs). It supports BAM and CRAM formats, processes data through steps like genome splitting, Mstep for probability calculations, and Estep for variant calling, producing VCF files; it is optimized for cluster environments and can incorporate copy number data for better accuracy. This tool need a CNVs segment results from other softwares (eg. ASCAT).  This tool need many config files, see <a class="reference external" href="https://github.com/cancerit/cgpCaVEManWrapper">caveman config</a> to know howto prepare those files for other species.</p></li>
+<li><p><strong>VarScan</strong> is a platform-independent tool for variant detection in next-generation sequencing data, compatible with platforms like Illumina and Roche/454, for targeted, exome, or whole-genome resequencing. It applies heuristic and statistical thresholds for read depth, base quality, and allele frequency to identify variants in complex samples, including those with contamination, and is developed in Java for broad operating system compatibility.</p></li>
+<li><p><strong>MuSE</strong> is a <strong>fast</strong> somatic point mutation caller for tumor-normal paired next-generation sequencing data, employing a Markov substitution model to account for inter-tumor heterogeneity and improve sensitivity/specificity via a sample-specific error model. It has been utilized in major projects like TCGA PanCanAtlas; MuSE 2.0 leverages parallel computing for rapid processing, completing whole-exome sequencing in minutes and whole-genome in under an hour with multiple cores.</p></li>
+<li><p><strong>Pindel</strong>, within the Cancer Genome Project’s cgpPindel pipeline, is designed for detecting insertions, deletions, and structural variants from tumor and normal BAM alignments. It converts Pindel text outputs to VCF formats and applies filters, with CGP-specific modifications for enhanced analysis.</p></li>
+<li><p><strong>DeepVariant</strong> is a deep learning-based variant caller developed by Google, utilizing convolutional neural networks to analyze aligned sequencing reads and accurately identify single-nucleotide variants (SNVs), insertions, and deletions (indels). It transforms variant calling into an image classification problem, achieving high precision across whole-genome sequencing (WGS), whole-exome sequencing (WES), and other data types, with support for multiple sequencing platforms; it is particularly noted for its robustness in handling noisy data and has been validated in precisionFDA challenges for superior performance in germline and somatic variant detection.</p></li>
+<li><p><strong>LoFreq</strong> is a sensitive and fast variant caller designed for detecting low-frequency single-nucleotide variants (SNVs) and indels in heterogeneous samples, such as viral populations or cancer genomes, using a Poisson-binomial distribution to model sequencing errors. It excels in identifying rare variants below typical detection thresholds, processes BAM files efficiently without requiring matched normals, and includes features like strand-bias filtering and parallelization for scalability in high-throughput analyses.</p></li>
+<li><p><strong>VarDict</strong> is a variant discovery program, initially developed in Perl and ported to Java, designed for sensitive variant calling from BAM files in next-generation sequencing, particularly for cancer genomics. Its primary purpose is to detect single nucleotide variants (SNVs), insertions, deletions, and structural variants in both single and paired sample analyses. Key features include amplicon bias awareness for targeted sequencing, rescue of long indels through realignment of soft-clipped reads, and improved scalability, with the Java port being approximately 10x faster than the original Perl implementation. It supports various modes such as single sample, paired sample, and amplicon-based calling, utilizing inputs like reference genomes in FASTA format, aligned reads in BAM format, and target regions in BED format. Applications are prominent in cancer research, facilitating the identification of somatic mutations and other genomic alterations.</p></li>
+</ul>
+</section>
+<section id="annotation-of-mutations">
+<h5><span class="section-number">2.1.2.1.2.2. </span>Annotation of mutations<a class="headerlink" href="#annotation-of-mutations" title="Link to this heading">#</a></h5>
+<p>The called results (in VCF format) are filtered and annotated using the vcf2maf software to produce MAF files. This tool is based on VEP, so user can add some VEP plugins.</p>
+</section>
+<section id="consensus-results-from-multiple-softwares">
+<h5><span class="section-number">2.1.2.1.2.3. </span>Consensus results from Multiple softwares<a class="headerlink" href="#consensus-results-from-multiple-softwares" title="Link to this heading">#</a></h5>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Subsequently, all MAF-format outputs from all SNV callers are processed through a custom R script to generate consensus mutation detection results. For somatic structural variations, ClinDet employs five software tools for detection; to achieve consensus results, Jasmine software is used to merge structural variation events sharing the same orientation and breakpoint positions within 500bp. For copy number variations, ClinDet utilizes seven software tools for detection and organizes the final results into segment-format files. Users can select specific software for subsequent analyses according to their requirements.
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="snps-and-small-indels-germline">
+<span id="id5"></span><h3><span class="section-number">2.1.2.2. </span>SNPs and small indels (Germline)<a class="headerlink" href="#snps-and-small-indels-germline" title="Link to this heading">#</a></h3>
+<p>ClinDet filter germline variant from calling results of <strong>strelka,caveman,vardict</strong>.</p>
+</section>
+</section>
+<section id="structural-variants">
+<h2><span class="section-number">2.1.3. </span>Structural variants<a class="headerlink" href="#structural-variants" title="Link to this heading">#</a></h2>
+<p>The idea is to report gene fusions, exon deletions, high impact and LoF events
+in tumor suppressors, and prioritise events in cancer genes.</p>
+<section id="sv-calling-esvee-manta-delly-svaba-gridss">
+<h3><span class="section-number">2.1.3.1. </span>SV calling: <a class="reference external" href="https://github.com/hartwigmedical/hmftools/tree/master/esvee">ESVEE</a>, <a class="reference external" href="https://github.com/hartwigmedical/hmftools/tree/master/esvee">Manta</a>, <a class="reference external" href="https://github.com/hartwigmedical/hmftools/tree/master/esvee">Delly</a>, <a class="reference external" href="https://github.com/hartwigmedical/hmftools/tree/master/esvee">svaba</a>, <a class="reference external" href="https://github.com/hartwigmedical/hmftools/tree/master/esvee">gridss</a><a class="headerlink" href="#sv-calling-esvee-manta-delly-svaba-gridss" title="Link to this heading">#</a></h3>
+</section>
+<section id="consensus-results-by-jasmine">
+<h3><span class="section-number">2.1.3.2. </span>consensus results by jasmine<a class="headerlink" href="#consensus-results-by-jasmine" title="Link to this heading">#</a></h3>
+</section>
+</section>
+<section id="copy-number-variants">
+<h2><span class="section-number">2.1.4. </span>Copy Number Variants<a class="headerlink" href="#copy-number-variants" title="Link to this heading">#</a></h2>
+<p>ClinDet uses multiple software tools to call arm-level CNVs. Some of these tools are based on the <a class="reference external" href="https://cnvkit.readthedocs.io/en/stable/baf.html">BAF</a> of known SNPs, which can be calculated using <a class="reference external" href="https://github.com/cancerit/alleleCount">alleleCount</a> may only work for human. Others are coverage- (or depth-) based (e.g., FREEC, Sequenza), which may be time-consuming, but can be applied to any species (such as worm and mouse). Users can choose the tool that best suits their needs.</p>
+<section id="id6">
+<h3><span class="section-number">2.1.4.1. </span>Summary<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+</section>
+<section id="calculate-baf-and-coverage-log2ration">
+<h3><span class="section-number">2.1.4.2. </span>Calculate BAF and coverage log2ration<a class="headerlink" href="#calculate-baf-and-coverage-log2ration" title="Link to this heading">#</a></h3>
+<p>SNPs from human 1000 genome project will be used by alleleCountr or AMBER to get base counts of each loci, and then Calculate B-allele frequencies. Next, Sample  gender will be determined by sex chromosomes’ coverage (<strong>ASCAT can corrected these values by GC-contents and replication times</strong>). Furthermore, the purity and ploidy will be estimated by grid search.</p>
+</section>
+<section id="call-segment-from-baf-and-log-ratio">
+<h3><span class="section-number">2.1.4.3. </span>call segment from BAF and log ratio<a class="headerlink" href="#call-segment-from-baf-and-log-ratio" title="Link to this heading">#</a></h3>
+<section id="cnv-segment-calling-amber-cobalt-purple-ascat-free-c-battebberg-sequenza-facets">
+<h4><span class="section-number">2.1.4.3.1. </span>CNV segment calling: <a class="reference external" href="https://github.com/hartwigmedical/hmftools/tree/master/amber">AMBER</a>,  <a class="reference external" href="https://github.com/hartwigmedical/hmftools/tree/master/cobalt">COBALT</a>,  <a class="reference external" href="https://github.com/hartwigmedical/hmftools/tree/master/purple">PURPLE</a>, <a class="reference external" href="https://github.com/VanLoo-lab/ascat">ASCAT</a>,  <a class="reference external" href="https://github.com/BoevaLab/FREEC">free-C</a>,  <a class="reference external" href="https://github.com/Wedge-lab/battenberg">Battebberg</a>, <a class="reference external" href="https://github.com/oicr-gsi/sequenza">sequenza</a>, <a class="reference external" href="https://github.com/mskcc/facets">Facets</a><a class="headerlink" href="#cnv-segment-calling-amber-cobalt-purple-ascat-free-c-battebberg-sequenza-facets" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>AMBER</strong> is an in-house tool developed by the Hartwig Medical Foundation (HMF) for estimating allele-specific copy numbers in tumor samples. It analyzes B-allele frequencies (BAFs) of heterozygous germline variants to infer minor allele copy numbers, aiding in the detection of somatic copy number alterations (CNAs) in cancer genomics. Integrated into HMF pipelines like Pipeline5, it supports whole-genome sequencing (WGS) data processing, contributing to accurate tumor ploidy and purity assessments.</p></li>
+<li><p><strong>COBALT</strong> is an in-house tool from the Hartwig Medical Foundation (HMF) designed for copy number normalization in tumor samples using read-depth ratios. It corrects for GC bias and other sequencing artifacts to generate reliable logR profiles, essential for downstream copy number variation (CNV) analysis in cancer genomics. Part of HMF’s Pipeline5, it processes BAM files from whole-genome sequencing (WGS), enhancing the precision of somatic variant calling and structural analysis.</p></li>
+<li><p><strong>PURPLE</strong> is an in-house tool developed by the Hartwig Medical Foundation (HMF) for comprehensive copy number analysis in cancer genomes. It integrates read-depth ratios from COBALT, B-allele frequencies (BAFs) from AMBER, and structural/somatic variants to estimate tumor purity, ploidy, and allele-specific copy numbers. Featured in HMF’s Pipeline5, it produces detailed CNV profiles from whole-genome sequencing (WGS) data, supporting driver gene identification and tumor heterogeneity studies in oncology.</p></li>
+<li><p><strong>ASCAT</strong> is an R package for inferring tumor purity, ploidy, and allele-specific copy number profiles from genomic data, primarily in cancer genomics. It processes high-throughput sequencing (HTS) data like whole-exome sequencing (WES), whole-genome sequencing (WGS), and targeted sequencing (TS), with features including logR correction for GC content and replication timing, colorblind-friendly visualizations, and support for long-read sequencing. It leverages heterozygous SNPs for CNA calling and provides reference files for various platforms.</p></li>
+<li><p><strong>FREEC</strong> (Control-FREEC) is a tool for detecting copy-number changes and allelic imbalances, including loss of heterozygosity (LOH), using deep-sequencing data in whole-genome and whole-exome sequencing. It automatically computes, normalizes, and segments copy number and BAF profiles, calling CNAs and LOH with optional matched normal controls. Features include subclonal gain/loss detection, contamination evaluation, and support for BAM/SAM inputs, making it suitable for cancer genomics to identify genomic alterations.</p></li>
+<li><p><strong>Battenberg</strong> is an R package for subclonal copy number estimation from whole-genome sequencing data, distinguishing clonal and subclonal states using major/minor allele copy numbers and frequencies. It generates outputs like copy number profiles, purity estimates, and visualizations (e.g., BAF/logR plots), with support for structural variant integration and phasing via tools like Impute2. Optimized for tumor-normal pairs, it aids in analyzing tumor heterogeneity and evolution in cancer genomics.</p></li>
+<li><p><strong>Sequenza</strong> is a workflow for estimating cellularity and ploidy, providing allele-specific copy numbers and log-posterior probabilities based on B-allele frequency and depth ratios. It processes SNP and CNV data from tools like Varscan, supporting segmentation with tunable gamma parameters and generating outputs such as JSON files, summary plots, and Rmarkdown reports. Used in cancer genomics for analyzing tumor purity and copy number variations from sequencing data.</p></li>
+<li><p><strong>FACETS</strong> is an algorithm for estimating the fraction of tumor cells and allele-specific copy numbers from tumor-normal sequencing data. It performs joint segmentation to output copy number profiles, diploid log-ratio values, and flags for estimation issues, with support for clonal cluster analysis. Implemented in R, it requires dependencies like pctGCdata and is used in cancer genomics to analyze somatic alterations and tumor purity from BAM files.</p></li>
+</ul>
+</section>
+<section id="plot-the-segment-results">
+<h4><span class="section-number">2.1.4.3.2. </span>Plot the segment results<a class="headerlink" href="#plot-the-segment-results" title="Link to this heading">#</a></h4>
+<p>CNVs results called by each tool can be visualized by circos and R, see results folder of each tool.</p>
+</section>
+</section>
+</section>
+<section id="multiqc">
+<h2><span class="section-number">2.1.5. </span>MultiQC<a class="headerlink" href="#multiqc" title="Link to this heading">#</a></h2>
+<p>Following the derivation of consensus SNVs, CNVs, and SVs from all samples, ClinDet generates a comprehensive array of quality control metrics using Fastp, ConPair, GATK, and Samtools, which are visualized as an aggregated quality control review across samples via MultiQC.</p>
+</section>
+<section id="case-reports">
+<h2><span class="section-number">2.1.6. </span>Case Reports<a class="headerlink" href="#case-reports" title="Link to this heading">#</a></h2>
+<p>To enhance the clinical applicability of the detection results, ClinDet employs R Markdown and HMF <a class="reference external" href="https://github.com/hartwigmedical/hmftools/tree/master/orange">ORANGE</a> software to visualize the consensus outputs for each patient (tumor-normal paired), ultimately generating a structured HTML report file. This report includes basic sample information, potential cancer driver genes identified from the mutation detection results, and targetable sites, to support the selection of patient treatment regimens.</p>
+</section>
+<section id="implementation">
+<h2><span class="section-number">2.1.7. </span>Implementation<a class="headerlink" href="#implementation" title="Link to this heading">#</a></h2>
+<p>The ClinDet pipeline tool was developed using Snakemake, following a clean, and robust design in accordance with best practice coding standards. Instructions for installing and running ClinDet are provided in the public GitHub repository (<a class="github reference external" href="https://github.com/zyllifeworld/clindet">zyllifeworld/clindet</a>). A detailed manual, which outlines the workflows and operating parameters, is also available on the GitHub README page. To ensure the reproducibility of data analyses and to mitigate the challenges associated with dependency configuration in bioinformatics tool installations, multiple containers for analysis software were constructed using an integrated approach involving Conda, Docker, and Singularity. Leveraging container technology, ClinDet can be deployed seamlessly on any Linux-compatible computing system. The runtime parameters of these software tools are managed via a YAML-format configuration file, enabling users to readily modify them according to specific analysis requirements, such as the genome version required for alignment or the allocation of computational resources for tasks. Additionally, owing to Snakemake’s flexible syntax, users can easily add, delete, or modify steps in the data analysis workflow.</p>
+<blockquote>
+<div><p>support genome version for each tool was listd below:</p>
+</div></blockquote>
+<div class="pst-scrollable-table-container"><table class="table table-center" id="id7">
+<caption><span class="caption-number">Table2.1 </span><span class="caption-text">ClinDet WGS mutation call module</span><a class="headerlink" href="#id7" title="Link to this table">#</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Softwares</p></th>
+<th class="head"><p>Tumor-Nomral paired</p></th>
+<th class="head"><p>Tumor-only</p></th>
+<th class="head"><p>Support genome version</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GATK HaploCallers</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-odd"><td><p>Mutect2</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-even"><td><p>DeepVariant</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-odd"><td><p>Strelka</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-even"><td><p>Sage</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>b37,hg38</p></td>
+</tr>
+<tr class="row-odd"><td><p>Vardict</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-even"><td><p>CaVEMan</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-odd"><td><p>Varscan</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-even"><td><p>Muse</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-odd"><td><p>Lofreq</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-even"><td><p>cgppindel</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+<tr class="row-odd"><td><p>Manta</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>b37,hg19,hg38,T2T</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>Whole genome sequence data analysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../RNAseq/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">RNAseq analysis</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qc-and-preprocess">2.1.1. QC and preprocess</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#small-variants-snvs-indels">2.1.2. Small variants (SNVs/Indels)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#small-variants-snvs-indels-somatic">2.1.2.1. Small variants (SNVs/Indels) (Somatic)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">2.1.2.1.1. Summary</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#details">2.1.2.1.2. Details</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#runsnv-mnv-indel-calling">2.1.2.1.2.1. RunSNV, MNV, INDEL calling:</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#annotation-of-mutations">2.1.2.1.2.2. Annotation of mutations</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#consensus-results-from-multiple-softwares">2.1.2.1.2.3. Consensus results from Multiple softwares</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#snps-and-small-indels-germline">2.1.2.2. SNPs and small indels (Germline)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#structural-variants">2.1.3. Structural variants</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sv-calling-esvee-manta-delly-svaba-gridss">2.1.3.1. SV calling: ESVEE, Manta, Delly, svaba, gridss</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consensus-results-by-jasmine">2.1.3.2. consensus results by jasmine</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-number-variants">2.1.4. Copy Number Variants</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">2.1.4.1. Summary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculate-baf-and-coverage-log2ration">2.1.4.2. Calculate BAF and coverage log2ration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#call-segment-from-baf-and-log-ratio">2.1.4.3. call segment from BAF and log ratio</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cnv-segment-calling-amber-cobalt-purple-ascat-free-c-battebberg-sequenza-facets">2.1.4.3.1. CNV segment calling: AMBER,  COBALT,  PURPLE, ASCAT,  free-C,  Battebberg, sequenza, Facets</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-segment-results">2.1.4.3.2. Plot the segment results</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiqc">2.1.5. MultiQC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-reports">2.1.6. Case Reports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">2.1.7. Implementation</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Yuliang Zhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Yuliang Zhang.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
