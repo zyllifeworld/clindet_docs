@@ -79,6 +79,29 @@ conda:
 
 > **If you prefer Snakemake to rebuild environments on every run, leave all values above empty.**
 
+### Pre-built Container Images
+
+By default, Clindet pulls Singularity container images from Docker Hub at runtime. If your remote HPC has network access, you can pre-download all required images at once using the built-in `pull_zenodo` target:
+
+```bash
+snakemake \
+  --config run_type=pull_zenodo \
+  --cores 2 \
+  --use-conda \
+  --conda-frontend conda \
+  --rerun-incomplete \
+  --latency-wait 300 \
+  --retries 3 \
+  -n -p
+```
+
+If the HPC cannot access external networks, download the pre-built containers from a local machine with internet access at:
+
+- [Zenodo](https://zenodo.org/records/20783116)
+- [ScienceDB](https://www.scidb.cn/s/FRBb6n)
+
+Then transfer the images via hard drive to the `clindet/resources/containers` folder on the HPC. Clindet will pick them up from this location automatically.
+
 ### Configure Temporary Directory
 
 GATK tools can fail when the default temporary directory runs out of space. Set a custom `temp_directory` with sufficient disk space in **`workflow/config/conf/softwares.yaml`**:
@@ -155,7 +178,7 @@ If you already have reference files (human genome FASTA, GTF, dbSNP, etc.) on yo
 
 ## Reference Genome Setup
 
-Once the quick test passes, download and configure the full human b37 reference genome:
+Once the quick test passes, download and configure the full human reference genome. The `run_type` parameter specifies which reference to build — `build_b37` downloads the human b37 (GRCh37) reference files including the genome FASTA, dbSNP, GTF annotation, and tool-specific resource files. This step downloads approximately **170 GB** of data, so ensure you have sufficient disk space before running the command below:
 
 ```bash
 snakemake \
@@ -168,6 +191,8 @@ snakemake \
   --retries 3 \
   -n -p
 ```
+
+> **For the hg38 reference genome:** replace `run_type=build_b37` with `run_type=build_hg38` in the command above.
 
 ### Legacy Script (Deprecated)
 
@@ -185,6 +210,17 @@ Create a BED file from a GTF annotation to define exome capture regions. The BED
 ```
 
 ClinDet provides a [reference BED file](../usecase/b37_gene.bed) for the b37 genome (used in Use Case I). You can also generate your own using the provided script [`gtf2bed.R`](../utils/gtf2bed.R).
+
+## Slurm Cluster Submission
+
+To submit Clindet jobs to a Slurm-managed HPC cluster, edit **`workflow/config_slurm/config.v8+.yaml`** and update the `partition` parameter to match your cluster's partition name:
+
+```yaml
+default-resources:
+  - partition=SVC   # change 'SVC' to your cluster's partition name
+```
+
+Run `sinfo` on the cluster to list available partitions. Replace `SVC` with the appropriate partition for your system.
 
 ## Next Steps
 
